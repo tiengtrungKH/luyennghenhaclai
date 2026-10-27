@@ -1,0 +1,251 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>HSKK 听后重复 50 câu</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;700&display=swap">
+<style>
+/* Layout: sticky practice console over a numbered list of sentence cards (order = difficulty) */
+:root{
+  --bg:#f5f6f2; --surface:#ffffff; --fg:#1d2420; --muted:#5f6b64; --line:#dde2dc;
+  --accent:#b3261e; --accent-soft:#f6e3e0; --jade:#2f6b55; --jade-soft:#e2efe9;
+  --f-ui:"Be Vietnam Pro",system-ui,sans-serif;
+  --f-han:"Noto Serif SC","Songti SC","SimSun",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#151a17; --surface:#1e2521; --fg:#e8ece9; --muted:#9aa69f; --line:#313a35;
+  --accent:#ef7d72; --accent-soft:#3a2321; --jade:#79c3a4; --jade-soft:#1f3229; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#151a17; --surface:#1e2521; --fg:#e8ece9; --muted:#9aa69f; --line:#313a35;
+  --accent:#ef7d72; --accent-soft:#3a2321; --jade:#79c3a4; --jade-soft:#1f3229; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:15px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+header h1{font-family:var(--f-han);font-size:1.7rem;margin:0;text-wrap:balance}
+header h1 small{font-family:var(--f-ui);font-size:.95rem;font-weight:500;color:var(--muted);display:block;margin-top:2px}
+header p{color:var(--muted);margin:8px 0 0;max-width:62ch}
+.console{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;margin:18px 0 20px;display:grid;gap:12px;box-shadow:0 6px 18px -14px rgba(0,0,0,.4)}
+.row{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.lab{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:transparent;color:var(--fg);padding:7px 14px;font:inherit;font-weight:500;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.field{display:flex;align-items:center;gap:8px}
+input[type=range]{accent-color:var(--accent);width:130px}
+.val{font-variant-numeric:tabular-nums;font-weight:600;min-width:3.4em}
+select{font:inherit;padding:5px 8px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--fg);max-width:220px}
+label.chk{display:flex;align-items:center;gap:6px;cursor:pointer}
+input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
+.btn{font:inherit;font-weight:600;border-radius:8px;padding:8px 16px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:#fff}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:focus-visible,.seg button:focus-visible,.play:focus-visible{outline:2px solid var(--jade);outline-offset:2px}
+.status{font-size:.85rem;color:var(--muted)}
+.status b{color:var(--jade)}
+.note{font-size:.82rem;background:var(--accent-soft);color:var(--fg);border-radius:8px;padding:8px 10px}
+details summary{cursor:pointer;color:var(--muted);font-size:.85rem}
+.level{margin:26px 0 10px;display:flex;align-items:baseline;gap:10px}
+.level h2{margin:0;font-size:1.05rem}
+.level span{color:var(--muted);font-size:.85rem}
+ol{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+li.card{display:grid;grid-template-columns:2.4em 1fr auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+li.card.on{border-color:var(--jade);background:var(--jade-soft)}
+.num{font-variant-numeric:tabular-nums;font-weight:700;color:var(--muted);text-align:right}
+.txt{min-width:0}
+.han{font-family:var(--f-han);font-size:1.3rem;font-weight:500;line-height:1.4}
+.py{color:var(--jade);font-size:.92rem}
+.vi{color:var(--muted);font-size:.88rem}
+.meta{font-size:.72rem;color:var(--muted);margin-top:2px}
+body.hide-han .han{filter:blur(7px);user-select:none}
+body.hide-han li.card.show .han{filter:none}
+body.hide-help .py, body.hide-help .vi{display:none}
+.acts{display:flex;gap:6px}
+.play{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer;font-size:.8rem;font-weight:700}
+.play.f{color:var(--accent)} .play.m{color:var(--jade)}
+@media (max-width:520px){li.card{grid-template-columns:1.8em 1fr;}.acts{grid-column:2}input[type=range]{width:110px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>听后重复 · 50 câu luyện nghe nhắc lại<small>HSKK Trung cấp · độ khó ngắn → trung bình</small></h1>
+  <p>Bấm <b>Nữ</b> hoặc <b>Nam</b> ở từng câu để nghe, hoặc bấm <b>Luyện liên tục</b>: máy đọc từng câu, dừng lại để học sinh nhắc lại, rồi sang câu tiếp theo.</p>
+</header>
+
+<section class="console" aria-label="Bảng điều khiển">
+  <div class="row">
+    <div class="field"><span class="lab">Giọng</span>
+      <div class="seg" role="group"><button id="gF" aria-pressed="true">Nữ</button><button id="gM" aria-pressed="false">Nam</button><button id="gA" aria-pressed="false">Xen kẽ</button></div></div>
+    <div class="field"><span class="lab">Tốc độ</span><input type="range" id="rate" min="0.5" max="1.3" step="0.05" value="0.85"><span class="val" id="rateV">0.85×</span></div>
+    <div class="field"><span class="lab">Nghỉ để nhắc lại</span><input type="range" id="gap" min="2" max="12" step="1" value="5"><span class="val" id="gapV">5 giây</span></div>
+  </div>
+  <div class="row">
+    <label class="chk"><input type="checkbox" id="twice"> Đọc mỗi câu 2 lần</label>
+    <label class="chk"><input type="checkbox" id="hideHan"> Ẩn chữ Hán (chế độ thi)</label>
+    <label class="chk"><input type="checkbox" id="hideHelp"> Ẩn pinyin & nghĩa</label>
+  </div>
+  <div class="row">
+    <button class="btn" id="run">▶ Luyện liên tục</button>
+    <button class="btn ghost" id="stop">■ Dừng</button>
+    <div class="field"><span class="lab">Bắt đầu từ câu</span><select id="from"></select></div>
+    <span class="status" id="status">Sẵn sàng.</span>
+  </div>
+  <details><summary>Đổi giọng (chỉ liệt kê giọng phổ thông đại lục)</summary>
+    <div class="row" style="margin-top:8px">
+      <div class="field"><span class="lab">Giọng nữ</span><select id="vF"></select></div>
+      <div class="field"><span class="lab">Giọng nam</span><select id="vM"></select></div>
+    </div>
+  </details>
+  <div class="status" id="using"></div>
+  <div class="note" id="note" hidden></div>
+</section>
+
+<div class="level"><h2>Phần 1 · Câu ngắn</h2><span>Câu 1–25 · khoảng 7–11 chữ</span></div>
+<ol id="l1"></ol>
+<div class="level"><h2>Phần 2 · Câu trung bình</h2><span>Câu 26–50 · khoảng 11–16 chữ</span></div>
+<ol id="l2"></ol>
+</div>
+
+<script>
+const S=[
+["我每天早上七点起床。","Wǒ měitiān zǎoshang qī diǎn qǐchuáng.","Mỗi sáng tôi dậy lúc 7 giờ.","Trạng ngữ thời gian"],
+["今天的天气非常好。","Jīntiān de tiānqì fēicháng hǎo.","Thời tiết hôm nay rất đẹp.","Câu vị ngữ tính từ"],
+["你喜欢喝咖啡吗？","Nǐ xǐhuan hē kāfēi ma?","Bạn có thích uống cà phê không?","Câu hỏi 吗"],
+["我已经吃过晚饭了。","Wǒ yǐjīng chīguo wǎnfàn le.","Tôi đã ăn tối rồi.","已经……了 / 过"],
+["这件衣服有点儿贵。","Zhè jiàn yīfu yǒudiǎnr guì.","Bộ quần áo này hơi đắt.","有点儿 + tính từ"],
+["他比我高一点儿。","Tā bǐ wǒ gāo yìdiǎnr.","Anh ấy cao hơn tôi một chút.","Câu so sánh 比"],
+["请把窗户关上吧。","Qǐng bǎ chuānghu guānshang ba.","Hãy đóng cửa sổ lại nhé.","Câu chữ 把"],
+["我的手机被弟弟拿走了。","Wǒ de shǒujī bèi dìdi názǒu le.","Điện thoại của tôi bị em trai lấy đi rồi.","Câu chữ 被"],
+["周末我们去爬山吧。","Zhōumò wǒmen qù páshān ba.","Cuối tuần chúng ta đi leo núi nhé.","Đề nghị với 吧"],
+["我听不懂他说的话。","Wǒ tīng bu dǒng tā shuō de huà.","Tôi nghe không hiểu lời anh ấy nói.","Bổ ngữ khả năng"],
+["外面下雨了，别出去了。","Wàimiàn xià yǔ le, bié chūqu le.","Bên ngoài mưa rồi, đừng ra ngoài nữa.","别……了"],
+["这个问题很容易回答。","Zhège wèntí hěn róngyì huídá.","Câu hỏi này rất dễ trả lời.","容易 + động từ"],
+["我是坐地铁来的。","Wǒ shì zuò dìtiě lái de.","Tôi đến bằng tàu điện ngầm.","是……的"],
+["妈妈正在厨房做饭。","Māma zhèngzài chúfáng zuò fàn.","Mẹ đang nấu cơm trong bếp.","正在 tiếp diễn"],
+["我们班有三十个学生。","Wǒmen bān yǒu sānshí ge xuésheng.","Lớp chúng tôi có 30 học sinh.","Số từ + lượng từ"],
+["天气越来越冷了。","Tiānqì yuè lái yuè lěng le.","Thời tiết ngày càng lạnh.","越来越"],
+["你帮我拿一下行李吧。","Nǐ bāng wǒ ná yíxià xíngli ba.","Bạn cầm giúp tôi hành lý một chút nhé.","Động từ + 一下"],
+["我对中国文化很感兴趣。","Wǒ duì Zhōngguó wénhuà hěn gǎn xìngqù.","Tôi rất hứng thú với văn hóa Trung Quốc.","对……感兴趣"],
+["他一下课就回家了。","Tā yí xià kè jiù huí jiā le.","Vừa tan học là anh ấy về nhà.","一……就……"],
+["我把作业忘在家里了。","Wǒ bǎ zuòyè wàng zài jiā li le.","Tôi để quên bài tập ở nhà rồi.","把 + V + 在"],
+["这家饭馆的菜很好吃。","Zhè jiā fànguǎn de cài hěn hǎochī.","Món ăn ở quán này rất ngon.","Định ngữ 的"],
+["我去过北京两次。","Wǒ qùguo Běijīng liǎng cì.","Tôi đã đến Bắc Kinh hai lần.","过 + bổ ngữ động lượng"],
+["别担心，一切都会好的。","Bié dānxīn, yíqiè dōu huì hǎo de.","Đừng lo, mọi chuyện sẽ ổn thôi.","会……的"],
+["你最好早点儿休息。","Nǐ zuìhǎo zǎo diǎnr xiūxi.","Bạn tốt nhất nên nghỉ ngơi sớm.","最好 khuyên nhủ"],
+["桌子上放着一本书。","Zhuōzi shang fàngzhe yì běn shū.","Trên bàn có đặt một quyển sách.","Câu tồn hiện + 着"],
+["因为下大雨，所以比赛取消了。","Yīnwèi xià dà yǔ, suǒyǐ bǐsài qǔxiāo le.","Vì mưa to nên trận đấu bị hủy.","因为……所以……"],
+["虽然汉语很难，但是我很喜欢。","Suīrán Hànyǔ hěn nán, dànshì wǒ hěn xǐhuan.","Tuy tiếng Trung khó nhưng tôi rất thích.","虽然……但是……"],
+["如果明天有空，我们就去看电影。","Rúguǒ míngtiān yǒu kòng, wǒmen jiù qù kàn diànyǐng.","Nếu mai rảnh, chúng ta đi xem phim.","如果……就……"],
+["他不但会说汉语，而且会写汉字。","Tā búdàn huì shuō Hànyǔ, érqiě huì xiě Hànzì.","Anh ấy không những nói được tiếng Trung mà còn viết được chữ Hán.","不但……而且……"],
+["我打算明年去中国留学。","Wǒ dǎsuàn míngnián qù Zhōngguó liúxué.","Tôi dự định năm sau đi du học Trung Quốc.","打算 + động từ"],
+["这次考试比上次简单多了。","Zhè cì kǎoshì bǐ shàng cì jiǎndān duō le.","Kỳ thi lần này dễ hơn lần trước nhiều.","比……多了"],
+["请你把这封信交给王老师。","Qǐng nǐ bǎ zhè fēng xìn jiāo gěi Wáng lǎoshī.","Bạn hãy đưa lá thư này cho thầy Vương.","把 + V + 给"],
+["我等了他半个小时，他还没来。","Wǒ děngle tā bàn ge xiǎoshí, tā hái méi lái.","Tôi đợi anh ấy nửa tiếng mà anh ấy vẫn chưa đến.","Bổ ngữ thời lượng"],
+["运动对身体健康很有好处。","Yùndòng duì shēntǐ jiànkāng hěn yǒu hǎochu.","Vận động rất có lợi cho sức khỏe.","对……有好处"],
+["只要你努力，就一定能成功。","Zhǐyào nǐ nǔlì, jiù yídìng néng chénggōng.","Chỉ cần bạn cố gắng thì nhất định sẽ thành công.","只要……就……"],
+["我的自行车被朋友借走了。","Wǒ de zìxíngchē bèi péngyou jièzǒu le.","Xe đạp của tôi bị bạn mượn đi rồi.","Câu chữ 被"],
+["你能告诉我去火车站怎么走吗？","Nǐ néng gàosu wǒ qù huǒchēzhàn zěnme zǒu ma?","Bạn có thể chỉ tôi đường đến ga tàu không?","怎么 + động từ"],
+["周末我常常和家人一起去公园。","Zhōumò wǒ chángcháng hé jiārén yìqǐ qù gōngyuán.","Cuối tuần tôi thường cùng gia đình đi công viên.","和……一起"],
+["这本书我已经看了三遍了。","Zhè běn shū wǒ yǐjīng kànle sān biàn le.","Cuốn sách này tôi đã đọc ba lần rồi.","Bổ ngữ động lượng 遍"],
+["他工作很忙，经常加班到很晚。","Tā gōngzuò hěn máng, jīngcháng jiābān dào hěn wǎn.","Anh ấy bận việc, thường tăng ca đến rất muộn.","V + 到 + thời điểm"],
+["我们应该多吃水果和蔬菜。","Wǒmen yīnggāi duō chī shuǐguǒ hé shūcài.","Chúng ta nên ăn nhiều trái cây và rau.","应该 / 多 + V"],
+["听说明天会比今天更热。","Tīngshuō míngtiān huì bǐ jīntiān gèng rè.","Nghe nói ngày mai sẽ nóng hơn hôm nay.","比……更……"],
+["你先休息一下，我马上就回来。","Nǐ xiān xiūxi yíxià, wǒ mǎshàng jiù huílai.","Bạn nghỉ một lát, tôi về ngay.","先……马上就……"],
+["我从来没见过这么漂亮的地方。","Wǒ cónglái méi jiànguo zhème piàoliang de dìfang.","Tôi chưa từng thấy nơi nào đẹp như vậy.","从来没……过"],
+["坐飞机去上海比坐火车快多了。","Zuò fēijī qù Shànghǎi bǐ zuò huǒchē kuài duō le.","Đi máy bay đến Thượng Hải nhanh hơn tàu hỏa nhiều.","So sánh 比……多了"],
+["他每天晚上都练习一个小时汉语。","Tā měitiān wǎnshang dōu liànxí yí ge xiǎoshí Hànyǔ.","Tối nào anh ấy cũng luyện tiếng Trung một tiếng.","Bổ ngữ thời lượng"],
+["我觉得这个办法比那个好一些。","Wǒ juéde zhège bànfǎ bǐ nàge hǎo yìxiē.","Tôi thấy cách này tốt hơn cách kia một chút.","比……一些"],
+["刚才的电话是我姐姐打来的。","Gāngcái de diànhuà shì wǒ jiějie dǎ lái de.","Cuộc gọi lúc nãy là chị tôi gọi đến.","是……的"],
+["你把房间打扫得真干净。","Nǐ bǎ fángjiān dǎsǎo de zhēn gānjìng.","Bạn dọn phòng sạch thật đấy.","把 + bổ ngữ trạng thái"],
+["毕业以后，我想当一名汉语老师。","Bìyè yǐhòu, wǒ xiǎng dāng yì míng Hànyǔ lǎoshī.","Sau khi tốt nghiệp, tôi muốn làm giáo viên tiếng Trung.","……以后 / 想当"]
+];
+const $=id=>document.getElementById(id);
+const han=s=>s.replace(/[，。？！、]/g,"").length;
+const synth=window.speechSynthesis;
+let gender="F", voices=[], runToken=0;
+
+// build list
+const sel=$("from");
+S.forEach((s,i)=>{
+  const li=document.createElement("li");li.className="card";li.id="c"+i;
+  li.innerHTML=`<div class="num">${i+1}</div><div class="txt"><div class="han">${s[0]}</div><div class="py">${s[1]}</div><div class="vi">${s[2]}</div><div class="meta">${han(s[0])} chữ · ${s[3]}</div></div><div class="acts"><button class="play f" title="Giọng nữ" data-i="${i}" data-g="F">Nữ</button><button class="play m" title="Giọng nam" data-i="${i}" data-g="M">Nam</button></div>`;
+  (i<25?$("l1"):$("l2")).appendChild(li);
+  const o=document.createElement("option");o.value=i;o.textContent="Câu "+(i+1);sel.appendChild(o);
+});
+document.addEventListener("click",e=>{
+  const b=e.target.closest(".play"); if(b){stopAll();speak(+b.dataset.i,b.dataset.g);return;}
+  const c=e.target.closest("li.card"); if(c&&document.body.classList.contains("hide-han")) c.classList.toggle("show");
+});
+
+// voices
+const FEM=/xiaoxiao|xiaoyi|xiaohan|xiaomo|xiaoxuan|xiaorui|xiaochen|xiaoshuang|xiaoyou|xiaobei|xiaoni|xiaomeng|xiaoqiu|xiaozhen|xiaoyan|huihui|yaoyao|tingting|meijia|sinji|lili|shasha|yu-?shu|hanhan|hiumaan|hiugaai|female|女|google/i;
+const MAL=/yunxi|yunyang|yunjian|yunfeng|yunhao|yunze|yunye|yunxia|yunjie|kangkang|zhiwei|wanlung|male|男|li-?mu|liang|danny/i;
+// Chỉ giọng phổ thông đại lục: lang zh-CN, loại giọng địa phương / Đài / Hồng Kông / trẻ em
+const DIALECT=/liaoning|shaanxi|sichuan|henan|shandong|northeast|xiaobei|xiaoni|yunxia|yunxi.*sichuan|taiwan|hong ?kong|cantonese|粤|臺|台|香港|hanhan|zhiwei|yating|hiugaai|hiumaan|wanlung|sinji|meijia/i;
+const PREF_F=["xiaoxiao","xiaoyi","xiaochen","xiaohan","xiaomo","huihui","yaoyao","tingting","普通话","mandarin","google"];
+const PREF_M=["yunxi","yunjian","yunyang","yunze","yunfeng","yunhao","kangkang","li-mu","limu"];
+const rank=(v,pref)=>{const n=v.name.toLowerCase();let r=pref.findIndex(p=>n.includes(p));r=r<0?99:r;if(/natural|online/i.test(v.name))r-=0.5;return r};
+function loadVoices(){
+  const all=synth?synth.getVoices():[];
+  voices=all.filter(v=>/^(zh|cmn)[-_](cn|hans)/i.test(v.lang)&&!DIALECT.test(v.name));
+  const fem=voices.filter(v=>FEM.test(v.name)&&!MAL.test(v.name.replace(/female/i,""))).sort((a,b)=>rank(a,PREF_F)-rank(b,PREF_F)),
+        mal=voices.filter(v=>MAL.test(v.name)&&!/female/i.test(v.name)).sort((a,b)=>rank(a,PREF_M)-rank(b,PREF_M));
+  const unk=voices.filter(v=>!fem.includes(v)&&!mal.includes(v));
+  fill($("vF"),fem.length?fem.concat(unk):voices); fill($("vM"),mal.length?mal:voices);
+  const short=s=>s.value?s.options[s.selectedIndex].textContent:"—";
+  $("using").textContent=voices.length?`Đang dùng giọng phổ thông đại lục · Nữ: ${short($("vF"))} · Nam: ${mal.length?short($("vM")):"chưa có trên máy này"}`:"";
+  const n=$("note");
+  if(!synth){n.hidden=false;n.textContent="Trình duyệt này không hỗ trợ đọc văn bản. Hãy mở trang bằng Chrome, Edge hoặc Safari.";return;}
+  if(!voices.length){n.hidden=false;n.innerHTML="Máy này chưa có giọng phổ thông đại lục (zh-CN). <b>Cách tốt nhất:</b> mở trang bằng <b>Microsoft Edge</b>, có sẵn Xiaoxiao (nữ) và Yunxi (nam). Hoặc cài giọng: <b>Windows</b> → Cài đặt → Thời gian và ngôn ngữ → Giọng nói → thêm Chinese (Simplified, China). <b>iPhone/iPad</b> → Cài đặt → Trợ năng → Nội dung được đọc → Giọng nói → Tiếng Trung (Trung Quốc đại lục) → tải Tingting và Li-mu.";return;}
+  $("vM").dataset.fake=mal.length?"":"1";
+  if(!mal.length){n.hidden=false;n.innerHTML="Máy này chỉ có giọng nữ phổ thông, nên giọng nam đang được <b>giả lập</b> bằng cách hạ giọng. Để có giọng nam chuẩn: mở trang bằng <b>Microsoft Edge</b> (giọng Yunxi), hoặc trên iPhone/iPad tải giọng <b>Li-mu</b> (Cài đặt → Trợ năng → Nội dung được đọc → Giọng nói → Tiếng Trung, Trung Quốc đại lục).";}
+  else n.hidden=true;
+}
+function fill(s,list){const cur=s.value;s.innerHTML="";list.forEach(v=>{const o=document.createElement("option");o.value=v.name;o.textContent=v.name.replace(/Microsoft |Online \(Natural\) - /g,"")+" ("+v.lang+")";s.appendChild(o)});if([...s.options].some(o=>o.value===cur))s.value=cur;}
+if(synth){loadVoices();synth.onvoiceschanged=loadVoices;}
+$("vF").onchange=$("vM").onchange=()=>{const t=x=>x.value?x.options[x.selectedIndex].textContent:"—";$("using").textContent=`Đang dùng giọng phổ thông đại lục · Nữ: ${t($("vF"))} · Nam: ${$("vM").dataset.fake?"giả lập":t($("vM"))}`};
+
+function pickGender(i){return gender==="A"?(i%2?"M":"F"):gender;}
+function speak(i,g){
+  return new Promise(res=>{
+    if(!synth||!voices.length){res();return;}
+    g=g||pickGender(i);
+    const u=new SpeechSynthesisUtterance(S[i][0]);
+    const name=$(g==="M"?"vM":"vF").value;
+    u.voice=voices.find(v=>v.name===name)||voices[0]; u.lang=u.voice.lang;
+    u.rate=+$("rate").value;
+    u.pitch=(g==="M"&&$("vM").dataset.fake)?0.55:1;
+    mark(i); u.onend=u.onerror=()=>res();
+    synth.speak(u);
+  });
+}
+function mark(i){document.querySelectorAll("li.card.on").forEach(e=>e.classList.remove("on"));const c=$("c"+i);c.classList.add("on");c.scrollIntoView({block:"center",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});}
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function stopAll(){runToken++;if(synth)synth.cancel();$("status").textContent="Đã dừng.";}
+
+async function run(){
+  stopAll(); const t=runToken;
+  for(let i=+sel.value;i<S.length;i++){
+    const times=$("twice").checked?2:1;
+    for(let k=0;k<times;k++){
+      if(t!==runToken)return;
+      $("status").innerHTML=`Câu <b>${i+1}</b>/50 · đang đọc${times>1?` (lần ${k+1})`:""}…`;
+      await speak(i);
+      if(t!==runToken)return;
+      if(k<times-1) await wait(900);
+    }
+    const g=+$("gap").value;
+    for(let s=g;s>0;s--){ if(t!==runToken)return; $("status").innerHTML=`Câu <b>${i+1}</b>/50 · học sinh nhắc lại… ${s}s`; await wait(1000);}
+    sel.value=Math.min(i+1,S.length-1);
+  }
+  $("status").textContent="Hoàn thành 50 câu.";
+}
+$("run").onclick=run; $("stop").onclick=stopAll;
+
+// controls
+[["gF","F"],["gM","M"],["gA","A"]].forEach(([id,g])=>$(id).onclick=()=>{gender=g;["gF","gM","gA"].forEach(x=>$(x).setAttribute("aria-pressed",x===id))});
+$("rate").oninput=e=>$("rateV").textContent=(+e.target.value).toFixed(2)+"×";
+$("gap").oninput=e=>$("gapV").textContent=e.target.value+" giây";
+$("hideHan").onchange=e=>{document.body.classList.toggle("hide-han",e.target.checked);document.querySelectorAll("li.card.show").forEach(c=>c.classList.remove("show"))};
+$("hideHelp").onchange=e=>document.body.classList.toggle("hide-help",e.target.checked);
+</script>
+
+</body></html>
