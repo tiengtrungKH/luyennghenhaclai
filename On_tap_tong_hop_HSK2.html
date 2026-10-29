@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ôn tập HSK 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F8F4FD; --card:#FFFFFF; --ink:#3A2D5C; --muted:#7A7091; --line:#E6DCF5;
+  --red:#8E6CD6; --red-dark:#7552C2; --gold:#B99AEC; --gold-soft:#F1E9FD; --tag:#A98BE3; --deep:#5B4794;
+  --ok:#2E8A5E; --ok-soft:#E3F5EC; --bad:#C2456B; --bad-soft:#FCE8EF; --blue:#6A58B8; --link:#6A4FC0;
+  --zh:"Noto Serif SC","Songti SC","SimSun","Noto Serif CJK SC",serif;
+  --vn:"Be Vietnam Pro","Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--vn);font-size:16px;line-height:1.55}
+button{font:inherit}
+.zh{font-family:var(--zh);font-weight:500}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 110px}
+.hidden{display:none!important}
+
+/* hero */
+header.hero{background:linear-gradient(135deg,#EADFFC 0%,#DCCBF7 55%,#F4D9EE 100%);color:var(--ink);padding:32px 16px 26px;position:relative;overflow:hidden}
+header.hero::after{content:"复习";position:absolute;right:-10px;top:-34px;font-family:var(--zh);font-size:170px;font-weight:700;color:rgba(117,82,194,.09);line-height:1}
+.hero-in{max-width:900px;margin:0 auto;position:relative;z-index:1}
+.eyebrow{letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--red-dark);font-weight:700}
+h1{margin:6px 0;font-size:30px;line-height:1.2}
+.hero p{margin:0;color:#5E5279;max-width:660px}
+.student{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.student input{flex:1 1 220px;padding:10px 12px;border-radius:10px;border:1px solid #CDBBEE;background:rgba(255,255,255,.85);color:var(--ink);font:inherit}
+.student input::placeholder{color:#9A8FB3}
+
+/* home */
+h2.sec{font-size:20px;margin:30px 0 12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.tcard{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 2px 10px rgba(117,82,194,.06);padding:16px;display:flex;flex-direction:column;gap:8px}
+.tcard .num{font-family:var(--zh);font-size:14px;color:#fff;background:var(--red);display:inline-block;border-radius:6px;padding:1px 9px;align-self:flex-start}
+.tcard h3{margin:0;font-size:19px}
+.tcard .meta{font-size:13.5px;color:var(--muted)}
+.tcard .best{font-size:14px}
+.tcard .best b{color:var(--red)}
+.btn{font-weight:600;border-radius:10px;padding:10px 18px;cursor:pointer;border:1.5px solid transparent}
+.btn.primary{background:var(--red);color:#fff}.btn.primary:hover{background:var(--red-dark)}
+.btn.dark{background:var(--ink);color:#fff}
+.btn.line{background:#fff;color:var(--ink);border-color:var(--ink)}
+.btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.45)}.btn.ghost:hover{border-color:#fff}
+.tcard .btn{margin-top:auto}
+
+/* results table (giống mẫu) */
+.tbl-wrap{overflow-x:auto;background:#fff;border:1px solid #E1D7F2;border-radius:6px}
+table.res{width:100%;border-collapse:collapse;min-width:560px;font-size:16px}
+table.res th{text-align:left;font-weight:700;padding:12px 10px;border-bottom:3px solid #E1D7F2;border-right:1px solid #E1D7F2;background:#fff}
+table.res td{padding:12px 10px;border-right:1px solid #E1D7F2;border-bottom:1px solid #E1D7F2;vertical-align:top;background:#F8F4FD}
+table.res tr:nth-child(even) td{background:#fff}
+table.res th:last-child,table.res td:last-child{border-right:none}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.tagc{background:var(--tag);color:#fff;font-size:13px;font-weight:700;border-radius:5px;padding:1px 8px}
+.tagc.alt{background:#C7B6E8}
+.tagc.new{background:#D28BC0}
+a.detail{color:var(--link);text-decoration:none;cursor:pointer}
+a.detail:hover{text-decoration:underline}
+.empty{padding:18px;color:var(--muted);text-align:center;background:#fff;border:1px dashed var(--line);border-radius:10px}
+.clear{background:none;border:none;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:13px;margin-top:8px;padding:0}
+
+/* quiz bar */
+.qbar{position:sticky;top:0;z-index:20;background:rgba(248,244,253,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.qbar-in{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.qbar .title{font-weight:700;white-space:nowrap}
+.qbar .prog{font-size:13px;color:var(--muted);white-space:nowrap}
+.timer{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:700;font-size:18px;background:#fff;border:1.5px solid var(--ink);border-radius:8px;padding:3px 10px;white-space:nowrap}
+.timer.warn{color:#fff;background:var(--red);border-color:var(--red)}
+.switch{display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;white-space:nowrap}
+.switch input{width:17px;height:17px;accent-color:var(--red)}
+
+section.part{margin-top:28px}
+.part-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
+.part-no{font-family:var(--zh);font-size:14px;color:#fff;background:var(--red);border-radius:6px;padding:1px 8px}
+.part-head h2{margin:0;font-size:19px}
+.part-desc{color:var(--muted);margin:0 0 12px;font-size:14.5px}
+
+.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.q.ok{border-color:#A9D9BF;background:#FBFEFC}.q.bad{border-color:#F0B8C9;background:#FFFBFC}
+.q-top{display:flex;gap:10px;align-items:flex-start}
+.qn{flex:0 0 auto;min-width:30px;height:30px;border-radius:50%;background:var(--gold-soft);color:var(--red-dark);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+.q.ok .qn{background:var(--ok-soft);color:var(--ok)}.q.bad .qn{background:var(--bad-soft);color:var(--bad)}
+.stem{font-size:21px;line-height:1.6}
+.stem.small{font-size:15px;color:var(--muted);padding-top:4px}
+.stem.vn{font-size:18px;font-weight:500;padding-top:2px}
+.blank{display:inline-block;min-width:54px;border-bottom:2px solid var(--gold);margin:0 4px;text-align:center}
+.py{display:none;font-size:13.5px;color:var(--blue);font-style:italic;margin-top:2px}
+body.show-py .py{display:block}
+.indent{margin-left:40px}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt .face{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;background:#fff;font-size:18px;transition:all .15s}
+.opt .face b{font-family:var(--vn);font-size:12px;color:var(--muted);font-weight:600}
+.opt input:checked + .face{border-color:var(--ink);background:var(--ink);color:#fff}
+.opt input:checked + .face b,.opt input:checked + .face .py{color:#D9CCF5}
+.opt input:focus-visible + .face{outline:3px solid #CDB8F2;outline-offset:2px}
+.opts.col{flex-direction:column}.opts.col .opt{width:100%}.opts.col .face{width:100%;font-size:19px;align-items:flex-start}
+.bank{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 14px;border:1.5px dashed var(--gold);border-radius:12px;background:var(--gold-soft);margin-bottom:10px}
+.bank .lbl{font-size:13px;font-weight:600;color:var(--red-dark)}
+.chip{display:inline-flex;flex-direction:column;align-items:center;background:#fff;border:1px solid #D7C6F3;border-radius:8px;padding:3px 12px;font-family:var(--zh);font-size:19px}
+.chip .py{font-family:var(--vn);font-size:11px;margin:0}
+body.show-py .chip .py{display:block}
+select.fill{font-family:var(--zh);font-size:18px;padding:3px 6px;border-radius:8px;border:1.5px solid var(--gold);background:#fff;color:var(--red);margin:0 4px;vertical-align:middle;cursor:pointer}
+.answer-line{min-height:52px;margin:12px 0 8px;padding:8px;border-bottom:2px solid var(--ink);display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end}
+.answer-line:empty::before{content:"Bấm vào các thẻ bên dưới để xếp câu…";color:#A8A29E;font-size:14px;padding:6px}
+.pool{display:flex;flex-wrap:wrap;gap:8px}
+.tile{font-family:var(--zh);font-size:19px;background:#fff;border:1.5px solid var(--line);border-bottom-width:3px;border-radius:9px;padding:5px 12px;cursor:pointer;display:inline-flex;flex-direction:column;align-items:center;line-height:1.3}
+.tile:hover{border-color:var(--gold)}
+.tile .py{font-family:var(--vn);font-size:11px;margin:0}
+body.show-py .tile .py{display:block}
+.answer-line .tile{background:var(--ink);color:#fff;border-color:var(--ink)}
+.answer-line .tile .py{color:#D9CCF5}
+.mini{font-size:13px;border:none;background:none;color:var(--muted);text-decoration:underline;cursor:pointer;padding:0;margin-top:4px}
+textarea.tr{width:100%;margin-top:10px;font-family:var(--zh);font-size:19px;padding:10px;border-radius:10px;border:1.5px solid var(--line);resize:vertical;min-height:54px}
+textarea.tr:focus{outline:none;border-color:var(--ink)}
+.hint{font-size:13px;color:var(--muted);margin-top:4px}
+
+.submitbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--deep);color:#fff;box-shadow:0 -6px 20px rgba(0,0,0,.12)}
+.submitbar-in{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;gap:10px;align-items:center}
+.submitbar .count{flex:1;font-size:14px;color:#E3D9F7}
+
+/* review */
+.summary{margin-top:24px;background:#fff;border:2px solid var(--gold);border-radius:16px;padding:20px}
+.score-row{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.big{font-size:60px;font-weight:700;line-height:1;color:var(--red)}
+.big small{font-size:22px;color:var(--muted);font-weight:500}
+.verdict{font-size:18px;font-weight:600}
+.facts{display:flex;gap:18px;flex-wrap:wrap;margin-top:6px;color:var(--muted);font-size:14px}
+.facts b{color:var(--ink)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.filters{display:flex;gap:8px;margin:22px 0 10px;flex-wrap:wrap}
+.filters button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:5px 14px;cursor:pointer;font-size:14px}
+.filters button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.rv{margin-top:10px;display:grid;gap:6px;font-size:15px}
+.rv .row{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.rv .k{flex:0 0 112px;color:var(--muted);font-size:13.5px}
+.rv .v{flex:1;min-width:0}
+.rv .v.zh{font-size:18px}
+.mine.right{color:var(--ok)}.mine.wrong{color:var(--bad);text-decoration:line-through;text-decoration-thickness:1px}
+.mine.none{color:var(--muted);font-style:italic;font-family:var(--vn);font-size:14px}
+.ans{color:var(--ok);font-weight:700}
+.expl{background:#F4EEFC;border-radius:8px;padding:8px 12px;font-size:14.5px;margin-top:4px}
+.expl .tag{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;background:var(--ink);color:#fff;margin-right:6px}
+.override{margin-top:6px;font-size:13px;border:1px solid var(--ok);color:var(--ok);background:#fff;border-radius:8px;padding:4px 10px;cursor:pointer}
+.weak{margin-top:14px;padding:12px 14px;background:var(--bad-soft);border-radius:10px;font-size:15px}
+.weak.good{background:var(--ok-soft)}
+.weak ul{margin:6px 0 0;padding-left:20px}
+
+/* groups + vocab */
+.group{margin-top:26px}
+.group-head{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+.group-head h2{margin:0;font-size:20px}
+.group-head .pill{font-size:12px;font-weight:700;color:#fff;background:var(--red);border-radius:999px;padding:2px 10px}
+.group-head .pill.new{background:#D28BC0}.group-head .pill.voc{background:#6FB3A8}
+.group-desc{margin:-6px 0 12px;color:var(--muted);font-size:14px}
+.vword{font-family:var(--zh);font-size:34px;font-weight:700;color:var(--deep);line-height:1.2}
+.vprompt{font-size:15px;color:var(--muted)}
+.vmean{font-size:19px;font-weight:600}
+.opt .face.vn{font-family:var(--vn);font-size:16px}
+
+/* ===== 3-column layout ===== */
+:root{ --orange:#E8590C; --orange-dark:#C2410C; }
+.topbar{position:sticky;top:0;z-index:40;background:linear-gradient(120deg,#EADFFC 0%,#DCCBF7 60%,#F4D9EE 100%);border-bottom:1px solid #D9C9F3}
+.topbar-in{max-width:1440px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:14px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.logo{font-family:var(--zh);font-weight:700;color:#fff;background:var(--red);border-radius:10px;padding:6px 9px;font-size:16px}
+.brand-t{font-weight:700;font-size:18px;white-space:nowrap}
+.topbar .eyebrow{font-size:11px}
+#sname{width:240px;padding:8px 12px;border-radius:10px;border:1px solid #CDBBEE;background:rgba(255,255,255,.9);color:var(--ink);font:inherit;font-size:14px}
+.layout{max-width:1440px;margin:0 auto;padding:20px;display:grid;grid-template-columns:260px minmax(0,1fr) 280px;gap:20px;align-items:start}
+.side{position:sticky;top:78px;max-height:calc(100vh - 98px);overflow:auto;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 2px 10px rgba(117,82,194,.06)}
+.side-title{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:2px 4px 10px}
+.center{min-width:0;padding-bottom:40px}
+.center main{min-width:0}
+.welcome{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px}
+.welcome h1{font-size:24px;margin:0 0 8px}
+.welcome p,.welcome li{color:#4F4568}
+.welcome ul{margin:8px 0 0;padding-left:20px}
+.mini-dot{display:inline-block;width:14px;height:14px;border-radius:4px;border:1.5px solid #CFC3E6;background:#fff;vertical-align:-2px}
+.mini-dot.done{background:var(--orange);border-color:var(--orange)}
+/* left list */
+.tgroup{margin-bottom:14px}
+.tgroup-h{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;margin:4px 4px 8px}
+.titem{width:100%;display:flex;align-items:center;gap:10px;text-align:left;background:#fff;border:1.5px solid transparent;border-radius:12px;padding:9px 10px;cursor:pointer;margin-bottom:4px;color:var(--ink)}
+.titem:hover{background:#F6F1FD}
+.titem.active{background:#EFE6FC;border-color:var(--red)}
+.titem .tno{flex:0 0 32px;height:32px;border-radius:9px;background:var(--gold-soft);color:var(--red-dark);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px}
+.titem.active .tno{background:var(--red);color:#fff}
+.titem .tt{flex:1;min-width:0}
+.titem .tt b{display:block;font-size:14.5px}
+.titem .tt span{font-size:12px;color:var(--muted)}
+.titem .score{font-size:12px;font-weight:700;color:var(--red-dark);background:#F4EEFC;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.titem .score.none{color:var(--muted);background:#F3F1F6;font-weight:500}
+/* center quiz head */
+.quiz-head{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 20px;margin-bottom:6px}
+.quiz-head h1{margin:0;font-size:22px}
+.qsub{color:var(--muted);font-size:14px;margin-top:2px}
+.q{scroll-margin-top:90px}
+/* right panel */
+.rp-title{font-weight:700;font-size:16px;margin:0 0 10px}
+.timer-box{text-align:center;background:#F4EEFC;border-radius:14px;padding:12px;margin-bottom:12px}
+.timer-box .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.timer-box .tv{font-size:36px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--deep);line-height:1.15}
+.timer-box.warn{background:#FFE8DC}.timer-box.warn .tv{color:var(--orange-dark)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.stat{border-radius:12px;padding:8px 10px;border:1.5px solid var(--line);background:#fff}
+.stat .n{font-size:24px;font-weight:700;line-height:1.1}
+.stat .l{font-size:12px;color:var(--muted)}
+.stat.done{background:var(--orange);border-color:var(--orange);color:#fff}.stat.done .l{color:#FFE3D2}
+.pbar{height:8px;background:#F0EAF8;border-radius:99px;overflow:hidden;margin-bottom:12px}
+.pbar i{display:block;height:100%;background:var(--orange);border-radius:99px;transition:width .3s}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:12px}
+.cellq{aspect-ratio:1;border-radius:9px;border:1.5px solid #CFC3E6;background:#fff;color:var(--ink);font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.cellq:hover{border-color:var(--orange)}
+.cellq.done{background:var(--orange);border-color:var(--orange);color:#fff}
+.cellq.ok{background:#2E8A5E;border-color:#2E8A5E;color:#fff}
+.cellq.bad{background:#fff;border-color:#C2456B;color:#C2456B}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:12px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.rp-actions{display:grid;gap:8px}
+.rp-actions .btn{width:100%}
+.btn.orange{background:var(--orange);color:#fff}.btn.orange:hover{background:var(--orange-dark)}
+.rp-note{font-size:13px;color:var(--muted)}
+.rp-score{text-align:center;margin-bottom:12px}
+.rp-score .big{font-size:48px}
+
+@media (max-width:1100px){
+  .layout{grid-template-columns:220px minmax(0,1fr);}
+  .side-right{grid-column:1 / -1;position:static;max-height:none;order:-1}
+  .side-right .grid{grid-template-columns:repeat(10,1fr)}
+}
+@media (max-width:760px){
+  .layout{grid-template-columns:1fr;padding:10px;gap:10px}
+  .side-left{order:1;position:static;max-height:none;padding:10px}
+  .side-left .side-title{display:none}
+  .side-left nav{display:flex;gap:6px;overflow-x:auto}
+  .side-left .tgroup{display:contents}
+  .side-left .tgroup-h{display:none}
+  .titem{flex:0 0 auto;width:auto;margin:0;padding:6px 10px}
+  .titem .tt span,.titem .score{display:none}
+  .titem .tt b{font-size:13px}
+  .side-right{order:2;position:sticky;top:52px;z-index:30;max-height:none;padding:10px;border-radius:14px}
+  .center{order:3}
+  .side-right .rp-title,.side-right .legend,.side-right .pbar,.side-right .rp-note,.side-right .rp-score{display:none}
+  .side-right #sideRight{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center}
+  .side-right .timer-box{margin:0;padding:6px 10px}
+  .side-right .timer-box .lbl{font-size:10px}
+  .side-right .timer-box .tv{font-size:20px!important}
+  .side-right .stats{margin:0;gap:6px}
+  .side-right .stat{padding:4px 8px}.side-right .stat .n{font-size:17px}.side-right .stat .l{font-size:11px}
+  .side-right .rp-actions{grid-template-columns:1fr}
+  .side-right .rp-actions .btn{padding:8px 12px}
+  .side-right .rp-actions .btn.line{display:none}
+  .side-right .grid{grid-column:1 / -1;display:flex;gap:5px;overflow-x:auto;margin:0;padding-bottom:2px}
+  .side-right .cellq{flex:0 0 30px;height:30px;aspect-ratio:auto;font-size:12px;border-radius:7px}
+  .topbar-in{padding:8px 10px;gap:8px}
+  .brand-t,.topbar .eyebrow{display:none}
+  #sname{flex:1;width:auto;min-width:0}
+  .logo{font-size:14px;padding:5px 7px}
+}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(58,45,92,.45);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal-box{background:#fff;border-radius:14px;max-width:420px;width:100%;padding:20px}
+.modal-box h3{margin:0 0 8px}
+.modal-box p{margin:0 0 16px;color:#444}
+.modal-box .actions{justify-content:flex-end;margin:0}
+
+@media (max-width:600px){
+  h1{font-size:24px}
+  .stem{font-size:19px}
+  .indent{margin-left:0}
+  .qbar .prog{display:none}
+  .big{font-size:46px}
+  .rv .k{flex-basis:100%}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand"><span class="logo">复习</span><div><div class="eyebrow">HSK 2 · Ôn tập cuối khoá</div><div class="brand-t">Ôn tập tổng hợp HSK 2</div></div></div>
+    <input id="sname" placeholder="Họ và tên học sinh" aria-label="Họ và tên">
+    <label class="switch"><input type="checkbox" id="pyToggle"> Pinyin</label>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side side-left" aria-label="Danh sách đề"><div class="side-title">Danh sách đề</div><nav id="sideList"></nav></aside>
+
+  <div class="center">
+    <main id="home">
+      <section class="welcome">
+        <h1>Chào mừng em đến với bài ôn tập HSK 2</h1>
+        <p>Chọn một đề ở <b>cột bên trái</b> để bắt đầu. Khi làm bài, <b>cột bên phải</b> hiển thị thời gian còn lại, số câu đã làm / chưa làm và bảng số câu: ô <span class="mini-dot done"></span> màu cam là câu đã làm, ô <span class="mini-dot"></span> trắng là câu chưa làm — bấm vào ô để nhảy tới câu đó.</p>
+        <ul>
+          <li><b>10 đề ngữ pháp</b> – 20 câu / 20 phút: trắc nghiệm, điền từ, sắp xếp câu, chọn câu đúng, dịch câu.</li>
+          <li><b>3 đề từ vựng</b> – 20 câu / 15 phút: chọn nghĩa, chọn chữ Hán, chọn pinyin (trộn ngẫu nhiên mỗi lần làm).</li>
+        </ul>
+      </section>
+      <h2 class="sec">Kết quả làm bài của bạn:</h2>
+      <div id="historyAll"></div>
+      <button class="clear" id="clearAll" type="button">Xoá toàn bộ lịch sử</button>
+    </main>
+    <main id="quiz" class="hidden"><div class="quiz-head"><h1 id="qTitle"></h1><div id="qSub" class="qsub"></div></div><div id="quizBody"></div></main>
+    <main id="review" class="hidden"></main>
+  </div>
+
+  <aside class="side side-right" aria-label="Tiến độ làm bài"><div id="sideRight"></div></aside>
+</div>
+
+<div class="modal hidden" id="modal"><div class="modal-box"><h3 id="mTitle"></h3><p id="mText"></p><div class="actions" id="mActions"></div></div></div>
+
+<script>
+const TESTS = [{"id": "G1", "kind": "grammar", "short": "Đề 1", "title": "Đề ngữ pháp 1", "badge": "第一套", "questions": [{"type": "mcq", "q": "这三个人中，大卫的汉语___好。", "py": "Zhè sān ge rén zhōng, Dàwèi de Hànyǔ ____ hǎo.", "opts": ["最", "多", "几", "每"], "optsPy": ["Zuì", "Duō", "Jǐ", "Měi"], "a": "最", "g": "Phó từ 最", "ex": "最 + tính từ: “nhất” trong một nhóm."}, {"type": "mcq", "q": "山姆___年都去中国旅游。", "py": "Shānmǔ ____ nián dōu qù Zhōngguó lǚyóu.", "opts": ["每", "都", "多", "几"], "optsPy": ["Měi", "Dōu", "Duō", "Jǐ"], "a": "每", "g": "Đại từ 每", "ex": "每 + (lượng từ) + danh từ, phía sau thường có 都."}, {"type": "mcq", "q": "我十八岁___，一个人来到北京。", "py": "Wǒ shí bā suì ____, yí ge rén láidào Běijīng.", "opts": ["的时候", "时间", "小时", "一下"], "optsPy": ["De shíhou", "Shíjiān", "Xiǎoshí", "Yíxià"], "a": "的时候", "g": "……的时候", "ex": "Cụm số lượng / động từ + 的时候 = khi, lúc."}, {"type": "mcq", "q": "你___不吃了？不好吃吗？", "py": "Nǐ ____ bù chī le? Bù hǎochī ma?", "opts": ["怎么", "什么", "多", "几"], "optsPy": ["Zěnme", "Shénme", "Duō", "Jǐ"], "a": "怎么", "g": "Đại từ nghi vấn 怎么", "ex": "怎么 + động từ: hỏi nguyên nhân, có ý ngạc nhiên."}, {"type": "mcq", "q": "我坐飞机一个小时___到上海了。", "py": "Wǒ zuò fēijī yí ge xiǎoshí ____ dào Shànghǎi le.", "opts": ["就", "还", "再", "都"], "optsPy": ["Jiù", "Hái", "Zài", "Dōu"], "a": "就", "g": "Phó từ 就", "ex": "就……了: nhấn mạnh nhanh, sớm."}, {"type": "mcq", "q": "___北京到上海要坐几个小时的飞机？", "py": "____ Běijīng dào Shànghǎi yào zuò jǐ ge xiǎoshí de fēijī?", "opts": ["从", "离", "往", "对"], "optsPy": ["Cóng", "Lí", "Wǎng", "Duì"], "a": "从", "g": "Giới từ 从", "ex": "从 A 到 B: từ A đến B."}, {"type": "fill", "q": "我家___学校不远，走路十分钟就到。", "py": "Wǒjiā ____ xuéxiào bù yuǎn, zǒulù shí fēnzhōng jiù dào.", "bank": ["离", "从", "对", "往", "比", "给"], "bankPy": ["Lí", "Cóng", "Duì", "Wǎng", "Bǐ", "Gěi"], "a": ["离"], "g": "Động từ 离", "ex": "A 离 B + 远/近: khoảng cách giữa hai nơi."}, {"type": "fill", "q": "___这儿往右走就是银行。", "py": "____ zhèr wǎng yòu zǒu jiùshì yínháng.", "bank": ["离", "从", "对", "往", "比", "给"], "bankPy": ["Lí", "Cóng", "Duì", "Wǎng", "Bǐ", "Gěi"], "a": ["从"], "g": "Giới từ 从", "ex": "从 + nơi chốn: chỉ điểm xuất phát."}, {"type": "fill", "q": "看中文电影___学汉语很有帮助。", "py": "Kàn Zhōngwén diànyǐng ____ xué Hànyǔ hěn yǒu bāngzhù.", "bank": ["离", "从", "对", "往", "比", "给"], "bankPy": ["Lí", "Cóng", "Duì", "Wǎng", "Bǐ", "Gěi"], "a": ["对"], "g": "Giới từ 对", "ex": "A 对 B 有帮助: A có ích cho B."}, {"type": "fill", "q": "你一直___前走，就能看到那个商店。", "py": "Nǐ yìzhí ____ qián zǒu, jiù néng kàndào nàge shāngdiàn.", "bank": ["离", "从", "对", "往", "比", "给"], "bankPy": ["Lí", "Cóng", "Duì", "Wǎng", "Bǐ", "Gěi"], "a": ["往"], "g": "Giới từ 往", "ex": "往 + phương hướng + 走: đi về phía…"}, {"type": "order", "tiles": ["我", "每天", "六点", "起床"], "tilesPy": ["Wǒ", "Měi tiān", "Liù diǎn", "Qǐchuáng"], "a": ["我每天六点起床"], "g": "Đại từ 每"}, {"type": "order", "tiles": ["你", "看过", "那个电影", "吗"], "tilesPy": ["Nǐ", "Kàn guo", "Nàge diànyǐng", "Ma"], "a": ["你看过那个电影吗"], "g": "Trợ từ động thái 过"}, {"type": "order", "tiles": ["门", "开", "着", "呢"], "tilesPy": ["Mén", "Kāi", "Zhe", "Ne"], "a": ["门开着呢"], "g": "Trợ từ động thái 着"}, {"type": "order", "tiles": ["我", "请", "你", "看电影"], "tilesPy": ["Wǒ", "Qǐng", "Nǐ", "Kàn diànyǐng"], "a": ["我请你看电影", "你请我看电影"], "g": "Câu kiêm ngữ"}, {"type": "correct", "opts": ["哥哥比姐姐高得多。", "哥哥比姐姐很高。", "哥哥比姐姐非常高。", "哥哥没有姐姐高得多。"], "optsPy": ["Gēge bǐ jiějie gāo de duō.", "Gēge bǐ jiějie hěn gāo.", "Gēge bǐ jiějie fēicháng gāo.", "Gēge méiyǒu jiějie gāo de duō."], "a": "哥哥比姐姐高得多。", "g": "Câu so sánh 比", "ex": "Câu 比 không dùng 很/非常 trước tính từ; chênh lệch lớn dùng 得多."}, {"type": "correct", "opts": ["姐姐跑得比我快。", "姐姐跑比我得快。", "姐姐比我跑得很快。", "姐姐跑得比我很快。"], "optsPy": ["Jiějie pǎo de bǐ wǒ kuài.", "Jiějie pǎo bǐ wǒ de kuài.", "Jiějie bǐ wǒ pǎo de hěn kuài.", "Jiějie pǎo de bǐ wǒ hěn kuài."], "a": "姐姐跑得比我快。", "g": "So sánh 比 + bổ ngữ trạng thái", "ex": "A + V + 得 + 比 B + Adj, hoặc A 比 B + V + 得 + Adj; không thêm 很."}, {"type": "correct", "opts": ["这本书是我写的。", "这本书是我写了。", "这本书我是写。", "这本书是写我的。"], "optsPy": ["Zhè běn shū shì wǒ xiě de.", "Zhè běn shū shì wǒ xiě le.", "Zhè běn shū wǒ shì xiě.", "Zhè běn shū shì xiě wǒ de."], "a": "这本书是我写的。", "g": "Câu 是……的", "ex": "Nhấn mạnh người làm: 是 + người + động từ + 的."}, {"type": "trans", "vn": "Tôi đã từng đi Thượng Hải hai lần.", "a": ["我去过两次上海。", "我去过上海两次。"], "aPy": ["Wǒ qù guo liǎng cì Shànghǎi.", "Wǒ qù guo Shànghǎi liǎng cì."], "g": "Bổ ngữ động lượng 次"}, {"type": "trans", "vn": "Đã 11 giờ rồi, đừng xem ti vi nữa.", "a": ["都十一点了，别看电视了。", "都十一点了，不要看电视了。"], "aPy": ["Dōu shí yī diǎn le, bié kàn diànshì le.", "Dōu shí yī diǎn le, búyào kàn diànshì le."], "g": "都……了"}, {"type": "trans", "vn": "Tháng sau tôi sẽ về nước rồi.", "a": ["下个月我就要回国了。", "我下个月就要回国了。"], "aPy": ["Xià ge yuè wǒ jiùyào huíguó le.", "Wǒ xià ge yuè jiùyào huíguó le."], "g": "要/快/就要……了"}], "topics": 18}, {"id": "G2", "kind": "grammar", "short": "Đề 2", "title": "Đề ngữ pháp 2", "badge": "第二套", "questions": [{"type": "mcq", "q": "你们就是她的学生___？", "py": "Nǐmen jiùshì tā de xuésheng ____?", "opts": ["吧", "呢", "的", "了"], "optsPy": ["Ba", "Ne", "De", "Le"], "a": "吧", "g": "Trợ từ ngữ khí 吧", "ex": "Câu trần thuật + 吧？: phỏng đoán, hỏi lại để xác nhận."}, {"type": "mcq", "q": "我吃___饭了，我们走吧。", "py": "Wǒ chī ____ fàn le, wǒmen zǒu ba.", "opts": ["完", "着", "过", "得"], "optsPy": ["Wán", "Zhe", "Guo", "De"], "a": "完", "g": "Bổ ngữ kết quả", "ex": "吃完 = ăn xong (kết quả của hành động)."}, {"type": "mcq", "q": "上课了，你们快进___来吧。", "py": "Shàngkè le, nǐmen kuài jìn ____ lái ba.", "opts": ["教室", "来教室", "去", "过"], "optsPy": ["Jiàoshì", "Lái jiàoshì", "Qù", "Guo"], "a": "教室", "g": "Bổ ngữ xu hướng đơn", "ex": "Tân ngữ chỉ nơi chốn đặt giữa động từ và 来/去: 进教室来."}, {"type": "mcq", "q": "我一到家，妈妈___打来电话了。", "py": "Wǒ yí dào jiā, māma ____ dǎ lái diànhuà le.", "opts": ["就", "都", "还", "也"], "optsPy": ["Jiù", "Dōu", "Hái", "Yě"], "a": "就", "g": "一……就……", "ex": "一……就……: vừa… thì đã… (hành động nối tiếp ngay)."}, {"type": "mcq", "q": "咖啡店___这儿有点儿远。", "py": "Kāfēidiàn ____ zhèr yǒudiǎnr yuǎn.", "opts": ["离", "从", "往", "在"], "optsPy": ["Lí", "Cóng", "Wǎng", "Zài"], "a": "离", "g": "Động từ 离", "ex": "A 离 B + 远/近: khoảng cách giữa A và B."}, {"type": "mcq", "q": "在我们家，爸爸___高。", "py": "Zài wǒmen jiā, bàba ____ gāo.", "opts": ["最", "更", "太", "多"], "optsPy": ["Zuì", "Gèng", "Tài", "Duō"], "a": "最", "g": "Phó từ 最", "ex": "最 + tính từ: nhất trong nhóm."}, {"type": "fill", "q": "你就是陈天中___？", "py": "Nǐ jiùshì Chén Tiānzhōng ____?", "bank": ["吧", "是", "让", "还是", "多", "名"], "bankPy": ["Ba", "Shì", "Ràng", "Háishi", "Duō", "Míng"], "a": ["吧"], "g": "Trợ từ ngữ khí 吧", "ex": "Phỏng đoán rồi hỏi lại để xác nhận: …吧？"}, {"type": "fill", "q": "妈妈___我去买水果。", "py": "Māma ____ wǒ qù mǎi shuǐguǒ.", "bank": ["吧", "是", "让", "还是", "多", "名"], "bankPy": ["Ba", "Shì", "Ràng", "Háishi", "Duō", "Míng"], "a": ["让"], "g": "Câu kiêm ngữ", "ex": "让 + người + động từ: bảo ai làm gì."}, {"type": "fill", "q": "你第一次去北京，___找个人接你吧。", "py": "Nǐ dì-yī cì qù Běijīng, ____ zhǎo ge rén jiē nǐ ba.", "bank": ["吧", "是", "让", "还是", "多", "名"], "bankPy": ["Ba", "Shì", "Ràng", "Háishi", "Duō", "Míng"], "a": ["还是"], "g": "还是……吧", "ex": "还是……吧: tốt hơn là…"}, {"type": "fill", "q": "教室里有二十___个学生。", "py": "Jiàoshì li yǒu èr shí ____ ge xuésheng.", "bank": ["吧", "是", "让", "还是", "多", "名"], "bankPy": ["Ba", "Shì", "Ràng", "Háishi", "Duō", "Míng"], "a": ["多"], "g": "Số ước lượng 几 / 多", "ex": "Số tròn chục + 多 + lượng từ: hơn hai mươi."}, {"type": "order", "tiles": ["我们", "是", "来", "旅游", "的"], "tilesPy": ["Wǒmen", "Shì", "Lái", "Lǚyóu", "De"], "a": ["我们是来旅游的"], "g": "Câu 是……的"}, {"type": "order", "tiles": ["都", "8点半了", "你还", "不起床", "吗"], "tilesPy": ["Dōu", "8 diǎn bàn le", "Nǐ hái", "Bù qǐchuáng", "Ma"], "a": ["都8点半了你还不起床吗"], "g": "都……了"}, {"type": "order", "tiles": ["学校", "离", "医院", "不远"], "tilesPy": ["Xuéxiào", "Lí", "Yīyuàn", "Bù yuǎn"], "a": ["学校离医院不远", "医院离学校不远"], "g": "Động từ 离"}, {"type": "order", "tiles": ["他", "卖给", "我", "一本", "中文书"], "tilesPy": ["Tā", "Mài gěi", "Wǒ", "Yì běn", "Zhōngwén shū"], "a": ["他卖给我一本中文书"], "g": "Câu có hai tân ngữ"}, {"type": "correct", "opts": ["我们不是坐出租车去的。", "我们不坐出租车去的。", "我们是不坐出租车去的。", "我们不坐出租车是去的。"], "optsPy": ["Wǒmen bú shì zuò chūzūchē qù de.", "Wǒmen bú zuò chūzūchē qù de.", "Wǒmen shì bú zuò chūzūchē qù de.", "Wǒmen bú zuò chūzūchē shì qù de."], "a": "我们不是坐出租车去的。", "g": "Câu 是……的", "ex": "Phủ định câu 是……的 phải giữ 是: 不是……的."}, {"type": "correct", "opts": ["今天比昨天更冷。", "今天比昨天很冷。", "今天比昨天非常冷。", "今天更比昨天冷。"], "optsPy": ["Jīntiān bǐ zuótiān gèng lěng.", "Jīntiān bǐ zuótiān hěn lěng.", "Jīntiān bǐ zuótiān fēicháng lěng.", "Jīntiān gèng bǐ zuótiān lěng."], "a": "今天比昨天更冷。", "g": "So sánh 比 + bổ ngữ trạng thái", "ex": "Câu 比 dùng 更/还, không dùng 很/非常."}, {"type": "correct", "opts": ["我这里比北京冷多了。", "我这里比北京很冷多了。", "我这里比北京多冷了。", "我这里比北京冷很多了。"], "optsPy": ["Wǒ zhèli bǐ Běijīng lěng duō le.", "Wǒ zhèli bǐ Běijīng hěn lěng duō le.", "Wǒ zhèli bǐ Běijīng duō lěng le.", "Wǒ zhèli bǐ Běijīng lěng hěn duō le."], "a": "我这里比北京冷多了。", "g": "Câu so sánh 比", "ex": "A 比 B + tính từ + 多了."}, {"type": "trans", "vn": "Bạn là người Thái Lan phải không?", "a": ["你是泰国人吧？"], "aPy": ["Nǐ shì Tàiguó rén ba?"], "g": "Trợ từ ngữ khí 吧"}, {"type": "trans", "vn": "Tôi vừa về đến nhà thì mẹ gọi điện tới.", "a": ["我一到家，妈妈就打来电话了。", "我一到家妈妈就打电话来了。", "我一到家，妈妈就打电话来了。"], "aPy": ["Wǒ yí dào jiā, māma jiù dǎ lái diànhuà le.", "Wǒ yí dào jiā māma jiù dǎdiànhuà lái le.", "Wǒ yí dào jiā, māma jiù dǎdiànhuà lái le."], "g": "一……就……"}, {"type": "trans", "vn": "Cửa lớp học đang mở.", "a": ["教室的门开着。", "教室的门开着呢。"], "aPy": ["Jiàoshì de mén kāi zhe.", "Jiàoshì de mén kāi zhe ne."], "g": "Trợ từ động thái 着"}], "topics": 15}, {"id": "G3", "kind": "grammar", "short": "Đề 3", "title": "Đề ngữ pháp 3", "badge": "第三套", "questions": [{"type": "mcq", "q": "A：你___吃米饭吗？ B：我不想吃。", "py": "A: Nǐ ____ chī mǐfàn ma? B: Wǒ bù xiǎng chī.", "opts": ["要", "对", "从", "离"], "optsPy": ["Yào", "Duì", "Cóng", "Lí"], "a": "要", "g": "Trợ động từ 要", "ex": "要 + động từ: muốn làm gì; phủ định dùng 不想."}, {"type": "mcq", "q": "这块手表不是我___，是王方___。", "py": "Zhè kuài shǒubiǎo bú shì wǒ ____, shì Wáng Fāng ____.", "opts": ["的", "得", "着", "过"], "optsPy": ["De", "De", "Zhe", "Guo"], "a": "的", "g": "Cụm từ chữ 的", "ex": "我的 / 王方的 = 我的手表 / 王方的手表 (lược bỏ danh từ trung tâm)."}, {"type": "mcq", "q": "我的身体___好了，谢谢你。", "py": "Wǒ de shēntǐ ____ hǎo le, xièxie nǐ.", "opts": ["已经", "还没", "有点儿", "真"], "optsPy": ["Yǐjīng", "Hái méi", "Yǒudiǎnr", "Zhēn"], "a": "已经", "g": "Phó từ 已经", "ex": "已经……了: đã (hoàn thành / đạt tới)."}, {"type": "mcq", "q": "这儿的衣服件件___很漂亮。", "py": "Zhèr de yīfu jiàn jiàn ____ hěn piàoliang.", "opts": ["都", "还", "就", "最"], "optsPy": ["Dōu", "Hái", "Jiù", "Zuì"], "a": "都", "g": "Lặp lại lượng từ", "ex": "Lượng từ lặp lại (件件) = mọi, mỗi; phía sau dùng 都."}, {"type": "mcq", "q": "让我想想___告诉你。", "py": "Ràng wǒ xiǎngxiang ____ gàosu nǐ.", "opts": ["再", "还", "已经", "都"], "optsPy": ["Zài", "Hái", "Yǐjīng", "Dōu"], "a": "再", "g": "Phó từ 再", "ex": "A 再 B: làm A xong rồi mới làm B (việc chưa xảy ra)."}, {"type": "mcq", "q": "这是我___一次来中国。", "py": "Zhè shì wǒ ____ yí cì lái Zhōngguó.", "opts": ["第", "每", "几", "多"], "optsPy": ["Dì", "Měi", "Jǐ", "Duō"], "a": "第", "g": "Thứ tự 第", "ex": "第 + số + lượng từ: thứ…, lần thứ…"}, {"type": "fill", "q": "我去___中国两次。", "py": "Wǒ qù ____ Zhōngguó liǎng cì.", "bank": ["着", "过", "得", "的", "吗", "吧"], "bankPy": ["Zhe", "Guo", "De", "De", "Ma", "Ba"], "a": ["过"], "g": "Bổ ngữ động lượng 次", "ex": "Động từ + 过 + nơi chốn + số lần: đã từng đi … mấy lần."}, {"type": "fill", "q": "她手里拿___一本书呢。", "py": "Tā shǒu li ná ____ yì běn shū ne.", "bank": ["着", "过", "得", "的", "吗", "吧"], "bankPy": ["Zhe", "Guo", "De", "De", "Ma", "Ba"], "a": ["着"], "g": "Trợ từ động thái 着", "ex": "Động từ + 着: trạng thái đang duy trì (đang cầm)."}, {"type": "fill", "q": "她跑___非常快。", "py": "Tā pǎo ____ fēicháng kuài.", "bank": ["着", "过", "得", "的", "吗", "吧"], "bankPy": ["Zhe", "Guo", "De", "De", "Ma", "Ba"], "a": ["得"], "g": "Bổ ngữ trạng thái", "ex": "Động từ + 得 + (phó từ) + tính từ."}, {"type": "fill", "q": "这个杯子是谁买___？", "py": "Zhège bēizi shì shéi mǎi ____?", "bank": ["着", "过", "得", "的", "吗", "吧"], "bankPy": ["Zhe", "Guo", "De", "De", "Ma", "Ba"], "a": ["的"], "g": "Câu 是……的", "ex": "Nhấn mạnh người thực hiện: 是 + ai + động từ + 的."}, {"type": "order", "tiles": ["这个工作", "是", "他", "帮我", "介绍的"], "tilesPy": ["Zhège gōngzuò", "Shì", "Tā", "Bāng wǒ", "Jièshào de"], "a": ["这个工作是他帮我介绍的"], "g": "Câu 是……的"}, {"type": "order", "tiles": ["我家", "离", "公司", "很远"], "tilesPy": ["Wǒjiā", "Lí", "Gōngsī", "Hěn yuǎn"], "a": ["我家离公司很远", "公司离我家很远"], "g": "Động từ 离"}, {"type": "order", "tiles": ["让我", "想想", "再", "告诉你"], "tilesPy": ["Ràng wǒ", "Xiǎngxiang", "Zài", "Gàosu nǐ"], "a": ["让我想想再告诉你"], "g": "Phó từ 再"}, {"type": "order", "tiles": ["跑步", "对", "身体", "很好"], "tilesPy": ["Pǎobù", "Duì", "Shēntǐ", "Hěn hǎo"], "a": ["跑步对身体很好"], "g": "Giới từ 对"}, {"type": "correct", "opts": ["他说汉语说得很好。", "他说汉语得很好。", "他汉语说很好得。", "他说得汉语很好。"], "optsPy": ["Tā shuō Hànyǔ shuō de hěn hǎo.", "Tā shuō Hànyǔ de hěn hǎo.", "Tā Hànyǔ shuō hěn hǎo de.", "Tā shuō de Hànyǔ hěn hǎo."], "a": "他说汉语说得很好。", "g": "Bổ ngữ trạng thái", "ex": "Có tân ngữ thì lặp lại động từ: (V) + O + V + 得 + Adj."}, {"type": "correct", "opts": ["我们休息休息吧。", "我们休一休息吧。", "我们休息一休息吧。", "我们休休息息吧。"], "optsPy": ["Wǒmen xiūxi xiūxi ba.", "Wǒmen xiū yì xiūxi ba.", "Wǒmen xiūxi yì xiūxi ba.", "Wǒmen xiū xiūxi xī ba."], "a": "我们休息休息吧。", "g": "Lặp lại động từ", "ex": "Động từ hai âm tiết lặp theo kiểu ABAB."}, {"type": "correct", "opts": ["我每天六点起床。", "我六点每天起床。", "每天我起床六点。", "我起床每天六点。"], "optsPy": ["Wǒ měi tiān liù diǎn qǐchuáng.", "Wǒ liù diǎn měi tiān qǐchuáng.", "Měi tiān wǒ qǐchuáng liù diǎn.", "Wǒ qǐchuáng měi tiān liù diǎn."], "a": "我每天六点起床。", "g": "Đại từ 每", "ex": "Trạng ngữ thời gian (每天、六点) đứng trước động từ."}, {"type": "trans", "vn": "Nhà bạn cách trường học bao xa?", "a": ["你家离学校多远？", "你家离学校有多远？"], "aPy": ["Nǐjiā lí xuéxiào duō yuǎn?", "Nǐjiā lí xuéxiào yǒu duō yuǎn?"], "g": "Động từ 离"}, {"type": "trans", "vn": "Tuy tiếng Trung rất khó nhưng tôi rất thích.", "a": ["虽然汉语很难，但是我很喜欢。", "汉语虽然很难，但是我很喜欢。", "虽然中文很难，但是我很喜欢。"], "aPy": ["Suīrán Hànyǔ hěn nán, dànshì wǒ hěn xǐhuan.", "Hànyǔ suīrán hěn nán, dànshì wǒ hěn xǐhuan.", "Suīrán Zhōngwén hěn nán, dànshì wǒ hěn xǐhuan."], "g": "虽然……，但是……"}, {"type": "trans", "vn": "Bạn muốn uống cà phê không?", "a": ["你要喝咖啡吗？", "你想喝咖啡吗？", "你要不要喝咖啡？"], "aPy": ["Nǐ yào hēkāfēi ma?", "Nǐ xiǎng hēkāfēi ma?", "Nǐ yào bu yào hēkāfēi?"], "g": "Trợ động từ 要"}], "topics": 15}, {"id": "G4", "kind": "grammar", "short": "Đề 4", "title": "Đề ngữ pháp 4", "badge": "第四套", "questions": [{"type": "mcq", "q": "我们不___坐出租车去的。", "py": "Wǒmen bù ____ zuò chūzūchē qù de.", "opts": ["是", "在", "有", "要"], "optsPy": ["Shì", "Zài", "Yǒu", "Yào"], "a": "是", "g": "Câu 是……的", "ex": "Câu phủ định 是……的 không được lược bỏ 是: 不是……的."}, {"type": "mcq", "q": "我有点儿累，想休息___。", "py": "Wǒ yǒudiǎnr lèi, xiǎng xiūxi ____.", "opts": ["休息", "一休息", "了休息", "着休息"], "optsPy": ["Xiūxi", "Yì xiūxi", "Le xiūxi", "Zhe xiūxi"], "a": "休息", "g": "Lặp lại động từ", "ex": "Động từ hai âm tiết lặp theo dạng ABAB: 休息休息."}, {"type": "mcq", "q": "___12点了，我们吃饭吧。", "py": "____ 12 diǎn le, wǒmen chīfàn ba.", "opts": ["都", "还", "就", "才"], "optsPy": ["Dōu", "Hái", "Jiù", "Cái"], "a": "都", "g": "都……了", "ex": "都……了 = đã… rồi (nhấn mạnh)."}, {"type": "mcq", "q": "他们玩___很高兴。", "py": "Tāmen wán ____ hěn gāoxìng.", "opts": ["得", "的", "地", "着"], "optsPy": ["De", "De", "De", "Zhe"], "a": "得", "g": "Bổ ngữ trạng thái", "ex": "Động từ + 得 + cụm tính từ: miêu tả trạng thái hành động."}, {"type": "mcq", "q": "李文等了___一个小时。", "py": "Lǐ Wén děng le ____ yí ge xiǎoshí.", "opts": ["她", "她的", "给她", "跟她"], "optsPy": ["Tā", "Tā de", "Gěi tā", "Gēn tā"], "a": "她", "g": "Bổ ngữ thời lượng", "ex": "Tân ngữ là đại từ → đặt TRƯỚC bổ ngữ thời lượng: 等了她一个小时."}, {"type": "mcq", "q": "坐飞机比坐火车快___。", "py": "Zuò fēijī bǐ zuò huǒchē kuài ____.", "opts": ["得多", "很多", "非常", "太多"], "optsPy": ["De duō", "Hěn duō", "Fēicháng", "Tài duō"], "a": "得多", "g": "Câu so sánh 比", "ex": "A 比 B + tính từ + 得多 / 多了: hơn nhiều."}, {"type": "fill", "q": "菜都做___了，快来吃吧。", "py": "Cài dōu zuò ____ le, kuài lái chī ba.", "bank": ["完", "过", "的", "会", "来", "着"], "bankPy": ["Wán", "Guo", "De", "Huì", "Lái", "Zhe"], "a": ["好", "完"], "g": "Bổ ngữ kết quả", "ex": "做完 / 做好 = làm xong (kết quả)."}, {"type": "fill", "q": "她没去___中国。", "py": "Tā méi qù ____ Zhōngguó.", "bank": ["完", "过", "的", "会", "来", "着"], "bankPy": ["Wán", "Guo", "De", "Huì", "Lái", "Zhe"], "a": ["过"], "g": "Trợ từ động thái 过", "ex": "Phủ định: 没 + động từ + 过."}, {"type": "fill", "q": "这件衣服太贵了，还是买那件便宜___吧。", "py": "Zhè jiàn yīfu tài guì le, háishi mǎi nà jiàn piányi ____ ba.", "bank": ["完", "过", "的", "会", "来", "着"], "bankPy": ["Wán", "Guo", "De", "Huì", "Lái", "Zhe"], "a": ["的"], "g": "Cụm từ chữ 的", "ex": "便宜的 = cái rẻ (cụm chữ 的)."}, {"type": "fill", "q": "家月给我送___了一本书。", "py": "Jiāyuè gěi wǒ sòng ____ le yì běn shū.", "bank": ["完", "过", "的", "会", "来", "着"], "bankPy": ["Wán", "Guo", "De", "Huì", "Lái", "Zhe"], "a": ["来"], "g": "Bổ ngữ xu hướng đơn", "ex": "送来 = mang đến (hướng về phía người nói)."}, {"type": "order", "tiles": ["我想", "请你", "帮", "个忙"], "tilesPy": ["Wǒ xiǎng", "Qǐng nǐ", "Bāng", "Ge máng"], "a": ["我想请你帮个忙"], "g": "Câu kiêm ngữ"}, {"type": "order", "tiles": ["我们", "高高兴兴", "地", "玩"], "tilesPy": ["Wǒmen", "Gāogāoxìngxìng", "De", "Wán"], "a": ["我们高高兴兴地玩"], "g": "Trợ từ kết cấu 地"}, {"type": "order", "tiles": ["我们", "下星期", "就要", "考试了"], "tilesPy": ["Wǒmen", "Xià xīngqī", "Jiùyào", "Kǎoshì le"], "a": ["我们下星期就要考试了", "下星期我们就要考试了"], "g": "要/快/就要……了"}, {"type": "order", "tiles": ["那间教室里", "坐着", "不少", "学生"], "tilesPy": ["Nà jiān jiàoshì li", "Zuò zhe", "Bù shǎo", "Xuésheng"], "a": ["那间教室里坐着不少学生"], "g": "Câu tồn hiện"}, {"type": "correct", "opts": ["他昨天来帮了帮忙。", "他昨天来帮忙了帮忙。", "他昨天来帮帮了忙。", "他昨天来了帮帮忙。"], "optsPy": ["Tā zuótiān lái bāng le bāngmáng.", "Tā zuótiān lái bāngmáng le bāngmáng.", "Tā zuótiān lái bāngbāng le máng.", "Tā zuótiān lái le bāngbang máng."], "a": "他昨天来帮了帮忙。", "g": "Lặp lại động từ", "ex": "Từ li hợp đã xảy ra lặp theo dạng A了AB: 帮了帮忙."}, {"type": "correct", "opts": ["这块手表没有那块好看。", "这块手表没有那块很好看。", "这块手表不有那块好看。", "这块手表没有好看那块。"], "optsPy": ["Zhè kuài shǒubiǎo méiyǒu nà kuài hǎokàn.", "Zhè kuài shǒubiǎo méiyǒu nà kuài hěn hǎokàn.", "Zhè kuài shǒubiǎo bù yǒu nà kuài hǎokàn.", "Zhè kuài shǒubiǎo méiyǒu hǎokàn nà kuài."], "a": "这块手表没有那块好看。", "g": "So sánh A 没有 B", "ex": "A 没有 B + tính từ; không thêm 很."}, {"type": "correct", "opts": ["他踢足球比我踢得好。", "他踢足球比我得好。", "他踢足球得比我好。", "他比我踢足球好得。"], "optsPy": ["Tā tīzúqiú bǐ wǒ tī de hǎo.", "Tā tīzúqiú bǐ wǒ de hǎo.", "Tā tīzúqiú de bǐ wǒ hǎo.", "Tā bǐ wǒ tīzúqiú hǎo de."], "a": "他踢足球比我踢得好。", "g": "So sánh 比 + bổ ngữ trạng thái", "ex": "Có tân ngữ + bổ ngữ trạng thái: lặp động từ hoặc đưa tân ngữ lên trước."}, {"type": "trans", "vn": "Chúng ta vẫn nên đi taxi thôi.", "a": ["我们还是打车去吧。", "还是打车去吧。"], "aPy": ["Wǒmen háishi dǎchē qù ba.", "Háishi dǎchē qù ba."], "g": "还是……吧"}, {"type": "trans", "vn": "Hôm nay lạnh hơn hôm qua.", "a": ["今天比昨天冷。"], "aPy": ["Jīntiān bǐ zuótiān lěng."], "g": "Câu so sánh 比"}, {"type": "trans", "vn": "Bạn chạy bộ nhanh hơn mình.", "a": ["你跑步跑得比我快。", "你跑步比我跑得快。", "你跑得比我快。"], "aPy": ["Nǐ pǎobù pǎo de bǐ wǒ kuài.", "Nǐ pǎobù bǐ wǒ pǎo de kuài.", "Nǐ pǎo de bǐ wǒ kuài."], "g": "So sánh 比 + bổ ngữ trạng thái"}], "topics": 17}, {"id": "G5", "kind": "grammar", "short": "Đề 5", "title": "Đề ngữ pháp 5", "badge": "第五套", "questions": [{"type": "mcq", "q": "我在北京住了三个___月。", "py": "Wǒ zài Běijīng zhù le sān ge ____ yuè.", "opts": ["多", "几", "最", "真"], "optsPy": ["Duō", "Jǐ", "Zuì", "Zhēn"], "a": "多", "g": "Số ước lượng 几 / 多", "ex": "Số < 10: 多 đứng sau lượng từ: 三个多月 = hơn ba tháng."}, {"type": "mcq", "q": "你累了，休息___吧。", "py": "Nǐ lèi le, xiūxi ____ ba.", "opts": ["一下", "一次", "一点儿", "有点儿"], "optsPy": ["Yíxià", "Yí cì", "Yìdiǎnr", "Yǒudiǎnr"], "a": "一下", "g": "Cách dùng 一下", "ex": "Động từ + 一下: làm gì một chút, trong thời gian ngắn."}, {"type": "mcq", "q": "你不想去，___在家休息吧。", "py": "Nǐ bù xiǎng qù, ____ zàijiā xiūxi ba.", "opts": ["就", "还", "再", "都"], "optsPy": ["Jiù", "Hái", "Zài", "Dōu"], "a": "就", "g": "Phó từ 就", "ex": "就 + động từ: đưa ra kết luận / giải pháp “thì…”."}, {"type": "mcq", "q": "___昨天下雨，所以我们没去打篮球。", "py": "____ zuótiān xiàyǔ, suǒyǐ wǒmen méi qù dǎlánqiú.", "opts": ["因为", "虽然", "但是", "可能"], "optsPy": ["Yīnwèi", "Suīrán", "Dànshì", "Kěnéng"], "a": "因为", "g": "因为……，所以……", "ex": "因为 (nguyên nhân) … 所以 (kết quả)."}, {"type": "mcq", "q": "我们明天一起去看电影，___？", "py": "Wǒmen míngtiān yìqǐ qù kàn diànyǐng, ____?", "opts": ["好吗", "怎么", "多少", "什么"], "optsPy": ["Hǎo ma", "Zěnme", "Duō shǎo", "Shénme"], "a": "好吗", "g": "Câu hỏi ……，好吗？", "ex": "Đưa ra đề nghị rồi hỏi ý kiến người nghe: ……，好吗？"}, {"type": "mcq", "q": "___看电视了，快去睡觉！", "py": "____ kàn diànshì le, kuài qù shuìjiào!", "opts": ["别", "没", "不是", "还"], "optsPy": ["Bié", "Méi", "Bú shì", "Hái"], "a": "别", "g": "Câu cầu khiến 别……了", "ex": "别/不要 + động từ + 了: đừng… nữa."}, {"type": "fill", "q": "火车___开了，快上车吧！", "py": "Huǒchē ____ kāi le, kuài shàng chē ba!", "bank": ["就要", "已经", "还", "再", "最", "第"], "bankPy": ["Jiùyào", "Yǐjīng", "Hái", "Zài", "Zuì", "Dì"], "a": ["就要"], "g": "要/快/就要……了", "ex": "就要……了: sắp… rồi (nên mới giục lên tàu)."}, {"type": "fill", "q": "我___吃过饭了，不想吃了。", "py": "Wǒ ____ chī guo fàn le, bù xiǎng chī le.", "bank": ["就要", "已经", "还", "再", "最", "第"], "bankPy": ["Jiùyào", "Yǐjīng", "Hái", "Zài", "Zuì", "Dì"], "a": ["已经"], "g": "Phó từ 已经", "ex": "已经 + động từ + 了: đã làm xong."}, {"type": "fill", "q": "都十点了，他___没起床。", "py": "Dōu shí diǎn le, tā ____ méi qǐchuáng.", "bank": ["就要", "已经", "还", "再", "最", "第"], "bankPy": ["Jiùyào", "Yǐjīng", "Hái", "Zài", "Zuì", "Dì"], "a": ["还"], "g": "Phó từ 还", "ex": "还没 + động từ: vẫn chưa…"}, {"type": "fill", "q": "这个问题我没听懂，请您___说一下。", "py": "Zhège wèntí wǒ méi tīngdǒng, qǐng nín ____ shuō yíxià.", "bank": ["就要", "已经", "还", "再", "最", "第"], "bankPy": ["Jiùyào", "Yǐjīng", "Hái", "Zài", "Zuì", "Dì"], "a": ["再"], "g": "Phó từ 再", "ex": "再 + động từ: làm lại lần nữa (việc chưa xảy ra)."}, {"type": "order", "tiles": ["他", "比", "我", "大", "三岁"], "tilesPy": ["Tā", "Bǐ", "Wǒ", "Dà", "Sān suì"], "a": ["他比我大三岁"], "g": "Câu so sánh 比"}, {"type": "order", "tiles": ["新年", "就要", "到", "了"], "tilesPy": ["Xīnnián", "Jiùyào", "Dào", "Le"], "a": ["新年就要到了"], "g": "要/快/就要……了"}, {"type": "order", "tiles": ["别", "玩", "手机", "了"], "tilesPy": ["Bié", "Wán", "Shǒujī", "Le"], "a": ["别玩手机了"], "g": "Câu cầu khiến 别……了"}, {"type": "order", "tiles": ["从", "这儿", "往前走", "就是医院"], "tilesPy": ["Cóng", "Zhèr", "Wǎng qiánzǒu", "Jiùshì yīyuàn"], "a": ["从这儿往前走就是医院"], "g": "Giới từ 往"}, {"type": "correct", "opts": ["我没看见他。", "我没看见了他。", "我不看见他了。", "我没看他见。"], "optsPy": ["Wǒ méi kànjiàn tā.", "Wǒ méi kànjiàn le tā.", "Wǒ bú kànjiàn tā le.", "Wǒ méi kàn tā jiàn."], "a": "我没看见他。", "g": "Bổ ngữ kết quả", "ex": "Phủ định: 没 + V + bổ ngữ kết quả, không dùng 了."}, {"type": "correct", "opts": ["我没去过中国。", "我不去过中国。", "我没去中国过。", "我去没过中国。"], "optsPy": ["Wǒ méi qù guo Zhōngguó.", "Wǒ bú qù guo Zhōngguó.", "Wǒ méi qù Zhōngguó guo.", "Wǒ qù méi guo Zhōngguó."], "a": "我没去过中国。", "g": "Trợ từ động thái 过", "ex": "Phủ định 过 dùng 没(有) + V + 过."}, {"type": "correct", "opts": ["他汉语说得不好。", "他汉语说不得好。", "他汉语不说得好。", "他汉语说得没好。"], "optsPy": ["Tā Hànyǔ shuō de bù hǎo.", "Tā Hànyǔ shuōbù de hǎo.", "Tā Hànyǔ bù shuō de hǎo.", "Tā Hànyǔ shuō de méi hǎo."], "a": "他汉语说得不好。", "g": "Bổ ngữ trạng thái", "ex": "Phủ định: 不 đặt SAU 得: 说得不好."}, {"type": "trans", "vn": "Hôm nay trời hơi lạnh.", "a": ["今天有点儿冷。", "今天天气有点儿冷。"], "aPy": ["Jīntiān yǒudiǎnr lěng.", "Jīntiān tiānqì yǒudiǎnr lěng."], "g": "Phó từ 有点儿"}, {"type": "trans", "vn": "Tôi không nghe hiểu.", "a": ["我没听懂。", "我没有听懂。", "我听不懂。"], "aPy": ["Wǒ méi tīngdǒng.", "Wǒ méiyǒu tīngdǒng.", "Wǒ tīngbùdǒng."], "g": "Bổ ngữ kết quả"}, {"type": "trans", "vn": "Hôm nay tôi hơi mệt.", "a": ["我今天有点儿累。", "今天我有点儿累。"], "aPy": ["Wǒ jīntiān yǒudiǎnr lèi.", "Jīntiān wǒ yǒudiǎnr lèi."], "g": "Phó từ 有点儿"}], "topics": 16}, {"id": "G6", "kind": "grammar", "short": "Đề 6", "title": "Đề ngữ pháp 6", "badge": "第六套", "questions": [{"type": "mcq", "q": "王老师___我们说中文。", "py": "Wáng lǎoshī ____ wǒmen shuō Zhōngwén.", "opts": ["让", "把", "被", "对"], "optsPy": ["Ràng", "Bǎ", "Bèi", "Duì"], "a": "让", "g": "Câu kiêm ngữ", "ex": "让 + người + động từ: bảo / để ai làm gì."}, {"type": "mcq", "q": "你吃___饺子吗？好吃吗？", "py": "Nǐ chī ____ jiǎozi ma? Hǎochī ma?", "opts": ["过", "着", "得", "地"], "optsPy": ["Guo", "Zhe", "De", "De"], "a": "过", "g": "Trợ từ động thái 过", "ex": "Động từ + 过: đã từng (trải nghiệm)."}, {"type": "mcq", "q": "过生日要高高兴兴___玩。", "py": "Guò shēngrì yào gāogāoxìngxìng ____ wán.", "opts": ["地", "的", "得", "着"], "optsPy": ["De", "De", "De", "Zhe"], "a": "地", "g": "Trợ từ kết cấu 地", "ex": "Tính từ (lặp lại) + 地 + động từ: chỉ cách thức hành động."}, {"type": "mcq", "q": "今天比昨天___热。", "py": "Jīntiān bǐ zuótiān ____ rè.", "opts": ["更", "很", "非常", "太"], "optsPy": ["Gèng", "Hěn", "Fēicháng", "Tài"], "a": "更", "g": "So sánh 比 + bổ ngữ trạng thái", "ex": "Câu 比 không dùng 很/非常/太; có thể dùng 更 / 还."}, {"type": "mcq", "q": "你喝咖啡___喝茶？", "py": "Nǐ hēkāfēi ____ hēchá?", "opts": ["还是", "或者", "和", "跟"], "optsPy": ["Háishi", "Huòzhě", "Hé", "Gēn"], "a": "还是", "g": "Câu hỏi lựa chọn 还是", "ex": "Câu hỏi lựa chọn dùng 还是: A 还是 B?"}, {"type": "mcq", "q": "姐姐比我大三___。", "py": "Jiějie bǐ wǒ dàsān ____.", "opts": ["岁", "次", "个", "点儿"], "optsPy": ["Suì", "Cì", "Ge", "Diǎnr"], "a": "岁", "g": "Câu so sánh 比", "ex": "A 比 B + tính từ + số lượng cụ thể: 大三岁."}, {"type": "fill", "q": "老师早早___到了教室。", "py": "Lǎoshī zǎozǎo ____ dào le jiàoshì.", "bank": ["地", "什么的", "就", "得", "更", "但是"], "bankPy": ["De", "Shénme de", "Jiù", "De", "Gèng", "Dànshì"], "a": ["地"], "g": "Trợ từ kết cấu 地", "ex": "Tính từ lặp + 地 + động từ."}, {"type": "fill", "q": "一到星期六，陈天中___跟同学去打篮球。", "py": "Yí dào xīngqīliù, Chén Tiānzhōng ____ gēn tóngxué qù dǎlánqiú.", "bank": ["地", "什么的", "就", "得", "更", "但是"], "bankPy": ["De", "Shénme de", "Jiù", "De", "Gèng", "Dànshì"], "a": ["就"], "g": "一……就……", "ex": "一……就…… : cứ hễ… là…"}, {"type": "fill", "q": "白家月跑___不快。", "py": "Bái Jiāyuè pǎo ____ bú kuài.", "bank": ["地", "什么的", "就", "得", "更", "但是"], "bankPy": ["De", "Shénme de", "Jiù", "De", "Gèng", "Dànshì"], "a": ["得"], "g": "Bổ ngữ trạng thái", "ex": "Phủ định: động từ + 得 + 不 + tính từ."}, {"type": "fill", "q": "我觉得这个电影比那个___有意思。", "py": "Wǒ juéde zhège diànyǐng bǐ nàge ____ yǒu yìsi.", "bank": ["地", "什么的", "就", "得", "更", "但是"], "bankPy": ["De", "Shénme de", "Jiù", "De", "Gèng", "Dànshì"], "a": ["更", "还"], "g": "So sánh 比 + bổ ngữ trạng thái", "ex": "A 比 B 更 / 还 + tính từ."}, {"type": "order", "tiles": ["我们", "还是", "打车", "去吧"], "tilesPy": ["Wǒmen", "Háishi", "Dǎchē", "Qù ba"], "a": ["我们还是打车去吧"], "g": "还是……吧"}, {"type": "order", "tiles": ["我", "游泳", "游得", "不快"], "tilesPy": ["Wǒ", "Yóuyǒng", "Yóu de", "Bú kuài"], "a": ["我游泳游得不快"], "g": "Bổ ngữ trạng thái"}, {"type": "order", "tiles": ["弟弟", "手", "很", "小"], "tilesPy": ["Dìdi", "Shǒu", "Hěn", "Xiǎo"], "a": ["弟弟手很小"], "g": "Câu có cụm chủ vị làm vị ngữ"}, {"type": "order", "tiles": ["同学们", "走出", "教室", "去了"], "tilesPy": ["Tóngxuémen", "Zǒuchū", "Jiàoshì", "Qù le"], "a": ["同学们走出教室去了"], "g": "Bổ ngữ xu hướng kép"}, {"type": "correct", "opts": ["我休息了一下。", "我休息了休息。", "我休休息息了。", "我休息一了休息。"], "optsPy": ["Wǒ xiūxi le yíxià.", "Wǒ xiūxi le xiūxi.", "Wǒ xiū xiūxi xī le.", "Wǒ xiūxi yī le xiūxi."], "a": "我休息了一下。", "g": "Lặp lại động từ", "ex": "Động từ hai âm tiết đã xảy ra dùng AB了一下, không lặp AB了AB."}, {"type": "correct", "opts": ["李文等了她一个小时。", "李文等了一个小时她。", "李文一个小时等了她。", "李文等她了一个小时她。"], "optsPy": ["Lǐ Wén děng le tā yí ge xiǎoshí.", "Lǐ Wén děng le yí ge xiǎoshí tā.", "Lǐ Wén yí ge xiǎoshí děng le tā.", "Lǐ Wén děng tā le yí ge xiǎoshí tā."], "a": "李文等了她一个小时。", "g": "Bổ ngữ thời lượng", "ex": "Tân ngữ là đại từ đặt trước bổ ngữ thời lượng."}, {"type": "correct", "opts": ["姐姐比我大三岁。", "姐姐比我三岁大。", "姐姐大比我三岁。", "姐姐比三岁我大。"], "optsPy": ["Jiějie bǐ wǒ dà sān suì.", "Jiějie bǐ wǒ sān suì dà.", "Jiějie dà bǐ wǒ sān suì.", "Jiějie bǐ sān suì wǒ dà."], "a": "姐姐比我大三岁。", "g": "Câu so sánh 比", "ex": "Số lượng chênh lệch đặt SAU tính từ: 大三岁."}, {"type": "trans", "vn": "Tôi ăn cơm xong rồi.", "a": ["我吃完饭了。"], "aPy": ["Wǒ chīwán fàn le."], "g": "Bổ ngữ kết quả"}, {"type": "trans", "vn": "Tuy hơi mệt nhưng tôi vẫn đi bộ về nhà.", "a": ["虽然有点儿累，但是我还是走回家了。", "虽然我有点儿累，但是我还是走回家了。", "虽然有点儿累，我还是走回家了。"], "aPy": ["Suīrán yǒudiǎnr lèi, dànshì wǒ háishi zǒu huí jiā le.", "Suīrán wǒ yǒudiǎnr lèi, dànshì wǒ háishi zǒu huí jiā le.", "Suīrán yǒudiǎnr lèi, wǒ háishi zǒu huí jiā le."], "g": "虽然……，但是……"}, {"type": "trans", "vn": "Chị gái lớn hơn tôi ba tuổi.", "a": ["姐姐比我大三岁。", "我姐姐比我大三岁。"], "aPy": ["Jiějie bǐ wǒ dà sān suì.", "Wǒ jiějie bǐ wǒ dà sān suì."], "g": "Câu so sánh 比"}], "topics": 15}, {"id": "G7", "kind": "grammar", "short": "Đề 7", "title": "Đề ngữ pháp 7", "badge": "第七套", "questions": [{"type": "mcq", "q": "你很少生病，___喜欢运动？", "py": "Nǐ hěn shǎo shēngbìng, ____ xǐhuan yùndòng?", "opts": ["是不是", "怎么", "多", "好吗"], "optsPy": ["Shì bu shì", "Zěnme", "Duō", "Hǎo ma"], "a": "是不是", "g": "Câu hỏi với 是不是", "ex": "Đã phỏng đoán, muốn xác nhận lại → 是不是 trước vị ngữ."}, {"type": "mcq", "q": "你女儿的房间___漂亮！", "py": "Nǐ nǚ'ér de fángjiān ____ piàoliang!", "opts": ["真", "已经", "就", "再"], "optsPy": ["Zhēn", "Yǐjīng", "Jiù", "Zài"], "a": "真", "g": "Phó từ 真", "ex": "真 + tính từ: cảm thán “thật là…”."}, {"type": "mcq", "q": "A：这件衣服大吗？ B：___可以，不太大。", "py": "A: Zhè jiàn yīfu dà ma? B: ____ Kěyǐ, bú tài dà.", "opts": ["还", "最", "第", "离"], "optsPy": ["Hái", "Zuì", "Dì", "Lí"], "a": "还", "g": "Phó từ 还", "ex": "还 + tính từ (好/行/可以): cũng tạm được."}, {"type": "mcq", "q": "八点了，他___在睡觉。", "py": "Bā diǎn le, tā ____ zài shuìjiào.", "opts": ["还", "就", "最", "再"], "optsPy": ["Hái", "Jiù", "Zuì", "Zài"], "a": "还", "g": "Phó từ 还", "ex": "还 = vẫn, vẫn còn (hành động tiếp diễn)."}, {"type": "mcq", "q": "我___你吃饭，好吗？", "py": "Wǒ ____ nǐ chīfàn, hǎo ma?", "opts": ["请", "对", "离", "从"], "optsPy": ["Qǐng", "Duì", "Lí", "Cóng"], "a": "请", "g": "Câu kiêm ngữ", "ex": "请/让/叫 + người + động từ: 我请你吃饭."}, {"type": "mcq", "q": "跑步___身体很好。", "py": "Pǎobù ____ shēntǐ hěn hǎo.", "opts": ["对", "从", "离", "往"], "optsPy": ["Duì", "Cóng", "Lí", "Wǎng"], "a": "对", "g": "Giới từ 对", "ex": "A 对 B 很好 / 有帮助: tốt cho, có ích cho."}, {"type": "fill", "q": "你___二十岁了，自己的事情自己做吧。", "py": "Nǐ ____ èr shí suì le, zìjǐ de shìqing zìjǐ zuò ba.", "bank": ["都", "有点儿", "可能", "一下", "第", "离"], "bankPy": ["Dōu", "Yǒudiǎnr", "Kěnéng", "Yíxià", "Dì", "Lí"], "a": ["都", "已经"], "g": "都……了", "ex": "都……了 = đã… rồi (nhấn mạnh)."}, {"type": "fill", "q": "这件衣服___大，有小一点儿的吗？", "py": "Zhè jiàn yīfu ____ dà, yǒu xiǎo yìdiǎnr de ma?", "bank": ["都", "有点儿", "可能", "一下", "第", "离"], "bankPy": ["Dōu", "Yǒudiǎnr", "Kěnéng", "Yíxià", "Dì", "Lí"], "a": ["有点儿"], "g": "Phó từ 有点儿", "ex": "有点儿 + tính từ: hơi… (không hài lòng)."}, {"type": "fill", "q": "他今天没来上课，___生病了。", "py": "Tā jīntiān méi lái shàngkè, ____ shēngbìng le.", "bank": ["都", "有点儿", "可能", "一下", "第", "离"], "bankPy": ["Dōu", "Yǒudiǎnr", "Kěnéng", "Yíxià", "Dì", "Lí"], "a": ["可能"], "g": "Trợ động từ 可能", "ex": "可能 = có lẽ (phỏng đoán)."}, {"type": "fill", "q": "我看___你的书，好吗？", "py": "Wǒ kàn ____ nǐ de shū, hǎo ma?", "bank": ["都", "有点儿", "可能", "一下", "第", "离"], "bankPy": ["Dōu", "Yǒudiǎnr", "Kěnéng", "Yíxià", "Dì", "Lí"], "a": ["一下"], "g": "Cách dùng 一下", "ex": "Động từ + 一下 + tân ngữ: làm gì một chút."}, {"type": "order", "tiles": ["他", "说", "汉语", "说得", "很好"], "tilesPy": ["Tā", "Shuō", "Hànyǔ", "Shuō de", "Hěn hǎo"], "a": ["他说汉语说得很好"], "g": "Bổ ngữ trạng thái"}, {"type": "order", "tiles": ["虽然", "汉字", "很难", "，但是", "我很喜欢"], "tilesPy": ["Suīrán", "Hànzì", "Hěn nán", ", dànshì", "Wǒ hěn xǐhuan"], "a": ["虽然汉字很难，但是我很喜欢", "汉字虽然很难，但是我很喜欢"], "g": "虽然……，但是……"}, {"type": "order", "tiles": ["你弟弟", "今年", "多", "大"], "tilesPy": ["Nǐ dìdi", "Jīnnián", "Duō", "Dà"], "a": ["你弟弟今年多大"], "g": "Đại từ nghi vấn 多"}, {"type": "order", "tiles": ["他", "可能", "不", "知道"], "tilesPy": ["Tā", "Kěnéng", "Bù", "Zhīdào"], "a": ["他可能不知道", "可能他不知道"], "g": "Trợ động từ 可能"}, {"type": "correct", "opts": ["下个星期我就要回国了。", "下个星期我快要回国了。", "下个星期我已经回国了。", "下个星期我回国快了。"], "optsPy": ["Xià ge xīngqī wǒ jiùyào huíguó le.", "Xià ge xīngqī wǒ kuàiyào huíguó le.", "Xià ge xīngqī wǒ yǐjīng huíguó le.", "Xià ge xīngqī wǒ huíguó kuài le."], "a": "下个星期我就要回国了。", "g": "要/快/就要……了", "ex": "Có trạng ngữ thời gian → 就要……了."}, {"type": "correct", "opts": ["门没开着。", "门不开着。", "门开没着。", "门没开过着。"], "optsPy": ["Mén méi kāi zhe.", "Mén bù kāi zhe.", "Mén kāi méi zhe.", "Mén méi kāi guo zhe."], "a": "门没开着。", "g": "Trợ từ động thái 着", "ex": "Phủ định 着: 没 + V + 着."}, {"type": "correct", "opts": ["你看过这个电影没有？", "你看这个电影过没有？", "你过看这个电影没有？", "你看过没这个电影？"], "optsPy": ["Nǐ kàn guo zhège diànyǐng méiyǒu?", "Nǐ kàn zhège diànyǐng guo méiyǒu?", "Nǐ guo kàn zhège diànyǐng méiyǒu?", "Nǐ kàn guo méi zhège diànyǐng?"], "a": "你看过这个电影没有？", "g": "Trợ từ động thái 过", "ex": "Nghi vấn: V + 过 + tân ngữ + 没有?"}, {"type": "trans", "vn": "Em gái tôi hát hay hơn tôi.", "a": ["我妹妹比我唱得好。", "我妹妹唱得比我好。", "我妹妹唱歌比我唱得好。", "我妹妹唱歌唱得比我好。"], "aPy": ["Wǒ mèimei bǐ wǒ chàng de hǎo.", "Wǒ mèimei chàng de bǐ wǒ hǎo.", "Wǒ mèimei chànggē bǐ wǒ chàng de hǎo.", "Wǒ mèimei chànggē chàng de bǐ wǒ hǎo."], "g": "So sánh 比 + bổ ngữ trạng thái"}, {"type": "trans", "vn": "Anh trai tôi cao hơn tôi.", "a": ["我哥哥比我高。", "哥哥比我高。"], "aPy": ["Wǒ gēge bǐ wǒ gāo.", "Gēge bǐ wǒ gāo."], "g": "Câu so sánh 比"}, {"type": "trans", "vn": "Tôi mời bạn ăn cơm.", "a": ["我请你吃饭。"], "aPy": ["Wǒ qǐng nǐ chīfàn."], "g": "Câu kiêm ngữ"}], "topics": 17}, {"id": "G8", "kind": "grammar", "short": "Đề 8", "title": "Đề ngữ pháp 8", "badge": "第八套", "questions": [{"type": "mcq", "q": "公交车太慢了，我们___打车去吧。", "py": "Gōngjiāochē tàimàn le, wǒmen ____ dǎchē qù ba.", "opts": ["还是", "还有", "已经", "可能"], "optsPy": ["Háishi", "Hái yǒu", "Yǐjīng", "Kěnéng"], "a": "还是", "g": "还是……吧", "ex": "还是……吧: lựa chọn thiên về phương án này, “tốt hơn là…”."}, {"type": "mcq", "q": "这个面包是爸爸买___。", "py": "Zhège miànbāo shì bàba mǎi ____.", "opts": ["的", "得", "地", "着"], "optsPy": ["De", "De", "De", "Zhe"], "a": "的", "g": "Cụm từ chữ 的", "ex": "爸爸买的 = cái bố mua (cụm chữ 的 làm danh từ)."}, {"type": "mcq", "q": "桌子上有电脑、杯子和书___。", "py": "Zhuōzi shàng yǒu diànnǎo, bēizi hé shū ____.", "opts": ["什么的", "的时候", "怎么样", "为什么"], "optsPy": ["Shénme de", "De shíhou", "Zěnmeyàng", "Wèi shénme"], "a": "什么的", "g": "Cụm từ cố định 什么的", "ex": "A、B、C + 什么的 = … v.v. (liệt kê chưa hết)."}, {"type": "mcq", "q": "___外边下雪了，但是不太冷。", "py": "____ wàibian xià xuě le, dànshì bú tài lěng.", "opts": ["虽然", "因为", "所以", "还是"], "optsPy": ["Suīrán", "Yīnwèi", "Suǒyǐ", "Háishi"], "a": "虽然", "g": "虽然……，但是……", "ex": "虽然 (tuy) … 但是 (nhưng): quan hệ chuyển ý."}, {"type": "mcq", "q": "我们下星期___考试了。", "py": "Wǒmen xià xīngqī ____ kǎoshì le.", "opts": ["就要", "快", "快要", "已经"], "optsPy": ["Jiùyào", "Kuài", "Kuàiyào", "Yǐjīng"], "a": "就要", "g": "要/快/就要……了", "ex": "Có trạng ngữ thời gian (下星期) → dùng 就要……了."}, {"type": "mcq", "q": "你家楼下站___一个人。", "py": "Nǐjiā lóuxià zhàn ____ yí ge rén.", "opts": ["着", "了", "过", "得"], "optsPy": ["Zhe", "Le", "Guo", "De"], "a": "着", "g": "Câu tồn hiện", "ex": "Nơi chốn + động từ + 着 + người/vật: ở đâu có ai/cái gì."}, {"type": "fill", "q": "昨天___今天这么冷。", "py": "Zuótiān ____ jīntiān zhème lěng.", "bank": ["没有", "离", "还是", "快要", "最", "着"], "bankPy": ["Méiyǒu", "Lí", "Háishi", "Kuàiyào", "Zuì", "Zhe"], "a": ["没有"], "g": "So sánh A 没有 B", "ex": "A 没有 B 这么 + tính từ: A không … bằng B."}, {"type": "fill", "q": "现在___我的生日还有三天。", "py": "Xiànzài ____ wǒ de shēngrì hái yǒu sān tiān.", "bank": ["没有", "离", "还是", "快要", "最", "着"], "bankPy": ["Méiyǒu", "Lí", "Háishi", "Kuàiyào", "Zuì", "Zhe"], "a": ["离"], "g": "Động từ 离", "ex": "离 chỉ khoảng cách thời gian: còn … nữa là đến."}, {"type": "fill", "q": "你更喜欢打篮球___踢足球？", "py": "Nǐ gèng xǐhuan dǎlánqiú ____ tīzúqiú?", "bank": ["没有", "离", "还是", "快要", "最", "着"], "bankPy": ["Méiyǒu", "Lí", "Háishi", "Kuàiyào", "Zuì", "Zhe"], "a": ["还是"], "g": "Câu hỏi lựa chọn 还是", "ex": "Câu hỏi lựa chọn: A 还是 B?"}, {"type": "fill", "q": "饭菜___做好了，你去洗手吧。", "py": "Fàncài ____ zuòhǎo le, nǐ qù xǐshǒu ba.", "bank": ["没有", "离", "还是", "快要", "最", "着"], "bankPy": ["Méiyǒu", "Lí", "Háishi", "Kuàiyào", "Zuì", "Zhe"], "a": ["快要", "快"], "g": "要/快/就要……了", "ex": "快要……了: sắp… rồi."}, {"type": "order", "tiles": ["我", "没", "吃完", "饭"], "tilesPy": ["Wǒ", "Méi", "Chī wán", "Fàn"], "a": ["我没吃完饭"], "g": "Bổ ngữ kết quả"}, {"type": "order", "tiles": ["今天", "比", "昨天", "冷"], "tilesPy": ["Jīntiān", "Bǐ", "Zuótiān", "Lěng"], "a": ["今天比昨天冷"], "g": "Câu so sánh 比"}, {"type": "order", "tiles": ["教室的", "门", "开", "着"], "tilesPy": ["Jiàoshì de", "Mén", "Kāi", "Zhe"], "a": ["教室的门开着"], "g": "Trợ từ động thái 着"}, {"type": "order", "tiles": ["我", "想", "找他", "一次"], "tilesPy": ["Wǒ", "Xiǎng", "Zhǎo tā", "Yí cì"], "a": ["我想找他一次"], "g": "Bổ ngữ động lượng 次"}, {"type": "correct", "opts": ["你们快进教室来吧。", "你们快进来教室吧。", "你们快来进教室吧。", "你们快教室进来吧。"], "optsPy": ["Nǐmen kuài jìn jiàoshì lái ba.", "Nǐmen kuài jìnlai jiàoshì ba.", "Nǐmen kuài lái jìn jiàoshì ba.", "Nǐmen kuài jiàoshì jìnlai ba."], "a": "你们快进教室来吧。", "g": "Bổ ngữ xu hướng đơn", "ex": "Tân ngữ nơi chốn đặt trước 来/去: 进教室来."}, {"type": "correct", "opts": ["我们下星期就要考试了。", "我们下星期快要考试了。", "我们下星期快考试了。", "我们下星期考试快要了。"], "optsPy": ["Wǒmen xià xīngqī jiùyào kǎoshì le.", "Wǒmen xià xīngqī kuàiyào kǎoshì le.", "Wǒmen xià xīngqī kuài kǎoshì le.", "Wǒmen xià xīngqī kǎoshì kuàiyào le."], "a": "我们下星期就要考试了。", "g": "要/快/就要……了", "ex": "Có trạng ngữ thời gian → chỉ dùng 就要……了."}, {"type": "correct", "opts": ["同学们都走出教室去了。", "同学们都走出去教室了。", "同学们都走教室出去了。", "同学们都出走教室去了。"], "optsPy": ["Tóngxuémen dōu zǒuchū jiàoshì qù le.", "Tóngxuémen dōu zǒu chūqù jiàoshì le.", "Tóngxuémen dōu zǒu jiàoshì chūqù le.", "Tóngxuémen dōu chūzǒu jiàoshì qù le."], "a": "同学们都走出教室去了。", "g": "Bổ ngữ xu hướng kép", "ex": "Tân ngữ nơi chốn đặt trước 来/去: 走出教室去."}, {"type": "trans", "vn": "Cô ấy chưa từng đi Trung Quốc.", "a": ["她没去过中国。", "她没有去过中国。"], "aPy": ["Tā méi qù guo Zhōngguó.", "Tā méiyǒu qù guo Zhōngguó."], "g": "Trợ từ động thái 过"}, {"type": "trans", "vn": "Trường học cách bệnh viện không xa.", "a": ["学校离医院不远。"], "aPy": ["Xuéxiào lí yīyuàn bù yuǎn."], "g": "Động từ 离"}, {"type": "trans", "vn": "Dưới tầng có một người đang đứng.", "a": ["楼下站着一个人。"], "aPy": ["Lóuxià zhàn zhe yí ge rén."], "g": "Câu tồn hiện"}], "topics": 16}, {"id": "G9", "kind": "grammar", "short": "Đề 9", "title": "Đề ngữ pháp 9", "badge": "第九套", "questions": [{"type": "mcq", "q": "A：你弟弟___高？ B：一米七。", "py": "A: Nǐ dìdi ____ gāo? B: Yì mǐ qī.", "opts": ["多", "几", "什么", "怎么"], "optsPy": ["Duō", "Jǐ", "Shénme", "Zěnme"], "a": "多", "g": "Đại từ nghi vấn 多", "ex": "多 + tính từ để hỏi mức độ: 多高、多大、多远."}, {"type": "mcq", "q": "这个工作___谁帮你介绍的？", "py": "Zhège gōngzuò ____ shéi bāng nǐ jièshào de?", "opts": ["是", "在", "有", "对"], "optsPy": ["Shì", "Zài", "Yǒu", "Duì"], "a": "是", "g": "Câu 是……的", "ex": "Nhấn mạnh người thực hiện: 是 + ai + động từ + 的."}, {"type": "mcq", "q": "今天天气___冷，你多穿点儿衣服。", "py": "Jīntiān tiānqì ____ lěng, nǐ duō chuān diǎnr yīfu.", "opts": ["有点儿", "一点儿", "一下", "一次"], "optsPy": ["Yǒudiǎnr", "Yìdiǎnr", "Yíxià", "Yí cì"], "a": "有点儿", "g": "Phó từ 有点儿", "ex": "有点儿 + tính từ: hơi… (không hài lòng). 一点儿 đứng SAU tính từ."}, {"type": "mcq", "q": "我家___学校很近。", "py": "Wǒjiā ____ xuéxiào hěn jìn.", "opts": ["离", "从", "往", "对"], "optsPy": ["Lí", "Cóng", "Wǎng", "Duì"], "a": "离", "g": "Động từ 离", "ex": "A 离 B + 远/近: khoảng cách giữa A và B."}, {"type": "mcq", "q": "我没听___他说的话。", "py": "Wǒ méi tīng ____ tā shuō de huà.", "opts": ["懂", "着", "了", "得"], "optsPy": ["Dǒng", "Zhe", "Le", "De"], "a": "懂", "g": "Bổ ngữ kết quả", "ex": "听懂 = nghe hiểu. Phủ định 没 + V + bổ ngữ kết quả, không có 了."}, {"type": "mcq", "q": "今天比昨天冷___。", "py": "Jīntiān bǐ zuótiān lěng ____.", "opts": ["得多", "非常", "太", "很"], "optsPy": ["De duō", "Fēicháng", "Tài", "Hěn"], "a": "得多", "g": "Câu so sánh 比", "ex": "Câu 比 không dùng 很/非常/太; chênh lệch lớn dùng 得多 / 多了."}, {"type": "fill", "q": "___他每天跑步，所以身体很好。", "py": "____ tā měi tiān pǎobù, suǒyǐ shēntǐ hěn hǎo.", "bank": ["因为", "所以", "虽然", "但是", "怎么", "好吗"], "bankPy": ["Yīnwèi", "Suǒyǐ", "Suīrán", "Dànshì", "Zěnme", "Hǎo ma"], "a": ["因为"], "g": "因为……，所以……", "ex": "因为 + nguyên nhân, 所以 + kết quả."}, {"type": "fill", "q": "因为下雨了，___我们没去打篮球。", "py": "Yīnwèi xiàyǔ le, ____ wǒmen méi qù dǎlánqiú.", "bank": ["因为", "所以", "虽然", "但是", "怎么", "好吗"], "bankPy": ["Yīnwèi", "Suǒyǐ", "Suīrán", "Dànshì", "Zěnme", "Hǎo ma"], "a": ["所以"], "g": "因为……，所以……", "ex": "Vế sau nói kết quả → dùng 所以."}, {"type": "fill", "q": "___汉字很难，但是我很喜欢写。", "py": "____ Hànzì hěn nán, dànshì wǒ hěn xǐhuan xiě.", "bank": ["因为", "所以", "虽然", "但是", "怎么", "好吗"], "bankPy": ["Yīnwèi", "Suǒyǐ", "Suīrán", "Dànshì", "Zěnme", "Hǎo ma"], "a": ["虽然"], "g": "虽然……，但是……", "ex": "虽然 (tuy) … 但是 (nhưng): hai vế đối lập."}, {"type": "fill", "q": "他虽然很忙，___每天都学习汉语。", "py": "Tā suīrán hěn máng, ____ měi tiān dōu xuéxí Hànyǔ.", "bank": ["因为", "所以", "虽然", "但是", "怎么", "好吗"], "bankPy": ["Yīnwèi", "Suǒyǐ", "Suīrán", "Dànshì", "Zěnme", "Hǎo ma"], "a": ["但是"], "g": "虽然……，但是……", "ex": "Đã có 虽然 ở vế trước → vế sau dùng 但是."}, {"type": "order", "tiles": ["我", "没", "做完", "题"], "tilesPy": ["Wǒ", "Méi", "Zuò wán", "Tí"], "a": ["我没做完题", "题我没做完"], "g": "Bổ ngữ kết quả"}, {"type": "order", "tiles": ["和我", "一起", "唱歌", "的", "人", "是我姐姐"], "tilesPy": ["Hé wǒ", "Yìqǐ", "Chànggē", "De", "Rén", "Shì wǒ jiějie"], "a": ["和我一起唱歌的人是我姐姐"], "g": "Định ngữ + 的"}, {"type": "order", "tiles": ["这个杯子", "是", "昨天", "买的"], "tilesPy": ["Zhège bēizi", "Shì", "Zuótiān", "Mǎi de"], "a": ["这个杯子是昨天买的"], "g": "Cụm từ chữ 的"}, {"type": "order", "tiles": ["这件衣服", "有点儿", "大"], "tilesPy": ["Zhè jiàn yīfu", "Yǒudiǎnr", "Dà"], "a": ["这件衣服有点儿大"], "g": "Phó từ 有点儿"}, {"type": "correct", "opts": ["我去过北京两次。", "我去两次过北京。", "我去北京过两次。", "我过去北京两次。"], "optsPy": ["Wǒ qù guo Běijīng liǎng cì.", "Wǒ qù liǎng cì guo Běijīng.", "Wǒ qù Běijīng guo liǎng cì.", "Wǒ guòqu Běijīng liǎng cì."], "a": "我去过北京两次。", "g": "Bổ ngữ động lượng 次", "ex": "过 đứng ngay sau động từ; với nơi chốn: 去过北京两次 / 去过两次北京."}, {"type": "correct", "opts": ["因为下雨，所以我没去。", "因为下雨，但是我没去。", "虽然下雨，所以我没去。", "虽然下雨，因为我没去。"], "optsPy": ["Yīnwèi xiàyǔ, suǒyǐ wǒ méi qù.", "Yīnwèi xiàyǔ, dànshì wǒ méi qù.", "Suīrán xiàyǔ, suǒyǐ wǒ méi qù.", "Suīrán xiàyǔ, yīnwèi wǒ méi qù."], "a": "因为下雨，所以我没去。", "g": "因为……，所以……", "ex": "Quan hệ nhân quả dùng cặp 因为……所以……."}, {"type": "correct", "opts": ["你休息一下吧。", "你一下休息吧。", "你休息吧一下。", "你一下吧休息。"], "optsPy": ["Nǐ xiūxi yíxià ba.", "Nǐ yíxià xiūxi ba.", "Nǐ xiūxi ba yíxià.", "Nǐ yíxià ba xiūxi."], "a": "你休息一下吧。", "g": "Cách dùng 一下", "ex": "一下 đứng ngay sau động từ."}, {"type": "trans", "vn": "Chẳng phải bạn là người Bắc Kinh sao?", "a": ["你不是北京人吗？"], "aPy": ["Nǐ bú shì Běijīng rén ma?"], "g": "Câu phản vấn 不是……吗"}, {"type": "trans", "vn": "Cửa đang mở.", "a": ["门开着。", "门开着呢。"], "aPy": ["Mén kāi zhe.", "Mén kāi zhe ne."], "g": "Trợ từ động thái 着"}, {"type": "trans", "vn": "Quyển sách này là ai mua?", "a": ["这本书是谁买的？"], "aPy": ["Zhè běn shū shì shéi mǎi de?"], "g": "Câu 是……的"}], "topics": 14}, {"id": "G10", "kind": "grammar", "short": "Đề 10", "title": "Đề ngữ pháp 10", "badge": "第十套", "questions": [{"type": "mcq", "q": "北京大学有四万___名学生。", "py": "Běijīng Dàxué yǒu sì wàn ____ míng xuésheng.", "opts": ["多", "几", "最", "每"], "optsPy": ["Duō", "Jǐ", "Zuì", "Měi"], "a": "多", "g": "Số ước lượng 几 / 多", "ex": "Số tròn chục/vạn: 多 đặt sau số từ, trước lượng từ: 四万多名."}, {"type": "mcq", "q": "你在楼上，我在楼下。你___来吧，我们一起走。", "py": "Nǐ zài lóushàng, wǒ zài lóuxià. Nǐ ____ lái ba, wǒmen yìqǐ zǒu.", "opts": ["下", "上", "进", "起"], "optsPy": ["Xià", "Shàng", "Jìn", "Qǐ"], "a": "下", "g": "Bổ ngữ xu hướng đơn", "ex": "Người nói ở dưới, gọi người ở trên xuống chỗ mình → 下来."}, {"type": "mcq", "q": "她的女儿每天都___的。", "py": "Tā de nǚ'ér měi tiān dōu ____ de.", "opts": ["漂漂亮亮", "漂亮漂亮", "很漂漂亮亮", "漂亮亮"], "optsPy": ["Piàopiaoliàngliàng", "Piàoliang piàoliang", "Hěn piàopiaoliàngliàng", "Piàoliang liàng"], "a": "漂漂亮亮", "g": "Lặp lại tính từ", "ex": "Tính từ hai âm tiết AB lặp thành AABB, không thêm 很."}, {"type": "mcq", "q": "儿子的个子没有他___高。", "py": "Érzi de gèzi méiyǒu tā ____ gāo.", "opts": ["那么", "什么", "怎么", "多么"], "optsPy": ["Nàme", "Shénme", "Zěnme", "Duō me"], "a": "那么", "g": "So sánh A 没有 B", "ex": "A 没有 B 那么/这么 + tính từ: A không … bằng B."}, {"type": "mcq", "q": "她穿___白色的裤子。", "py": "Tā chuān ____ báisè de kùzi.", "opts": ["着", "过", "得", "地"], "optsPy": ["Zhe", "Guo", "De", "De"], "a": "着", "g": "Trợ từ động thái 着", "ex": "Động từ + 着 + tân ngữ: trạng thái đang duy trì."}, {"type": "mcq", "q": "我想再去___中国。", "py": "Wǒ xiǎng zài qù ____ Zhōngguó.", "opts": ["一次", "一下", "一点儿", "一些"], "optsPy": ["Yí cì", "Yíxià", "Yìdiǎnr", "Yìxiē"], "a": "一次", "g": "Bổ ngữ động lượng 次", "ex": "Động từ + số + 次 + địa danh: đi … một lần."}, {"type": "fill", "q": "我这里比北京冷___。", "py": "Wǒ zhèli bǐ Běijīng lěng ____.", "bank": ["多了", "给", "起来", "有", "最", "次"], "bankPy": ["Duō le", "Gěi", "Qǐlái", "Yǒu", "Zuì", "Cì"], "a": ["多了"], "g": "Câu so sánh 比", "ex": "A 比 B + tính từ + 多了: hơn nhiều."}, {"type": "fill", "q": "一听到老师叫他的名字，他就站___了。", "py": "Yì tīngdào lǎoshī jiào tā de míngzì, tā jiù zhàn ____ le.", "bank": ["多了", "给", "起来", "有", "最", "次"], "bankPy": ["Duō le", "Gěi", "Qǐlái", "Yǒu", "Zuì", "Cì"], "a": ["起来"], "g": "Bổ ngữ xu hướng kép", "ex": "站起来 = đứng dậy (bổ ngữ xu hướng kép 起来)."}, {"type": "fill", "q": "她拿___我一杯水。", "py": "Tā ná ____ wǒ yì bēi shuǐ.", "bank": ["多了", "给", "起来", "有", "最", "次"], "bankPy": ["Duō le", "Gěi", "Qǐlái", "Yǒu", "Zuì", "Cì"], "a": ["给"], "g": "Câu có hai tân ngữ", "ex": "拿给 + người + vật: đưa cho ai cái gì."}, {"type": "fill", "q": "你___一年没回国了吧？", "py": "Nǐ ____ yì nián méi huíguó le ba?", "bank": ["多了", "给", "起来", "有", "最", "次"], "bankPy": ["Duō le", "Gěi", "Qǐlái", "Yǒu", "Zuì", "Cì"], "a": ["有"], "g": "Câu chữ 有", "ex": "有 + cụm số lượng: đạt tới một số lượng nhất định."}, {"type": "order", "tiles": ["你", "看过", "那个", "电影", "吗"], "tilesPy": ["Nǐ", "Kàn guo", "Nàge", "Diànyǐng", "Ma"], "a": ["你看过那个电影吗"], "g": "Trợ từ động thái 过"}, {"type": "order", "tiles": ["这块手表", "没有", "那块", "好看"], "tilesPy": ["Zhè kuài shǒubiǎo", "Méiyǒu", "Nà kuài", "Hǎokàn"], "a": ["这块手表没有那块好看", "那块手表没有这块好看"], "g": "So sánh A 没有 B"}, {"type": "order", "tiles": ["李文", "跑得", "比", "白家月", "快"], "tilesPy": ["Lǐ Wén", "Pǎo de", "Bǐ", "Bái Jiāyuè", "Kuài"], "a": ["李文跑得比白家月快"], "g": "So sánh 比 + bổ ngữ trạng thái"}, {"type": "order", "tiles": ["我们", "一起去", "多", "好啊"], "tilesPy": ["Wǒmen", "Yìqǐ qù", "Duō", "Hǎo a"], "a": ["我们一起去多好啊"], "g": "Phó từ 多 (cảm thán)"}, {"type": "correct", "opts": ["我游泳游得不快。", "我游泳得不快。", "我游泳不游得快。", "我不游泳游得快。"], "optsPy": ["Wǒ yóuyǒng yóu de bú kuài.", "Wǒ yóuyǒng de bú kuài.", "Wǒ yóuyǒng bù yóu de kuài.", "Wǒ bù yóuyǒng yóu de kuài."], "a": "我游泳游得不快。", "g": "Bổ ngữ trạng thái", "ex": "Từ li hợp phải lặp phần động từ: 游泳游得…; 不 đặt sau 得."}, {"type": "correct", "opts": ["她穿着白色的裤子。", "她穿白色的裤子着。", "她着穿白色的裤子。", "她穿白色着的裤子。"], "optsPy": ["Tā chuān zhe báisè de kùzi.", "Tā chuān báisè de kùzi zhe.", "Tā zhe chuān báisè de kùzi.", "Tā chuān báisè zhe de kùzi."], "a": "她穿着白色的裤子。", "g": "Trợ từ động thái 着", "ex": "Tân ngữ đặt sau 着: 穿着……"}, {"type": "correct", "opts": ["我想找他一次。", "我想找一次他。", "我想一次找他。", "我想找他次一。"], "optsPy": ["Wǒ xiǎng zhǎo tā yí cì.", "Wǒ xiǎng zhǎo yí cì tā.", "Wǒ xiǎng yí cì zhǎo tā.", "Wǒ xiǎng zhǎo tā cì yī."], "a": "我想找他一次。", "g": "Bổ ngữ động lượng 次", "ex": "Tân ngữ là đại từ đặt trước bổ ngữ động lượng: 找他一次."}, {"type": "trans", "vn": "Đã 12 giờ rồi, chúng ta ăn cơm thôi.", "a": ["都12点了，我们吃饭吧。", "都十二点了，我们吃饭吧。"], "aPy": ["Dōu 12 diǎn le, wǒmen chīfàn ba.", "Dōu shí èr diǎn le, wǒmen chīfàn ba."], "g": "都……了"}, {"type": "trans", "vn": "Bạn uống cà phê hay uống trà?", "a": ["你喝咖啡还是喝茶？", "你喝咖啡还是茶？"], "aPy": ["Nǐ hēkāfēi háishi hēchá?", "Nǐ hēkāfēi háishi chá?"], "g": "Câu hỏi lựa chọn 还是"}, {"type": "trans", "vn": "Tôi muốn đi Bắc Kinh một lần nữa.", "a": ["我想再去一次北京。", "我想再去北京一次。"], "aPy": ["Wǒ xiǎng zài qù yí cì Běijīng.", "Wǒ xiǎng zài qù Běijīng yí cì."], "g": "Bổ ngữ động lượng 次"}], "topics": 16}, {"id": "V1", "kind": "vocab", "short": "Từ vựng 1", "title": "Từ vựng bài 1–5", "badge": "词语", "pool": [{"zh": "就", "py": "jiù", "pos": "phó.", "vn": "chính (là), thì", "l": 1}, {"zh": "给", "py": "gěi", "pos": "giới.", "vn": "cho", "l": 1}, {"zh": "让", "py": "ràng", "pos": "đgt.", "vn": "bảo, để, cho phép, nhờ", "l": 1}, {"zh": "接", "py": "jiē", "pos": "đgt.", "vn": "đón", "l": 1}, {"zh": "次", "py": "cì", "pos": "lượng.", "vn": "lần", "l": 1}, {"zh": "旅游", "py": "lǚyóu", "pos": "đgt.", "vn": "du lịch", "l": 1}, {"zh": "帮忙", "py": "bāngmáng", "pos": "đgt.", "vn": "giúp đỡ", "l": 1}, {"zh": "不好意思", "py": "bù hǎoyìsi", "pos": "", "vn": "xin lỗi, áy náy, ngại", "l": 1}, {"zh": "已经", "py": "yǐjīng", "pos": "phó.", "vn": "đã", "l": 1}, {"zh": "那", "py": "nà", "pos": "liên.", "vn": "vậy, vậy thì, thế thì", "l": 1}, {"zh": "介绍", "py": "jièshào", "pos": "đgt.", "vn": "giới thiệu", "l": 1}, {"zh": "有时", "py": "yǒushí", "pos": "phó.", "vn": "có lúc, có khi", "l": 1}, {"zh": "懂", "py": "dǒng", "pos": "đgt.", "vn": "hiểu", "l": 1}, {"zh": "意思", "py": "yìsi", "pos": "dt.", "vn": "ý, ý nghĩa", "l": 1}, {"zh": "北京烤鸭", "py": "Běijīng Kǎoyā", "pos": "dt. riêng", "vn": "vịt quay Bắc Kinh", "l": 1}, {"zh": "公交车", "py": "gōngjiāochē", "pos": "dt.", "vn": "xe buýt", "l": 2}, {"zh": "但", "py": "dàn", "pos": "liên.", "vn": "nhưng, nhưng mà", "l": 2}, {"zh": "车站", "py": "chēzhàn", "pos": "dt.", "vn": "bến xe buýt", "l": 2}, {"zh": "远", "py": "yuǎn", "pos": "tt.", "vn": "xa", "l": 2}, {"zh": "打车", "py": "dǎchē", "pos": "đgt.", "vn": "gọi xe, đi xe, bắt taxi", "l": 2}, {"zh": "还是", "py": "háishi", "pos": "phó.", "vn": "vẫn, tốt hơn là…", "l": 2}, {"zh": "啊", "py": "a", "pos": "trợ.", "vn": "trợ từ ngữ khí", "l": 2}, {"zh": "万", "py": "wàn", "pos": "số.", "vn": "vạn, mười nghìn", "l": 2}, {"zh": "名", "py": "míng", "pos": "lượng./dt.", "vn": "(lượng từ chỉ người); thứ hạng; tên", "l": 2}, {"zh": "网上", "py": "wǎngshang", "pos": "dt.", "vn": "trên mạng", "l": 2}, {"zh": "外国", "py": "wàiguó", "pos": "dt.", "vn": "nước ngoài", "l": 2}, {"zh": "间", "py": "jiān", "pos": "lượng.", "vn": "gian, căn… (phòng)", "l": 2}, {"zh": "教室", "py": "jiàoshì", "pos": "dt.", "vn": "phòng học", "l": 2}, {"zh": "票", "py": "piào", "pos": "dt.", "vn": "vé", "l": 2}, {"zh": "别", "py": "bié", "pos": "phó.", "vn": "đừng", "l": 2}, {"zh": "过来", "py": "guòlái", "pos": "đgt.", "vn": "đến, đến đây", "l": 2}, {"zh": "北京大学", "py": "Běijīng Dàxué", "pos": "dt. riêng", "vn": "Đại học Bắc Kinh", "l": 2}, {"zh": "回来", "py": "huílái", "pos": "đgt.", "vn": "quay về, quay lại", "l": 3}, {"zh": "这么", "py": "zhème", "pos": "đt.", "vn": "như vậy", "l": 3}, {"zh": "完", "py": "wán", "pos": "đgt.", "vn": "xong", "l": 3}, {"zh": "一起", "py": "yìqǐ", "pos": "phó.", "vn": "cùng, cùng nhau", "l": 3}, {"zh": "出去", "py": "chūqù", "pos": "đgt.", "vn": "đi ra, đi khỏi, đi", "l": 3}, {"zh": "洗", "py": "xǐ", "pos": "đgt.", "vn": "rửa", "l": 3}, {"zh": "自己", "py": "zìjǐ", "pos": "đt.", "vn": "tự, tự mình, bản thân", "l": 3}, {"zh": "拿", "py": "ná", "pos": "đgt.", "vn": "cầm, nắm", "l": 3}, {"zh": "手", "py": "shǒu", "pos": "dt.", "vn": "tay", "l": 3}, {"zh": "为什么", "py": "wèi shénme", "pos": "", "vn": "tại sao, vì sao", "l": 3}, {"zh": "不错", "py": "búcuò", "pos": "tt.", "vn": "không tồi, hay", "l": 3}, {"zh": "送", "py": "sòng", "pos": "đgt.", "vn": "đưa, tiễn, tặng", "l": 3}, {"zh": "回去", "py": "huíqù", "pos": "đgt.", "vn": "quay về, về", "l": 3}, {"zh": "每", "py": "měi", "pos": "đt.", "vn": "mỗi, hàng (ngày, năm…)", "l": 3}, {"zh": "累", "py": "lèi", "pos": "tt.", "vn": "mệt", "l": 3}, {"zh": "西安", "py": "Xī'ān", "pos": "dt. riêng", "vn": "Tây An", "l": 3}, {"zh": "过", "py": "guo", "pos": "trợ.", "vn": "đã từng", "l": 4}, {"zh": "商场", "py": "shāngchǎng", "pos": "dt.", "vn": "trung tâm thương mại, khu mua sắm", "l": 4}, {"zh": "进去", "py": "jìnqù", "pos": "đgt.", "vn": "đi vào", "l": 4}, {"zh": "条", "py": "tiáo", "pos": "lượng.", "vn": "cái, chiếc (quần, váy…)", "l": 4}, {"zh": "裤子", "py": "kùzi", "pos": "dt.", "vn": "quần", "l": 4}, {"zh": "白色", "py": "báisè", "pos": "dt.", "vn": "màu trắng", "l": 4}, {"zh": "因为", "py": "yīnwèi", "pos": "liên.", "vn": "bởi vì, vì", "l": 4}, {"zh": "试", "py": "shì", "pos": "đgt.", "vn": "thử", "l": 4}, {"zh": "红色", "py": "hóngsè", "pos": "dt.", "vn": "màu đỏ", "l": 4}, {"zh": "所以", "py": "suǒyǐ", "pos": "liên.", "vn": "cho nên, nên", "l": 4}, {"zh": "书包", "py": "shūbāo", "pos": "dt.", "vn": "cặp sách", "l": 4}, {"zh": "过去", "py": "guòqù", "pos": "đgt.", "vn": "sang, đi sang", "l": 4}, {"zh": "绿色", "py": "lǜsè", "pos": "dt.", "vn": "màu xanh lá cây", "l": 4}, {"zh": "黑色", "py": "hēisè", "pos": "dt.", "vn": "màu đen", "l": 4}, {"zh": "更", "py": "gèng", "pos": "phó.", "vn": "càng, hơn", "l": 4}, {"zh": "颜色", "py": "yánsè", "pos": "dt.", "vn": "màu sắc", "l": 4}, {"zh": "快", "py": "kuài", "pos": "phó./tt.", "vn": "mau, nhanh", "l": 5}, {"zh": "下来", "py": "xiàlái", "pos": "đgt.", "vn": "xuống, xuống dưới, xuống đây", "l": 5}, {"zh": "上来", "py": "shànglái", "pos": "đgt.", "vn": "lên, lên trên, lên đây", "l": 5}, {"zh": "上去", "py": "shàngqù", "pos": "đgt.", "vn": "lên, lên trên, lên đi", "l": 5}, {"zh": "下面", "py": "xiàmian", "pos": "dt.", "vn": "dưới, phía dưới", "l": 5}, {"zh": "面", "py": "miàn", "pos": "htố.", "vn": "phía", "l": 5}, {"zh": "等", "py": "děng", "pos": "đgt.", "vn": "đợi", "l": 5}, {"zh": "一会儿", "py": "yíhuìr", "pos": "sl.", "vn": "một lát", "l": 5}, {"zh": "下去", "py": "xiàqù", "pos": "đgt.", "vn": "xuống, đi xuống, xuống kia", "l": 5}, {"zh": "进来", "py": "jìnlái", "pos": "đgt.", "vn": "vào, đi vào, vào đây", "l": 5}, {"zh": "爷爷", "py": "yéye", "pos": "dt.", "vn": "ông nội", "l": 5}, {"zh": "奶奶", "py": "nǎinai", "pos": "dt.", "vn": "bà nội", "l": 5}, {"zh": "礼物", "py": "lǐwù", "pos": "dt.", "vn": "quà, quà tặng", "l": 5}, {"zh": "准备", "py": "zhǔnbèi", "pos": "đgt.", "vn": "chuẩn bị", "l": 5}, {"zh": "奶茶", "py": "nǎichá", "pos": "dt.", "vn": "trà sữa", "l": 5}, {"zh": "跟", "py": "gēn", "pos": "giới./liên.", "vn": "với, và", "l": 5}, {"zh": "走", "py": "zǒu", "pos": "đgt.", "vn": "đi bộ, đi", "l": 5}, {"zh": "酒店", "py": "jiǔdiàn", "pos": "dt.", "vn": "khách sạn", "l": 5}]}, {"id": "V2", "kind": "vocab", "short": "Từ vựng 2", "title": "Từ vựng bài 6–10", "badge": "词语", "pool": [{"zh": "生日", "py": "shēngrì", "pos": "dt.", "vn": "sinh nhật", "l": 6}, {"zh": "忘", "py": "wàng", "pos": "đgt.", "vn": "quên", "l": 6}, {"zh": "画", "py": "huà", "pos": "đgt./dt.", "vn": "vẽ, tranh", "l": 6}, {"zh": "画笔", "py": "huàbǐ", "pos": "dt.", "vn": "bút màu, bút vẽ", "l": 6}, {"zh": "蛋糕", "py": "dàngāo", "pos": "dt.", "vn": "bánh kem, bánh ga tô", "l": 6}, {"zh": "快乐", "py": "kuàilè", "pos": "tt.", "vn": "vui vẻ", "l": 6}, {"zh": "打开", "py": "dǎkāi", "pos": "đgt.", "vn": "mở ra, bóc ra", "l": 6}, {"zh": "长", "py": "cháng", "pos": "tt.", "vn": "dài", "l": 6}, {"zh": "鱼", "py": "yú", "pos": "dt.", "vn": "cá", "l": 6}, {"zh": "肉", "py": "ròu", "pos": "dt.", "vn": "thịt", "l": 6}, {"zh": "过", "py": "guò", "pos": "đgt.", "vn": "trải qua, đón (sinh nhật)", "l": 6}, {"zh": "地", "py": "de", "pos": "trợ.", "vn": "dùng để nối trạng ngữ với động từ", "l": 6}, {"zh": "床", "py": "chuáng", "pos": "dt.", "vn": "giường", "l": 6}, {"zh": "舒服", "py": "shūfu", "pos": "tt.", "vn": "thoải mái, dễ chịu", "l": 6}, {"zh": "从", "py": "cóng", "pos": "giới.", "vn": "từ", "l": 7}, {"zh": "往", "py": "wǎng", "pos": "giới./đgt.", "vn": "hướng tới, đi đến, về phía", "l": 7}, {"zh": "跑", "py": "pǎo", "pos": "đgt.", "vn": "chạy", "l": 7}, {"zh": "打", "py": "dǎ", "pos": "đgt.", "vn": "đánh, chơi (thể thao)", "l": 7}, {"zh": "篮球", "py": "lánqiú", "pos": "dt.", "vn": "bóng rổ", "l": 7}, {"zh": "运动", "py": "yùndòng", "pos": "dt./đgt.", "vn": "thể thao, môn thể thao, vận động, tập thể dục", "l": 7}, {"zh": "踢", "py": "tī", "pos": "đgt.", "vn": "đá", "l": 7}, {"zh": "足球", "py": "zúqiú", "pos": "dt.", "vn": "bóng đá", "l": 7}, {"zh": "球", "py": "qiú", "pos": "dt.", "vn": "quả bóng", "l": 7}, {"zh": "得", "py": "de", "pos": "trợ.", "vn": "dùng giữa động từ và bổ ngữ (kết quả/trình độ)", "l": 7}, {"zh": "跑步", "py": "pǎobù", "pos": "đgt.", "vn": "chạy bộ", "l": 7}, {"zh": "游泳", "py": "yóuyǒng", "pos": "đgt.", "vn": "bơi, bơi lội", "l": 7}, {"zh": "游", "py": "yóu", "pos": "đgt.", "vn": "bơi, bơi lội", "l": 7}, {"zh": "爱好", "py": "àihào", "pos": "dt./đgt.", "vn": "sở thích, thích", "l": 7}, {"zh": "开始", "py": "kāishǐ", "pos": "đgt./dt.", "vn": "bắt đầu, lúc đầu", "l": 7}, {"zh": "手表", "py": "shǒubiǎo", "pos": "dt.", "vn": "đồng hồ đeo tay", "l": 8}, {"zh": "左边", "py": "zuǒbian", "pos": "dt.", "vn": "bên trái", "l": 8}, {"zh": "左", "py": "zuǒ", "pos": "dt.", "vn": "trái", "l": 8}, {"zh": "比", "py": "bǐ", "pos": "giới./đgt.", "vn": "so, so với, hơn (so sánh)", "l": 8}, {"zh": "右边", "py": "yòubian", "pos": "dt.", "vn": "bên phải", "l": 8}, {"zh": "右", "py": "yòu", "pos": "dt.", "vn": "phải", "l": 8}, {"zh": "记得", "py": "jìde", "pos": "đgt.", "vn": "nhớ, nhớ là", "l": 8}, {"zh": "爱情片", "py": "àiqíngpiàn", "pos": "dt.", "vn": "phim tình cảm", "l": 8}, {"zh": "有意思", "py": "yǒu yìsi", "pos": "", "vn": "hay, thú vị", "l": 8}, {"zh": "点", "py": "diǎn", "pos": "đgt.", "vn": "gọi, chọn (món)", "l": 8}, {"zh": "虽然", "py": "suīrán", "pos": "liên.", "vn": "mặc dù, tuy", "l": 8}, {"zh": "但是", "py": "dànshì", "pos": "liên.", "vn": "nhưng", "l": 8}, {"zh": "花", "py": "huā", "pos": "đgt.", "vn": "tiêu, chi tiêu", "l": 8}, {"zh": "妻子", "py": "qīzi", "pos": "dt.", "vn": "vợ", "l": 8}, {"zh": "丈夫", "py": "zhàngfu", "pos": "dt.", "vn": "chồng", "l": 8}, {"zh": "饭馆", "py": "fànguǎn", "pos": "dt.", "vn": "nhà hàng, quán ăn", "l": 8}, {"zh": "坏", "py": "huài", "pos": "tt.", "vn": "xấu, hỏng", "l": 9}, {"zh": "旁边", "py": "pángbiān", "pos": "dt.", "vn": "bên cạnh", "l": 9}, {"zh": "男孩儿", "py": "nánháir", "pos": "dt.", "vn": "con trai, cậu bé", "l": 9}, {"zh": "这样", "py": "zhèyàng", "pos": "đt.", "vn": "như thế này", "l": 9}, {"zh": "个子", "py": "gèzi", "pos": "dt.", "vn": "chiều cao", "l": 9}, {"zh": "那么", "py": "nàme", "pos": "đt.", "vn": "như thế, vậy", "l": 9}, {"zh": "高", "py": "gāo", "pos": "tt.", "vn": "cao", "l": 9}, {"zh": "门口", "py": "ménkǒu", "pos": "dt.", "vn": "cửa ra vào, cổng", "l": 9}, {"zh": "咖啡", "py": "kāfēi", "pos": "dt.", "vn": "cà phê", "l": 9}, {"zh": "离", "py": "lí", "pos": "đgt.", "vn": "cách, cách xa", "l": 9}, {"zh": "近", "py": "jìn", "pos": "tt.", "vn": "gần", "l": 9}, {"zh": "走路", "py": "zǒulù", "pos": "đgt.", "vn": "đi bộ", "l": 9}, {"zh": "周", "py": "zhōu", "pos": "dt.", "vn": "tuần", "l": 9}, {"zh": "开学", "py": "kāixué", "pos": "đgt.", "vn": "khai giảng", "l": 10}, {"zh": "门", "py": "mén", "pos": "dt.", "vn": "cửa", "l": 10}, {"zh": "后面", "py": "hòumiàn", "pos": "dt.", "vn": "phía sau, đằng sau", "l": 10}, {"zh": "笔", "py": "bǐ", "pos": "dt.", "vn": "bút, viết", "l": 10}, {"zh": "帮", "py": "bāng", "pos": "đgt.", "vn": "giúp, giúp đỡ", "l": 10}, {"zh": "考试", "py": "kǎoshì", "pos": "đgt./dt.", "vn": "thi, kiểm tra, kỳ thi", "l": 10}, {"zh": "词", "py": "cí", "pos": "dt.", "vn": "từ", "l": 10}, {"zh": "本子", "py": "běnzi", "pos": "dt.", "vn": "vở, tập ghi chép", "l": 10}, {"zh": "错", "py": "cuò", "pos": "tt.", "vn": "sai, nhầm", "l": 10}, {"zh": "题", "py": "tí", "pos": "dt.", "vn": "câu hỏi, bài tập, đề, tiêu đề", "l": 10}, {"zh": "还是", "py": "háishi", "pos": "liên.", "vn": "hay, hay là (trong câu hỏi lựa chọn)", "l": 10}, {"zh": "考", "py": "kǎo", "pos": "đgt.", "vn": "thi, kiểm tra", "l": 10}, {"zh": "快要", "py": "kuàiyào", "pos": "phó.", "vn": "sắp, chuẩn bị", "l": 10}, {"zh": "笑", "py": "xiào", "pos": "đgt.", "vn": "cười", "l": 10}]}, {"id": "V3", "kind": "vocab", "short": "Từ vựng 3", "title": "Từ vựng bài 11–15", "badge": "词语", "pool": [{"zh": "头", "py": "tóu", "pos": "dt.", "vn": "đầu", "l": 11}, {"zh": "疼", "py": "téng", "pos": "tt.", "vn": "đau, nhức", "l": 11}, {"zh": "经常", "py": "jīngcháng", "pos": "phó.", "vn": "thường xuyên", "l": 11}, {"zh": "动", "py": "dòng", "pos": "đgt.", "vn": "di chuyển, cử động", "l": 11}, {"zh": "着", "py": "zhe", "pos": "trợ.", "vn": "đặt sau động từ hoặc tính từ để chỉ sự duy trì của động tác hoặc trạng thái", "l": 11}, {"zh": "路上", "py": "lùshang", "pos": "dt.", "vn": "trên đường", "l": 11}, {"zh": "慢", "py": "màn", "pos": "tt.", "vn": "chậm", "l": 11}, {"zh": "进", "py": "jìn", "pos": "đgt.", "vn": "vào", "l": 11}, {"zh": "药", "py": "yào", "pos": "dt.", "vn": "thuốc", "l": 11}, {"zh": "身体", "py": "shēntǐ", "pos": "dt.", "vn": "cơ thể, sức khỏe", "l": 11}, {"zh": "时", "py": "shí", "pos": "dt.", "vn": "khi, lúc", "l": 11}, {"zh": "最", "py": "zuì", "pos": "phó.", "vn": "nhất", "l": 11}, {"zh": "药店", "py": "yàodiàn", "pos": "dt.", "vn": "hiệu thuốc, nhà thuốc", "l": 11}, {"zh": "事情", "py": "shìqing", "pos": "dt.", "vn": "sự việc, việc", "l": 12}, {"zh": "晴", "py": "qíng", "pos": "tt.", "vn": "nắng, tạnh ráo, quang đãng", "l": 12}, {"zh": "正", "py": "zhèng", "pos": "phó.", "vn": "đang (chỉ hành động hoặc trạng thái đang diễn ra)", "l": 12}, {"zh": "外面", "py": "wàimiàn", "pos": "dt.", "vn": "bên ngoài", "l": 12}, {"zh": "阴", "py": "yīn", "pos": "tt.", "vn": "âm u, có mây, râm", "l": 12}, {"zh": "从小", "py": "cóngxiǎo", "pos": "phó.", "vn": "từ nhỏ", "l": 12}, {"zh": "地铁", "py": "dìtiě", "pos": "dt.", "vn": "tàu điện ngầm", "l": 12}, {"zh": "楼", "py": "lóu", "pos": "dt.", "vn": "tòa nhà, lầu, tầng", "l": 12}, {"zh": "站", "py": "zhàn", "pos": "dt.", "vn": "trạm, bến", "l": 12}, {"zh": "小时候", "py": "xiǎoshíhou", "pos": "dt.", "vn": "lúc nhỏ, thời thơ ấu", "l": 12}, {"zh": "好", "py": "hǎo", "pos": "phó.", "vn": "rất, thật là", "l": 12}, {"zh": "新年", "py": "xīnnián", "pos": "dt.", "vn": "năm mới", "l": 13}, {"zh": "教", "py": "jiāo", "pos": "đgt.", "vn": "dạy", "l": 13}, {"zh": "花", "py": "huā", "pos": "dt.", "vn": "hoa", "l": 13}, {"zh": "希望", "py": "xīwàng", "pos": "đgt.", "vn": "hy vọng, mong muốn", "l": 13}, {"zh": "上面", "py": "shàngmiàn", "pos": "dt.", "vn": "phía trên, bên trên", "l": 13}, {"zh": "洗手间", "py": "xǐshǒujiān", "pos": "dt.", "vn": "nhà vệ sinh", "l": 13}, {"zh": "里面", "py": "lǐmiàn", "pos": "dt.", "vn": "bên trong", "l": 13}, {"zh": "笔", "py": "bǐ", "pos": "lượng.", "vn": "nét, nét bút", "l": 13}, {"zh": "可能", "py": "kěnéng", "pos": "đgt.", "vn": "có thể, có lẽ", "l": 13}, {"zh": "上网", "py": "shàngwǎng", "pos": "đgt.", "vn": "lên mạng", "l": 13}, {"zh": "那样", "py": "nàyàng", "pos": "đt.", "vn": "như vậy, thế kia", "l": 13}, {"zh": "告诉", "py": "gàosu", "pos": "đgt.", "vn": "nói cho biết, kể", "l": 13}, {"zh": "班", "py": "bān", "pos": "dt.", "vn": "lớp", "l": 13}, {"zh": "站", "py": "zhàn", "pos": "đgt.", "vn": "đứng", "l": 14}, {"zh": "包", "py": "bāo", "pos": "dt./đgt./lượng.", "vn": "túi, gói, bao", "l": 14}, {"zh": "过年", "py": "guònián", "pos": "đgt.", "vn": "đón Tết, ăn Tết", "l": 14}, {"zh": "没意思", "py": "méi yìsi", "pos": "", "vn": "vô vị, chán", "l": 14}, {"zh": "位", "py": "wèi", "pos": "lượng.", "vn": "vị (dùng cho người một cách lịch sự)", "l": 14}, {"zh": "前面", "py": "qiánmiàn", "pos": "dt.", "vn": "phía trước", "l": 14}, {"zh": "房子", "py": "fángzi", "pos": "dt.", "vn": "nhà, ngôi nhà, căn hộ", "l": 14}, {"zh": "小孩儿", "py": "xiǎoháir", "pos": "dt.", "vn": "đứa trẻ, trẻ con", "l": 14}, {"zh": "女孩儿", "py": "nǚháir", "pos": "dt.", "vn": "bé gái, cô bé", "l": 14}, {"zh": "姓", "py": "xìng", "pos": "đgt.", "vn": "họ", "l": 14}, {"zh": "眼睛", "py": "yǎnjing", "pos": "dt.", "vn": "mắt", "l": 14}, {"zh": "跳舞", "py": "tiàowǔ", "pos": "đgt.", "vn": "nhảy múa, khiêu vũ", "l": 14}, {"zh": "姓名", "py": "xìngmíng", "pos": "dt.", "vn": "họ tên", "l": 15}, {"zh": "出国", "py": "chūguó", "pos": "đgt.", "vn": "ra nước ngoài, xuất ngoại", "l": 15}, {"zh": "门票", "py": "ménpiào", "pos": "dt.", "vn": "vé vào cửa", "l": 15}, {"zh": "高中", "py": "gāozhōng", "pos": "dt.", "vn": "cấp ba, trung học phổ thông", "l": 15}, {"zh": "出门", "py": "chūmén", "pos": "đgt.", "vn": "ra ngoài, rời nhà", "l": 15}, {"zh": "路", "py": "lù", "pos": "dt.", "vn": "con đường", "l": 15}, {"zh": "机场", "py": "jīchǎng", "pos": "dt.", "vn": "sân bay", "l": 15}, {"zh": "机票", "py": "jīpiào", "pos": "dt.", "vn": "vé máy bay", "l": 15}, {"zh": "飞", "py": "fēi", "pos": "đgt.", "vn": "bay", "l": 15}, {"zh": "好像", "py": "hǎoxiàng", "pos": "đgt.", "vn": "dường như, giống như, hình như", "l": 15}, {"zh": "鸟", "py": "niǎo", "pos": "dt.", "vn": "con chim", "l": 15}, {"zh": "颐和园", "py": "Yíhé Yuán", "pos": "dt. riêng", "vn": "Di Hòa Viên (ở Bắc Kinh)", "l": 15}]}];
+const KEY = 'hsk2_ontap_tonghop_v2';
+const limitOf = t => (t.kind === 'vocab' ? 15 : 20) * 60;
+const findT = id => TESTS.find(x => x.id === id);
+const lessonTag = (t, l) => t.kind === 'vocab' ? `Bài ${l}` : 'Ngữ pháp';
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const stemHTML = s => esc(s).replace(/___/g, '<span class="blank">&nbsp;</span>');
+const LET = 'ABCD';
+const comma = n => String(n).replace('.', ',');
+const pad = n => String(n).padStart(2, '0');
+const hms = s => `${Math.floor(s / 3600)}:${pad(Math.floor(s % 3600 / 60))}:${pad(s % 60)}`;
+const fmtDate = iso => { const d = new Date(iso); return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`; };
+const fmtTime = iso => { const d = new Date(iso); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+
+/* ---------- lưu trữ ---------- */
+let mem = { name: '', attempts: [] };
+function load() { try { const v = JSON.parse(localStorage.getItem(KEY)); if (v && Array.isArray(v.attempts)) mem = v; } catch (e) {} return mem; }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(mem)); } catch (e) {} }
+load();
+
+/* ---------- chấm điểm ---------- */
+const norm = s => String(s || '').replace(/[，。？！、,.?!；;：:“”"'\s]/g, '');
+const NUMZH = n => { n = +n; const d = '零一二三四五六七八九'; if (n < 10) return d[n]; if (n < 20) return '十' + (n % 10 ? d[n % 10] : ''); return d[Math.floor(n / 10)] + '十' + (n % 10 ? d[n % 10] : ''); };
+const normT = s => norm(s).replace(/\d{1,2}/g, m => NUMZH(m)).replace(/有点儿/g, '有点').replace(/没有/g, '没').replace(/一点儿/g, '一点');
+function isRight(q, r) {
+  if (r == null || r === '' || (Array.isArray(r) && !r.length)) return false;
+  switch (q.type) {
+    case 'mcq': case 'correct': case 'vm': case 'vh': case 'vp': return r === q.a;
+    case 'fill': return q.a.includes(r);
+    case 'order': return q.a.map(norm).includes(norm(r.join('')));
+    case 'trans': return q.a.map(normT).includes(normT(r));
+  }
+}
+const answered = (q, r) => q.type === 'order' ? Array.isArray(r) && r.length === q.tiles.length : (r != null && String(r).trim() !== '');
+const PART = {
+  mcq: ['一', 'Chọn đáp án đúng', 'Chọn từ thích hợp điền vào chỗ trống.'],
+  fill: ['二', 'Chọn từ trong khung điền vào chỗ trống', 'Mỗi từ dùng tối đa một lần; khung có 2 từ thừa.'],
+  order: ['三', 'Sắp xếp thành câu hoàn chỉnh', 'Bấm lần lượt vào các thẻ để xếp câu. Bấm vào thẻ đã xếp để bỏ ra.'],
+  correct: ['四', 'Chọn câu đúng', 'Trong bốn câu, chỉ có một câu đúng ngữ pháp.'],
+  vm: ['一', 'Chọn nghĩa đúng của từ', 'Mỗi câu có một từ tiếng Trung, chọn nghĩa tiếng Việt đúng.'],
+  vh: ['二', 'Chọn chữ Hán đúng', 'Chọn từ tiếng Trung có nghĩa như đề bài.'],
+  vp: ['三', 'Chọn phiên âm đúng', 'Chọn pinyin đúng của từ.'],
+  trans: ['五', 'Dịch sang tiếng Trung', 'Gõ câu bằng chữ Hán (dùng bộ gõ tiếng Trung). Máy chấm theo đáp án mẫu; nếu câu của em đúng nghĩa mà bị chấm sai, có thể tự chấm lại khi xem chi tiết.'],
+};
+const TYPE_LABEL = { mcq: 'Trắc nghiệm', fill: 'Điền từ', order: 'Sắp xếp câu', correct: 'Chọn câu đúng', trans: 'Dịch câu', vm: 'Từ vựng – nghĩa', vh: 'Từ vựng – chữ Hán', vp: 'Từ vựng – pinyin' };
+
+/* ---------- sinh đề từ vựng ---------- */
+function genVocab(t) {
+  const pool = t.pool; const pick = shuffle(pool).slice(0, 20);
+  const others = (w, key) => shuffle(pool.filter(x => x[key] !== w[key] && x.zh !== w.zh)).filter((x, i, arr) => arr.findIndex(y => y[key] === x[key]) === i).slice(0, 3).map(x => x[key]);
+  return pick.map((w, i) => {
+    const mode = i < 10 ? 'vm' : i < 15 ? 'vh' : 'vp';
+    const key = mode === 'vm' ? 'vn' : mode === 'vh' ? 'zh' : 'py';
+    return { type: mode, w, a: w[key], opts: shuffle([w[key], ...others(w, key)]), l: w.l, g: `${w.zh} – ${w.vn}`, ex: `${w.zh} (${w.py}) ${w.pos ? '· ' + w.pos + ' ' : ''}: ${w.vn}` };
+  });
+}
+
+/* ---------- modal ---------- */
+function ask(title, text, buttons) {
+  $('#mTitle').textContent = title; $('#mText').textContent = text;
+  const box = $('#mActions'); box.innerHTML = '';
+  buttons.forEach(b => { const x = document.createElement('button'); x.className = 'btn ' + (b.cls || 'line'); x.textContent = b.label; x.onclick = () => { $('#modal').classList.add('hidden'); b.fn && b.fn(); }; box.appendChild(x); });
+  $('#modal').classList.remove('hidden');
+}
+
+/* ---------- views ---------- */
+let view = 'home', curReview = null;
+function show(v) {
+  view = v;
+  ['home', 'quiz', 'review'].forEach(id => $('#' + id).classList.toggle('hidden', id !== v));
+  renderSide(); renderRight();
+  window.scrollTo(0, 0);
+}
+const GROUPS = [
+  { key: 'G', title: 'Ngữ pháp tổng hợp', pill: '语法' },
+  { key: 'V', title: 'Từ vựng', pill: '词语' },
+];
+function renderSide() {
+  const active = view === 'quiz' && cur ? cur.test.id : view === 'review' && curReview ? curReview.test : null;
+  $('#sideList').innerHTML = GROUPS.map(G => `<div class="tgroup"><div class="tgroup-h"><span class="pill ${G.key === 'V' ? 'voc' : ''}">${G.pill}</span>${G.title}</div>${
+    TESTS.filter(t => t.id[0] === G.key).map(t => {
+      const att = mem.attempts.filter(a => a.test === t.id);
+      const best = att.length ? Math.max(...att.map(a => a.score)) : null;
+      const no = t.id.slice(1);
+      return `<button class="titem ${t.id === active ? 'active' : ''}" type="button" data-t="${t.id}"><span class="tno">${no}</span><span class="tt"><b>${esc(t.kind === 'vocab' ? t.title : 'Đề ngữ pháp ' + no)}</b><span>20 câu · ${limitOf(t) / 60} phút</span></span><span class="score ${best == null ? 'none' : ''}">${best == null ? 'Chưa làm' : comma(best) + '/10'}</span></button>`;
+    }).join('')}</div>`).join('');
+  $('#sideList').querySelectorAll('.titem').forEach(b => b.onclick = () => chooseTest(b.dataset.t));
+}
+function chooseTest(id) {
+  if (cur && !cur.done) {
+    if (cur.test.id === id) return;
+    ask('Chuyển sang đề khác?', 'Bài đang làm sẽ không được lưu.', [{ label: 'Ở lại' }, { label: 'Chuyển đề', cls: 'primary', fn: () => { clearInterval(cur.tick); cur = null; startTest(id); } }]);
+  } else startTest(id);
+}
+function jumpTo(id) { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+function renderRight() {
+  const R = $('#sideRight');
+  if (view === 'quiz' && cur) {
+    const n = cur.qs.length;
+    R.innerHTML = `<div class="rp-title">${esc(cur.test.short)}</div>
+      <div class="timer-box" id="timerBox"><div class="lbl">Thời gian còn lại</div><div class="tv" id="timer">--:--</div></div>
+      <div class="stats"><div class="stat done"><div class="n" id="nDone">0</div><div class="l">Đã làm</div></div><div class="stat"><div class="n" id="nLeft">${n}</div><div class="l">Chưa làm</div></div></div>
+      <div class="pbar"><i id="pbar" style="width:0"></i></div>
+      <div class="grid">${cur.qs.map((q, i) => `<button class="cellq" type="button" data-i="${i}" title="Câu ${i + 1}">${i + 1}</button>`).join('')}</div>
+      <div class="legend"><span><span class="mini-dot done"></span>Đã làm</span><span><span class="mini-dot"></span>Chưa làm</span></div>
+      <div class="rp-actions"><button class="btn orange" id="btnSubmit" type="button">Nộp bài</button><button class="btn line" id="btnQuit" type="button">Thoát</button></div>`;
+    R.querySelectorAll('.cellq').forEach(c => c.onclick = () => jumpTo('q' + c.dataset.i));
+    $('#btnSubmit').onclick = submitClick;
+    $('#btnQuit').onclick = () => ask('Thoát khỏi đề?', 'Bài đang làm sẽ không được lưu.', [{ label: 'Ở lại' }, { label: 'Thoát', cls: 'primary', fn: () => { clearInterval(cur.tick); cur = null; renderHome(); } }]);
+    updateCount(); if (cur.tickFn) cur.tickFn();
+  } else if (view === 'review' && curReview) {
+    const a = curReview, ok = a.results.map((r, i) => r || !!a.overrides[i]);
+    R.innerHTML = `<div class="rp-title">Kết quả · ${esc((findT(a.test) || {}).short || '')}</div>
+      <div class="rp-score"><div class="big">${comma(a.score)}<small>/10</small></div></div>
+      <div class="stats"><div class="stat"><div class="n" style="color:#2E8A5E">${a.correct}</div><div class="l">Câu đúng</div></div><div class="stat"><div class="n" style="color:#C2456B">${a.total - a.correct}</div><div class="l">Câu sai</div></div></div>
+      <div class="timer-box"><div class="lbl">Thời gian làm bài</div><div class="tv" style="font-size:26px">${hms(a.duration)}</div></div>
+      <div class="grid">${ok.map((g, i) => `<button class="cellq ${g ? 'ok' : 'bad'}" type="button" data-i="${i}">${i + 1}</button>`).join('')}</div>
+      <div class="legend"><span><span class="mini-dot" style="background:#2E8A5E;border-color:#2E8A5E"></span>Đúng</span><span><span class="mini-dot" style="border-color:#C2456B"></span>Sai</span></div>
+      <div class="rp-actions"><button class="btn orange" id="rpRetry" type="button">Làm lại đề này</button><button class="btn line" id="rpHome" type="button">Về trang chính</button></div>`;
+    R.querySelectorAll('.cellq').forEach(c => c.onclick = () => { rvFilter = 'all'; document.querySelectorAll('#rvList .q').forEach(q => q.classList.remove('hidden')); document.querySelectorAll('.filters button').forEach(b => b.classList.toggle('on', b.dataset.f === 'all')); jumpTo('rv' + c.dataset.i); });
+    $('#rpRetry').onclick = () => startTest(a.test); $('#rpHome').onclick = renderHome;
+  } else {
+    const n = mem.attempts.length, best = n ? Math.max(...mem.attempts.map(a => a.score)) : null;
+    R.innerHTML = `<div class="rp-title">Tiến độ</div>
+      <div class="timer-box"><div class="lbl">Chưa chọn đề</div><div class="tv" style="font-size:26px">--:--</div></div>
+      <div class="stats"><div class="stat"><div class="n">${n}</div><div class="l">Lần đã làm</div></div><div class="stat"><div class="n">${best == null ? '–' : comma(best)}</div><div class="l">Điểm cao nhất</div></div></div>
+      <p class="rp-note">Chọn một đề ở cột bên trái. Khi làm bài, bảng số câu ở đây sẽ chuyển sang <b style="color:var(--orange)">màu cam</b> với những câu em đã làm.</p>`;
+  }
+}
+
+function historyTable(list) {
+  if (!list.length) return '<div class="empty">Chưa có lần làm bài nào.</div>';
+  return `<div class="tbl-wrap"><table class="res"><thead><tr><th>Ngày làm</th><th>Kết quả</th><th>Thời gian làm bài</th><th></th></tr></thead><tbody>${
+    list.map(a => { const t = findT(a.test) || {}; return `<tr><td>${fmtDate(a.date)} <span style="color:var(--muted);font-size:13px">${fmtTime(a.date)}</span><div class="tags"><span class="tagc">${esc(t.short || a.test)}</span><span class="tagc alt">${t.kind === 'vocab' ? 'Từ vựng' : 'Ngữ pháp'}</span>${a.auto ? '<span class="tagc alt">Hết giờ</span>' : ''}</div></td><td>${comma(a.score)}/10</td><td>${hms(a.duration)}</td><td><a class="detail" data-id="${a.id}">Xem chi tiết</a></td></tr>`; }).join('')
+  }</tbody></table></div>`;
+}
+function bindDetails(root) { root.querySelectorAll('a.detail').forEach(a => a.onclick = () => openReview(+a.dataset.id)); }
+
+function renderHome() {
+  $('#sname').value = mem.name || '';
+  curReview = null;
+  const all = mem.attempts.slice().sort((a, b) => b.id - a.id);
+  $('#historyAll').innerHTML = historyTable(all);
+  bindDetails($('#historyAll'));
+  $('#clearAll').classList.toggle('hidden', !all.length);
+  show('home');
+}
+
+/* ---------- làm bài ---------- */
+let cur = null; // {test, resp, start, tick}
+
+function startTest(id) {
+  const t = findT(id);
+  const qs = t.kind === 'vocab' ? genVocab(t) : t.questions;
+  cur = { test: t, qs, resp: new Array(qs.length).fill(null), start: Date.now(), tick: null, done: false };
+  const body = $('#quizBody'); body.innerHTML = '';
+  $('#qTitle').textContent = t.kind === 'vocab' ? t.title : 'Đề ngữ pháp ' + t.id.slice(1);
+  $('#qSub').textContent = `20 câu · ${limitOf(t) / 60} phút · bấm Nộp bài ở bảng tiến độ khi làm xong`;
+  let lastType = null, n = 0;
+  qs.forEach((q, i) => {
+    if (q.type !== lastType) {
+      const p = PART[q.type]; const sec = document.createElement('section'); sec.className = 'part';
+      sec.innerHTML = `<div class="part-head"><span class="part-no">${p[0]}</span><h2>${p[1]}</h2></div><p class="part-desc">${p[2]}</p>`;
+      if (q.type === 'fill') sec.innerHTML += `<div class="bank"><span class="lbl">Khung từ:</span>${q.bank.map((b, k) => `<span class="chip">${esc(b)}<span class="py">${esc(q.bankPy[k])}</span></span>`).join('')}</div>`;
+      body.appendChild(sec); lastType = q.type;
+    }
+    const sec = body.lastElementChild; const box = document.createElement('div'); box.className = 'q'; box.id = 'q' + i; n++;
+    const num = `<div class="qn">${n}</div>`;
+    const set = v => { cur.resp[i] = v; updateCount(); };
+    if (q.type === 'mcq' || q.type === 'correct') {
+      const opts = shuffle(q.opts.map((o, k) => ({ o, py: q.optsPy[k] })));
+      const head = q.type === 'mcq' ? `<div><div class="stem zh">${stemHTML(q.q)}</div><div class="py">${esc(q.py)}</div></div>` : `<div class="stem small">Câu nào đúng?</div>`;
+      box.innerHTML = `<div class="q-top">${num}${head}</div><div class="opts indent ${q.type === 'correct' ? 'col' : ''}">${opts.map((o, k) =>
+        `<label class="opt"><input type="radio" name="q${i}" value="${esc(o.o)}"><span class="face"><b>${LET[k]}</b><span><span class="zh">${esc(o.o)}</span>${q.type === 'correct' ? `<span class="py">${esc(o.py)}</span>` : ''}</span></span></label>`).join('')}</div>`;
+      box.querySelectorAll('input').forEach(inp => inp.onchange = () => set(inp.value));
+    } else if (q.type === 'fill') {
+      const sel = `<select class="fill" aria-label="Chọn từ"><option value="">—</option>${q.bank.map(b => `<option>${esc(b)}</option>`).join('')}</select>`;
+      box.innerHTML = `<div class="q-top">${num}<div><div class="stem zh">${esc(q.q).replace('___', sel)}</div><div class="py">${esc(q.py)}</div></div></div>`;
+      const s = box.querySelector('select'); s.onchange = () => set(s.value || null);
+    } else if (q.type === 'order') {
+      box.innerHTML = `<div class="q-top">${num}<div class="stem small">Sắp xếp các từ sau thành câu:</div></div><div class="indent"><div class="answer-line"></div><div class="pool"></div><button class="mini" type="button">Xếp lại từ đầu</button></div>`;
+      const line = box.querySelector('.answer-line'), pool = box.querySelector('.pool');
+      const sync = () => set([...line.children].map(c => c.dataset.t));
+      shuffle(q.tiles.map((t, k) => ({ t, py: q.tilesPy[k] }))).forEach(({ t, py }) => {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'tile'; b.dataset.t = t;
+        b.innerHTML = `${esc(t)}<span class="py">${esc(py)}</span>`;
+        b.onclick = () => { (b.parentNode === pool ? line : pool).appendChild(b); sync(); };
+        pool.appendChild(b);
+      });
+      box.querySelector('.mini').onclick = () => { [...line.children].forEach(c => pool.appendChild(c)); sync(); };
+    } else if (q.type === 'vm' || q.type === 'vh' || q.type === 'vp') {
+      const w = q.w;
+      const head = q.type === 'vm' ? `<div><div class="vprompt">Từ này có nghĩa là gì?</div><div class="vword">${esc(w.zh)}</div><div class="py">${esc(w.py)}</div></div>`
+        : q.type === 'vh' ? `<div><div class="vprompt">Từ nào có nghĩa là:</div><div class="vmean">“${esc(w.vn)}”${w.pos ? ` <span style="color:var(--muted);font-weight:400;font-size:14px">(${esc(w.pos)})</span>` : ''}</div></div>`
+        : `<div><div class="vprompt">Phiên âm đúng của từ này là:</div><div class="vword">${esc(w.zh)}</div></div>`;
+      box.innerHTML = `<div class="q-top">${num}${head}</div><div class="opts indent ${q.type === 'vm' ? 'col' : ''}">${q.opts.map((o, k) =>
+        `<label class="opt"><input type="radio" name="q${i}" value="${esc(o)}"><span class="face ${q.type === 'vh' ? 'zh' : 'vn'}"><b>${LET[k]}</b><span>${esc(o)}</span></span></label>`).join('')}</div>`;
+      box.querySelectorAll('input').forEach(inp => inp.onchange = () => set(inp.value));
+    } else if (q.type === 'trans') {
+      box.innerHTML = `<div class="q-top">${num}<div class="stem vn">${esc(q.vn)}</div></div><div class="indent"><textarea class="tr" rows="2" placeholder="Viết câu tiếng Trung…" aria-label="Câu dịch"></textarea></div>`;
+      const ta = box.querySelector('textarea'); ta.oninput = () => set(ta.value.trim() || null);
+    }
+    sec.appendChild(box);
+  });
+  const tick = () => {
+    if (!cur) return;
+    const left = Math.max(0, limitOf(cur.test) - Math.floor((Date.now() - cur.start) / 1000));
+    const el = $('#timer'); if (el) el.textContent = `${pad(Math.floor(left / 60))}:${pad(left % 60)}`;
+    const tb = $('#timerBox'); if (tb) tb.classList.toggle('warn', left <= 120);
+    if (left <= 0) finish(true);
+  };
+  cur.tickFn = tick;
+  show('quiz');
+  cur.tick = setInterval(tick, 1000);
+}
+
+function updateCount() {
+  if (!cur) return;
+  let done = 0;
+  cur.qs.forEach((q, i) => { const a = answered(q, cur.resp[i]); if (a) done++; const c = document.querySelector(`#sideRight .cellq[data-i="${i}"]`); if (c) c.classList.toggle('done', a); });
+  const n = cur.qs.length;
+  if ($('#nDone')) { $('#nDone').textContent = done; $('#nLeft').textContent = n - done; $('#pbar').style.width = (done / n * 100) + '%'; }
+}
+
+function finish(auto) {
+  if (!cur || cur.done) return;
+  cur.done = true; clearInterval(cur.tick);
+  const qs = cur.qs;
+  const results = qs.map((q, i) => isRight(q, cur.resp[i]));
+  const correct = results.filter(Boolean).length;
+  const attempt = {
+    id: Date.now(), test: cur.test.id, date: new Date().toISOString(), name: ($('#sname').value || '').trim(),
+    duration: Math.min(limitOf(cur.test), Math.round((Date.now() - cur.start) / 1000)), auto: !!auto,
+    qs: cur.test.kind === 'vocab' ? qs : undefined,
+    answers: cur.resp, results, overrides: {}, correct, total: qs.length,
+    score: Math.round(correct / qs.length * 100) / 10,
+  };
+  mem.attempts.push(attempt); save();
+  cur = null;
+  openReview(attempt.id, auto);
+}
+
+/* ---------- xem chi tiết ---------- */
+function recompute(a) {
+  const ok = a.results.map((r, i) => r || !!a.overrides[i]);
+  a.correct = ok.filter(Boolean).length; a.score = Math.round(a.correct / a.total * 100) / 10;
+  return ok;
+}
+let rvFilter = 'all';
+function openReview(id, auto) {
+  const a = mem.attempts.find(x => x.id === id); if (!a) return;
+  const t = findT(a.test); if (!t) return;
+  const QS = a.qs || t.questions;
+  const ok = recompute(a);
+  const verdict = a.score >= 9 ? 'Xuất sắc! 太棒了！' : a.score >= 7.5 ? 'Tốt lắm! 很好！' : a.score >= 5 ? 'Khá, cần ôn thêm một chút. 加油！' : 'Cần cố gắng hơn. 加油！';
+  const weak = {};
+  QS.forEach((q, i) => { if (!ok[i]) { const k = t.kind === 'vocab' ? 'Bài ' + q.l : q.g; (weak[k] = weak[k] || new Set()).add(t.kind === 'vocab' ? q.w.zh : q.g); } });
+  const wk = Object.keys(weak);
+  const hist = mem.attempts.filter(x => x.test === a.test).sort((x, y) => y.id - x.id);
+  curReview = a;
+  const root = $('#review');
+  root.innerHTML = `
+    <div class="summary">
+      ${auto ? '<div style="color:var(--red);font-weight:600;margin-bottom:8px">Hết giờ — bài đã được nộp tự động.</div>' : ''}
+      <div class="score-row"><div class="big">${comma(a.score)}<small>/10</small></div>
+        <div><div class="verdict">${esc(t.short)} · ${verdict}</div>
+        <div class="facts"><span>Đúng <b>${a.correct}/${a.total}</b> câu</span><span>Thời gian: <b>${hms(a.duration)}</b></span><span>Ngày làm: <b>${fmtDate(a.date)} ${fmtTime(a.date)}</b></span>${a.name ? `<span>Học sinh: <b>${esc(a.name)}</b></span>` : ''}</div></div></div>
+      ${wk.length ? `<div class="weak"><b>Cần ôn lại:</b><ul>${t.kind === 'vocab' ? wk.map(k => `<li>${esc(k)}: ${[...weak[k]].map(esc).join('、')}</li>`).join('') : wk.map(k => `<li>${esc(k)}</li>`).join('')}</ul></div>` : '<div class="weak good"><b>Không sai câu nào. Tuyệt vời!</b></div>'}
+      <div class="actions"><button class="btn primary" id="rvRetry" type="button">Làm lại ${esc(t.short)}</button><button class="btn line" id="rvHome" type="button">Về danh sách đề</button></div>
+    </div>
+    <h2 class="sec">Kết quả làm bài của bạn:</h2>
+    ${historyTable(hist)}
+    <h2 class="sec" style="margin-bottom:0">Đáp án và giải thích</h2>
+    <div class="filters"><button data-f="all">Tất cả (${a.total})</button><button data-f="bad">Câu sai (${a.total - a.correct})</button><button data-f="ok">Câu đúng (${a.correct})</button>
+      <label class="switch" style="margin-left:auto"><input type="checkbox" id="pyRv" ${document.body.classList.contains('show-py') ? 'checked' : ''}> Pinyin</label></div>
+    <div id="rvList"></div>`;
+  const list = root.querySelector('#rvList');
+  QS.forEach((q, i) => {
+    const r = a.answers[i]; const good = ok[i];
+    const box = document.createElement('div'); box.className = 'q ' + (good ? 'ok' : 'bad'); box.id = 'rv' + i; box.dataset.ok = good ? 1 : 0;
+    let head = '', mine = '', right = '';
+    const mineHTML = txt => txt == null || txt === '' ? '<span class="mine none">(Không trả lời)</span>' : `<span class="mine ${good ? 'right' : 'wrong'}">${esc(txt)}</span>`;
+    if (q.type === 'mcq') { head = `<div><div class="stem zh">${stemHTML(q.q)}</div><div class="py">${esc(q.py)}</div></div>`; mine = mineHTML(r); right = esc(q.a); }
+    if (q.type === 'fill') { head = `<div><div class="stem zh">${stemHTML(q.q)}</div><div class="py">${esc(q.py)}</div></div>`; mine = mineHTML(r); right = q.a.map(esc).join(' / '); }
+    if (q.type === 'correct') { head = `<div class="stem small">Câu nào đúng?</div>`; mine = mineHTML(r); right = esc(q.a) + `<div class="py">${esc(q.optsPy[0])}</div>`; }
+    if (q.type === 'order') { head = `<div class="stem small">Sắp xếp: <span class="zh" style="color:var(--ink);font-size:18px">${q.tiles.map(esc).join(' / ')}</span></div>`; mine = mineHTML(Array.isArray(r) && r.length ? r.join(' ') : null); right = q.a.map(x => esc(x) + '。').join(' / '); }
+    if (q.type === 'vm') { head = `<div><div class="vprompt">Nghĩa của từ:</div><div class="vword">${esc(q.w.zh)}</div><div class="py">${esc(q.w.py)}</div></div>`; mine = mineHTML(r); right = esc(q.a); }
+    if (q.type === 'vh') { head = `<div><div class="vprompt">Từ có nghĩa:</div><div class="vmean">“${esc(q.w.vn)}”</div></div>`; mine = mineHTML(r); right = esc(q.a) + `<div class="py">${esc(q.w.py)}</div>`; }
+    if (q.type === 'vp') { head = `<div><div class="vprompt">Phiên âm của từ:</div><div class="vword">${esc(q.w.zh)}</div></div>`; mine = mineHTML(r); right = esc(q.a); }
+    if (q.type === 'trans') { head = `<div class="stem vn">${esc(q.vn)}</div>`; mine = mineHTML(r); right = q.a.map((x, k) => `<div>${esc(x)}</div><div class="py" style="font-weight:400">${esc(q.aPy[k])}</div>`).join(''); }
+    box.innerHTML = `<div class="q-top"><div class="qn">${i + 1}</div>${head}</div>
+      <div class="rv indent">
+        <div class="row"><span class="k">Em trả lời</span><span class="v zh">${mine}${a.overrides[i] ? ' <span style="font-size:12px;color:var(--ok)">(tự chấm đúng)</span>' : ''}</span></div>
+        <div class="row"><span class="k">Đáp án đúng</span><span class="v zh ans">${right}</span></div>
+        <div class="expl"><span class="tag">${t.kind === 'vocab' ? 'Bài ' + q.l : 'Ngữ pháp'}</span><b>${esc(q.g)}</b> · <span style="color:var(--muted)">${TYPE_LABEL[q.type]}</span>${q.ex ? `<br>${esc(q.ex)}` : ''}</div>
+        ${q.type === 'trans' && !a.results[i] && r ? `<div><button class="override" type="button" data-i="${i}">${a.overrides[i] ? 'Bỏ tự chấm' : 'Câu của em đúng nghĩa → tính là đúng'}</button></div>` : ''}
+      </div>`;
+    list.appendChild(box);
+  });
+  list.querySelectorAll('.override').forEach(b => b.onclick = () => { const i = +b.dataset.i; if (a.overrides[i]) delete a.overrides[i]; else a.overrides[i] = true; recompute(a); save(); const y = window.scrollY; openReview(a.id); window.scrollTo(0, y); });
+  const applyF = () => { root.querySelectorAll('.filters button').forEach(b => b.classList.toggle('on', b.dataset.f === rvFilter)); list.querySelectorAll('.q').forEach(q => q.classList.toggle('hidden', rvFilter === 'ok' ? q.dataset.ok !== '1' : rvFilter === 'bad' ? q.dataset.ok !== '0' : false)); };
+  root.querySelectorAll('.filters button').forEach(b => b.onclick = () => { rvFilter = b.dataset.f; applyF(); });
+  applyF();
+  root.querySelector('#pyRv').onchange = e => { document.body.classList.toggle('show-py', e.target.checked); $('#pyToggle').checked = e.target.checked; };
+  root.querySelector('#rvRetry').onclick = () => startTest(a.test);
+  root.querySelector('#rvHome').onclick = renderHome;
+  bindDetails(root);
+  show('review');
+}
+
+/* ---------- events ---------- */
+function submitClick() {
+  const left = cur.qs.filter((q, i) => !answered(q, cur.resp[i])).length;
+  if (left) ask('Nộp bài?', `Em còn ${left} câu chưa làm. Vẫn nộp bài?`, [{ label: 'Làm tiếp' }, { label: 'Nộp bài', cls: 'primary', fn: () => finish(false) }]);
+  else finish(false);
+}
+$('#pyToggle').onchange = e => document.body.classList.toggle('show-py', e.target.checked);
+$('#sname').oninput = e => { mem.name = e.target.value; save(); };
+$('#clearAll').onclick = () => ask('Xoá lịch sử?', 'Toàn bộ kết quả các lần làm bài sẽ bị xoá.', [{ label: 'Huỷ' }, { label: 'Xoá', cls: 'primary', fn: () => { mem.attempts = []; save(); renderHome(); } }]);
+window.addEventListener('beforeunload', e => { if (cur && !cur.done) { e.preventDefault(); e.returnValue = ''; } });
+renderHome();
+</script>
+</body>
+</html>

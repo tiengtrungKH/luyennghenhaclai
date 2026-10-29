@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ôn tập HSK 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3FAF4; --card:#FFFFFF; --ink:#24402F; --muted:#6B7F70; --line:#D6EBDA;
+  --red:#5DAE73; --red-dark:#3F8F57; --gold:#94CFA3; --gold-soft:#E5F4E8; --tag:#7CBF8E; --deep:#2F6B44;
+  --ok:#2E8A5E; --ok-soft:#E3F5EC; --bad:#C2456B; --bad-soft:#FCE8EF; --blue:#3F7F99; --link:#2F7A4C;
+  --zh:"Noto Serif SC","Songti SC","SimSun","Noto Serif CJK SC",serif;
+  --vn:"Be Vietnam Pro","Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--vn);font-size:16px;line-height:1.55}
+button{font:inherit}
+.zh{font-family:var(--zh);font-weight:500}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 110px}
+.hidden{display:none!important}
+
+/* hero */
+header.hero{background:linear-gradient(135deg,#E3F5E6 0%,#CDEBD4 55%,#E8F6DC 100%);color:var(--ink);padding:32px 16px 26px;position:relative;overflow:hidden}
+header.hero::after{content:"复习";position:absolute;right:-10px;top:-34px;font-family:var(--zh);font-size:170px;font-weight:700;color:rgba(63,143,87,.09);line-height:1}
+.hero-in{max-width:900px;margin:0 auto;position:relative;z-index:1}
+.eyebrow{letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--red-dark);font-weight:700}
+h1{margin:6px 0;font-size:30px;line-height:1.2}
+.hero p{margin:0;color:#4C6655;max-width:660px}
+.student{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.student input{flex:1 1 220px;padding:10px 12px;border-radius:10px;border:1px solid #B9DEC2;background:rgba(255,255,255,.85);color:var(--ink);font:inherit}
+.student input::placeholder{color:#8AA593}
+
+/* home */
+h2.sec{font-size:20px;margin:30px 0 12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.tcard{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 2px 10px rgba(63,143,87,.06);padding:16px;display:flex;flex-direction:column;gap:8px}
+.tcard .num{font-family:var(--zh);font-size:14px;color:#fff;background:var(--red);display:inline-block;border-radius:6px;padding:1px 9px;align-self:flex-start}
+.tcard h3{margin:0;font-size:19px}
+.tcard .meta{font-size:13.5px;color:var(--muted)}
+.tcard .best{font-size:14px}
+.tcard .best b{color:var(--red)}
+.btn{font-weight:600;border-radius:10px;padding:10px 18px;cursor:pointer;border:1.5px solid transparent}
+.btn.primary{background:var(--red);color:#fff}.btn.primary:hover{background:var(--red-dark)}
+.btn.dark{background:var(--ink);color:#fff}
+.btn.line{background:#fff;color:var(--ink);border-color:var(--ink)}
+.btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.45)}.btn.ghost:hover{border-color:#fff}
+.tcard .btn{margin-top:auto}
+
+/* results table (giống mẫu) */
+.tbl-wrap{overflow-x:auto;background:#fff;border:1px solid #D3E8D8;border-radius:6px}
+table.res{width:100%;border-collapse:collapse;min-width:560px;font-size:16px}
+table.res th{text-align:left;font-weight:700;padding:12px 10px;border-bottom:3px solid #D3E8D8;border-right:1px solid #D3E8D8;background:#fff}
+table.res td{padding:12px 10px;border-right:1px solid #D3E8D8;border-bottom:1px solid #D3E8D8;vertical-align:top;background:#F3FAF4}
+table.res tr:nth-child(even) td{background:#fff}
+table.res th:last-child,table.res td:last-child{border-right:none}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.tagc{background:var(--tag);color:#fff;font-size:13px;font-weight:700;border-radius:5px;padding:1px 8px}
+.tagc.alt{background:#A9D6B4}
+.tagc.new{background:#8CC7A0}
+a.detail{color:var(--link);text-decoration:none;cursor:pointer}
+a.detail:hover{text-decoration:underline}
+.empty{padding:18px;color:var(--muted);text-align:center;background:#fff;border:1px dashed var(--line);border-radius:10px}
+.clear{background:none;border:none;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:13px;margin-top:8px;padding:0}
+
+/* quiz bar */
+.qbar{position:sticky;top:0;z-index:20;background:rgba(243,250,244,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.qbar-in{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.qbar .title{font-weight:700;white-space:nowrap}
+.qbar .prog{font-size:13px;color:var(--muted);white-space:nowrap}
+.timer{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:700;font-size:18px;background:#fff;border:1.5px solid var(--ink);border-radius:8px;padding:3px 10px;white-space:nowrap}
+.timer.warn{color:#fff;background:var(--red);border-color:var(--red)}
+.switch{display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;white-space:nowrap}
+.switch input{width:17px;height:17px;accent-color:var(--red)}
+
+section.part{margin-top:28px}
+.part-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
+.part-no{font-family:var(--zh);font-size:14px;color:#fff;background:var(--red);border-radius:6px;padding:1px 8px}
+.part-head h2{margin:0;font-size:19px}
+.part-desc{color:var(--muted);margin:0 0 12px;font-size:14.5px}
+
+.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.q.ok{border-color:#A9D9BF;background:#FBFEFC}.q.bad{border-color:#F0B8C9;background:#FFFBFC}
+.q-top{display:flex;gap:10px;align-items:flex-start}
+.qn{flex:0 0 auto;min-width:30px;height:30px;border-radius:50%;background:var(--gold-soft);color:var(--red-dark);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+.q.ok .qn{background:var(--ok-soft);color:var(--ok)}.q.bad .qn{background:var(--bad-soft);color:var(--bad)}
+.stem{font-size:21px;line-height:1.6}
+.stem.small{font-size:15px;color:var(--muted);padding-top:4px}
+.stem.vn{font-size:18px;font-weight:500;padding-top:2px}
+.blank{display:inline-block;min-width:54px;border-bottom:2px solid var(--gold);margin:0 4px;text-align:center}
+.py{display:none;font-size:13.5px;color:var(--blue);font-style:italic;margin-top:2px}
+body.show-py .py{display:block}
+.indent{margin-left:40px}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt .face{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;background:#fff;font-size:18px;transition:all .15s}
+.opt .face b{font-family:var(--vn);font-size:12px;color:var(--muted);font-weight:600}
+.opt input:checked + .face{border-color:var(--ink);background:var(--ink);color:#fff}
+.opt input:checked + .face b,.opt input:checked + .face .py{color:#D2EDD9}
+.opt input:focus-visible + .face{outline:3px solid #A9D6B4;outline-offset:2px}
+.opts.col{flex-direction:column}.opts.col .opt{width:100%}.opts.col .face{width:100%;font-size:19px;align-items:flex-start}
+.bank{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 14px;border:1.5px dashed var(--gold);border-radius:12px;background:var(--gold-soft);margin-bottom:10px}
+.bank .lbl{font-size:13px;font-weight:600;color:var(--red-dark)}
+.chip{display:inline-flex;flex-direction:column;align-items:center;background:#fff;border:1px solid #BFE2C7;border-radius:8px;padding:3px 12px;font-family:var(--zh);font-size:19px}
+.chip .py{font-family:var(--vn);font-size:11px;margin:0}
+body.show-py .chip .py{display:block}
+select.fill{font-family:var(--zh);font-size:18px;padding:3px 6px;border-radius:8px;border:1.5px solid var(--gold);background:#fff;color:var(--red);margin:0 4px;vertical-align:middle;cursor:pointer}
+.answer-line{min-height:52px;margin:12px 0 8px;padding:8px;border-bottom:2px solid var(--ink);display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end}
+.answer-line:empty::before{content:"Bấm vào các thẻ bên dưới để xếp câu…";color:#A8A29E;font-size:14px;padding:6px}
+.pool{display:flex;flex-wrap:wrap;gap:8px}
+.tile{font-family:var(--zh);font-size:19px;background:#fff;border:1.5px solid var(--line);border-bottom-width:3px;border-radius:9px;padding:5px 12px;cursor:pointer;display:inline-flex;flex-direction:column;align-items:center;line-height:1.3}
+.tile:hover{border-color:var(--gold)}
+.tile .py{font-family:var(--vn);font-size:11px;margin:0}
+body.show-py .tile .py{display:block}
+.answer-line .tile{background:var(--ink);color:#fff;border-color:var(--ink)}
+.answer-line .tile .py{color:#D2EDD9}
+.mini{font-size:13px;border:none;background:none;color:var(--muted);text-decoration:underline;cursor:pointer;padding:0;margin-top:4px}
+textarea.tr{width:100%;margin-top:10px;font-family:var(--zh);font-size:19px;padding:10px;border-radius:10px;border:1.5px solid var(--line);resize:vertical;min-height:54px}
+textarea.tr:focus{outline:none;border-color:var(--ink)}
+.hint{font-size:13px;color:var(--muted);margin-top:4px}
+
+.submitbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--deep);color:#fff;box-shadow:0 -6px 20px rgba(0,0,0,.12)}
+.submitbar-in{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;gap:10px;align-items:center}
+.submitbar .count{flex:1;font-size:14px;color:#DCEFE1}
+
+/* review */
+.summary{margin-top:24px;background:#fff;border:2px solid var(--gold);border-radius:16px;padding:20px}
+.score-row{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.big{font-size:60px;font-weight:700;line-height:1;color:var(--red)}
+.big small{font-size:22px;color:var(--muted);font-weight:500}
+.verdict{font-size:18px;font-weight:600}
+.facts{display:flex;gap:18px;flex-wrap:wrap;margin-top:6px;color:var(--muted);font-size:14px}
+.facts b{color:var(--ink)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.filters{display:flex;gap:8px;margin:22px 0 10px;flex-wrap:wrap}
+.filters button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:5px 14px;cursor:pointer;font-size:14px}
+.filters button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.rv{margin-top:10px;display:grid;gap:6px;font-size:15px}
+.rv .row{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.rv .k{flex:0 0 112px;color:var(--muted);font-size:13.5px}
+.rv .v{flex:1;min-width:0}
+.rv .v.zh{font-size:18px}
+.mine.right{color:var(--ok)}.mine.wrong{color:var(--bad);text-decoration:line-through;text-decoration-thickness:1px}
+.mine.none{color:var(--muted);font-style:italic;font-family:var(--vn);font-size:14px}
+.ans{color:var(--ok);font-weight:700}
+.expl{background:#EAF6EC;border-radius:8px;padding:8px 12px;font-size:14.5px;margin-top:4px}
+.expl .tag{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;background:var(--ink);color:#fff;margin-right:6px}
+.override{margin-top:6px;font-size:13px;border:1px solid var(--ok);color:var(--ok);background:#fff;border-radius:8px;padding:4px 10px;cursor:pointer}
+.weak{margin-top:14px;padding:12px 14px;background:var(--bad-soft);border-radius:10px;font-size:15px}
+.weak.good{background:var(--ok-soft)}
+.weak ul{margin:6px 0 0;padding-left:20px}
+
+/* groups + vocab */
+.group{margin-top:26px}
+.group-head{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+.group-head h2{margin:0;font-size:20px}
+.group-head .pill{font-size:12px;font-weight:700;color:#fff;background:var(--red);border-radius:999px;padding:2px 10px}
+.group-head .pill.new{background:#8CC7A0}.group-head .pill.voc{background:#6FB3A8}
+.group-desc{margin:-6px 0 12px;color:var(--muted);font-size:14px}
+.vword{font-family:var(--zh);font-size:34px;font-weight:700;color:var(--deep);line-height:1.2}
+.vprompt{font-size:15px;color:var(--muted)}
+.vmean{font-size:19px;font-weight:600}
+.opt .face.vn{font-family:var(--vn);font-size:16px}
+
+/* ===== 3-column layout ===== */
+:root{ --orange:#E8590C; --orange-dark:#C2410C; }
+.topbar{position:sticky;top:0;z-index:40;background:linear-gradient(120deg,#E3F5E6 0%,#CDEBD4 60%,#E8F6DC 100%);border-bottom:1px solid #C3E3CB}
+.topbar-in{max-width:1440px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:14px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.logo{font-family:var(--zh);font-weight:700;color:#fff;background:var(--red);border-radius:10px;padding:6px 9px;font-size:16px}
+.brand-t{font-weight:700;font-size:18px;white-space:nowrap}
+.topbar .eyebrow{font-size:11px}
+#sname{width:240px;padding:8px 12px;border-radius:10px;border:1px solid #B9DEC2;background:rgba(255,255,255,.9);color:var(--ink);font:inherit;font-size:14px}
+.layout{max-width:1440px;margin:0 auto;padding:20px;display:grid;grid-template-columns:260px minmax(0,1fr) 280px;gap:20px;align-items:start}
+.side{position:sticky;top:78px;max-height:calc(100vh - 98px);overflow:auto;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 2px 10px rgba(63,143,87,.06)}
+.side-title{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:2px 4px 10px}
+.center{min-width:0;padding-bottom:40px}
+.center main{min-width:0}
+.welcome{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px}
+.welcome h1{font-size:24px;margin:0 0 8px}
+.welcome p,.welcome li{color:#3E5646}
+.welcome ul{margin:8px 0 0;padding-left:20px}
+.mini-dot{display:inline-block;width:14px;height:14px;border-radius:4px;border:1.5px solid #BFD9C6;background:#fff;vertical-align:-2px}
+.mini-dot.done{background:var(--orange);border-color:var(--orange)}
+/* left list */
+.tgroup{margin-bottom:14px}
+.tgroup-h{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;margin:4px 4px 8px}
+.titem{width:100%;display:flex;align-items:center;gap:10px;text-align:left;background:#fff;border:1.5px solid transparent;border-radius:12px;padding:9px 10px;cursor:pointer;margin-bottom:4px;color:var(--ink)}
+.titem:hover{background:#EEF8F0}
+.titem.active{background:#E2F3E6;border-color:var(--red)}
+.titem .tno{flex:0 0 32px;height:32px;border-radius:9px;background:var(--gold-soft);color:var(--red-dark);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px}
+.titem.active .tno{background:var(--red);color:#fff}
+.titem .tt{flex:1;min-width:0}
+.titem .tt b{display:block;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.titem .tt span{white-space:nowrap}
+.titem .tt span{font-size:12px;color:var(--muted)}
+.titem .score{font-size:12px;font-weight:700;color:var(--red-dark);background:#EAF6EC;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.titem .score.none{color:var(--muted);background:#F0F4F1;font-weight:500}
+/* center quiz head */
+.quiz-head{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 20px;margin-bottom:6px}
+.quiz-head h1{margin:0;font-size:22px}
+.qsub{color:var(--muted);font-size:14px;margin-top:2px}
+.q{scroll-margin-top:90px}
+/* right panel */
+.rp-title{font-weight:700;font-size:16px;margin:0 0 10px}
+.timer-box{text-align:center;background:#EAF6EC;border-radius:14px;padding:12px;margin-bottom:12px}
+.timer-box .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.timer-box .tv{font-size:36px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--deep);line-height:1.15}
+.timer-box.warn{background:#FFE8DC}.timer-box.warn .tv{color:var(--orange-dark)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.stat{border-radius:12px;padding:8px 10px;border:1.5px solid var(--line);background:#fff}
+.stat .n{font-size:24px;font-weight:700;line-height:1.1}
+.stat .l{font-size:12px;color:var(--muted)}
+.stat.done{background:var(--orange);border-color:var(--orange);color:#fff}.stat.done .l{color:#FFE3D2}
+.pbar{height:8px;background:#E3F1E6;border-radius:99px;overflow:hidden;margin-bottom:12px}
+.pbar i{display:block;height:100%;background:var(--orange);border-radius:99px;transition:width .3s}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:12px}
+.cellq{aspect-ratio:1;border-radius:9px;border:1.5px solid #BFD9C6;background:#fff;color:var(--ink);font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.cellq:hover{border-color:var(--orange)}
+.cellq.done{background:var(--orange);border-color:var(--orange);color:#fff}
+.cellq.ok{background:#2E8A5E;border-color:#2E8A5E;color:#fff}
+.cellq.bad{background:#fff;border-color:#C2456B;color:#C2456B}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:12px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.rp-actions{display:grid;gap:8px}
+.rp-actions .btn{width:100%}
+.btn.orange{background:var(--orange);color:#fff}.btn.orange:hover{background:var(--orange-dark)}
+.rp-note{font-size:13px;color:var(--muted)}
+.rp-score{text-align:center;margin-bottom:12px}
+.rp-score .big{font-size:48px}
+
+@media (max-width:1100px){
+  .layout{grid-template-columns:220px minmax(0,1fr);}
+  .side-right{grid-column:1 / -1;position:static;max-height:none;order:-1}
+  .side-right .grid{grid-template-columns:repeat(10,1fr)}
+}
+@media (max-width:760px){
+  .layout{grid-template-columns:1fr;padding:10px;gap:10px}
+  .side-left{order:1;position:static;max-height:none;padding:10px}
+  .side-left .side-title{display:none}
+  .side-left nav{display:flex;gap:6px;overflow-x:auto}
+  .side-left .tgroup{display:contents}
+  .side-left .tgroup-h{display:none}
+  .titem{flex:0 0 auto;width:auto;margin:0;padding:6px 10px}
+  .titem .tt span,.titem .score{display:none}
+  .titem .tt b{font-size:13px}
+  .side-right{order:2;position:sticky;top:52px;z-index:30;max-height:none;padding:10px;border-radius:14px}
+  .center{order:3}
+  .side-right .rp-title,.side-right .legend,.side-right .pbar,.side-right .rp-note,.side-right .rp-score{display:none}
+  .side-right #sideRight{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center}
+  .side-right .timer-box{margin:0;padding:6px 10px}
+  .side-right .timer-box .lbl{font-size:10px}
+  .side-right .timer-box .tv{font-size:20px!important}
+  .side-right .stats{margin:0;gap:6px}
+  .side-right .stat{padding:4px 8px}.side-right .stat .n{font-size:17px}.side-right .stat .l{font-size:11px}
+  .side-right .rp-actions{grid-template-columns:1fr}
+  .side-right .rp-actions .btn{padding:8px 12px}
+  .side-right .rp-actions .btn.line{display:none}
+  .side-right .grid{grid-column:1 / -1;display:flex;gap:5px;overflow-x:auto;margin:0;padding-bottom:2px}
+  .side-right .cellq{flex:0 0 30px;height:30px;aspect-ratio:auto;font-size:12px;border-radius:7px}
+  .topbar-in{padding:8px 10px;gap:8px}
+  .brand-t,.topbar .eyebrow{display:none}
+  #sname{flex:1;width:auto;min-width:0}
+  .logo{font-size:14px;padding:5px 7px}
+}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(36,64,47,.45);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal-box{background:#fff;border-radius:14px;max-width:420px;width:100%;padding:20px}
+.modal-box h3{margin:0 0 8px}
+.modal-box p{margin:0 0 16px;color:#444}
+.modal-box .actions{justify-content:flex-end;margin:0}
+
+@media (max-width:600px){
+  h1{font-size:24px}
+  .stem{font-size:19px}
+  .indent{margin-left:0}
+  .qbar .prog{display:none}
+  .big{font-size:46px}
+  .rv .k{flex-basis:100%}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand"><span class="logo">一级</span><div><div class="eyebrow">HSK 1 · Ôn tập cuối khoá</div><div class="brand-t">Ôn tập tổng hợp HSK 1</div></div></div>
+    <input id="sname" placeholder="Họ và tên học sinh" aria-label="Họ và tên">
+    <label class="switch"><input type="checkbox" id="pyToggle"> Pinyin</label>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side side-left" aria-label="Danh sách đề"><div class="side-title">Danh sách đề</div><nav id="sideList"></nav></aside>
+
+  <div class="center">
+    <main id="home">
+      <section class="welcome">
+        <h1>Chào mừng em đến với bài ôn tập HSK 1</h1>
+        <p>Chọn một đề ở <b>cột bên trái</b> để bắt đầu. Khi làm bài, <b>cột bên phải</b> hiển thị thời gian còn lại, số câu đã làm / chưa làm và bảng số câu: ô <span class="mini-dot done"></span> màu cam là câu đã làm, ô <span class="mini-dot"></span> trắng là câu chưa làm — bấm vào ô để nhảy tới câu đó.</p>
+        <ul>
+          <li><b>6 đề ngữ pháp</b> – 20 câu / 20 phút: trắc nghiệm, điền từ, sắp xếp câu, chọn câu đúng, dịch câu.</li>
+          <li><b>3 đề từ vựng</b> – 20 câu / 15 phút: chọn nghĩa, chọn chữ Hán, chọn pinyin (trộn ngẫu nhiên mỗi lần làm).</li>
+        </ul>
+      </section>
+      <h2 class="sec">Kết quả làm bài của bạn:</h2>
+      <div id="historyAll"></div>
+      <button class="clear" id="clearAll" type="button">Xoá toàn bộ lịch sử</button>
+    </main>
+    <main id="quiz" class="hidden"><div class="quiz-head"><h1 id="qTitle"></h1><div id="qSub" class="qsub"></div></div><div id="quizBody"></div></main>
+    <main id="review" class="hidden"></main>
+  </div>
+
+  <aside class="side side-right" aria-label="Tiến độ làm bài"><div id="sideRight"></div></aside>
+</div>
+
+<div class="modal hidden" id="modal"><div class="modal-box"><h3 id="mTitle"></h3><p id="mText"></p><div class="actions" id="mActions"></div></div></div>
+
+<script>
+const TESTS = [{"id": "G1", "kind": "grammar", "short": "Đề 1", "title": "Đề ngữ pháp 1", "badge": "", "questions": [{"type": "mcq", "q": "我___李文。", "py": "Wǒ ____ Lǐ Wén.", "opts": ["叫", "是的", "有", "在"], "optsPy": ["Jiào", "Shì de", "Yǒu", "Zài"], "a": "叫", "g": "Trật tự từ cơ bản (S + V + O)", "ex": "我 (chủ ngữ) + 叫 (vị ngữ) + 李文 (tân ngữ): Tôi tên là Lý Văn."}, {"type": "mcq", "q": "我___一个姐姐。", "py": "Wǒ ____ yí ge jiějie.", "opts": ["有", "是", "在", "叫"], "optsPy": ["Yǒu", "Shì", "Zài", "Jiào"], "a": "有", "g": "Câu chữ 有 (1)", "ex": "A 有 B: biểu thị sở hữu."}, {"type": "mcq", "q": "明天___星期六。", "py": "Míngtiān ____ xīngqīliù.", "opts": ["不是", "不", "没", "没有"], "optsPy": ["Bú shì", "Bù", "Méi", "Méiyǒu"], "a": "不是", "g": "Câu vị ngữ danh từ", "ex": "Câu vị ngữ danh từ khi phủ định phải thêm 不是."}, {"type": "mcq", "q": "我们一起去吃饭___。", "py": "Wǒmen yìqǐ qù chīfàn ____.", "opts": ["吧", "吗", "呢", "的"], "optsPy": ["Ba", "Ma", "Ne", "De"], "a": "吧", "g": "Trợ từ ngữ khí 吧 (1)", "ex": "吧 cuối câu biểu thị đề nghị, rủ rê."}, {"type": "mcq", "q": "桌子上___一本书。", "py": "Zhuōzi shang ____ yì běn shū.", "opts": ["有", "是", "在", "叫"], "optsPy": ["Yǒu", "Shì", "Zài", "Jiào"], "a": "有", "g": "Câu tồn hiện (1)", "ex": "Nơi chốn + 有 + người/vật: ở đâu có cái gì."}, {"type": "mcq", "q": "你去___去？", "py": "Nǐ qù ____ qù?", "opts": ["不", "没", "吗", "呢"], "optsPy": ["Bù", "Méi", "Ma", "Ne"], "a": "不", "g": "Câu hỏi chính phản", "ex": "V + 不 + V: 去不去？ (có đi không?), cuối câu không dùng 吗."}, {"type": "fill", "q": "她___中文老师。", "py": "Tā ____ Zhōngwén lǎoshī.", "bank": ["是", "的", "吗", "有", "呢", "不"], "bankPy": ["Shì", "De", "Ma", "Yǒu", "Ne", "Bù"], "a": ["是"], "g": "Câu chữ 是", "ex": "A 是 B: định danh."}, {"type": "fill", "q": "白家月___中文老师是中国人。", "py": "Bái Jiāyuè ____ Zhōngwén lǎoshī shì Zhōngguó rén.", "bank": ["是", "的", "吗", "有", "呢", "不"], "bankPy": ["Shì", "De", "Ma", "Yǒu", "Ne", "Bù"], "a": ["的"], "g": "Trợ từ kết cấu 的", "ex": "Định ngữ + 的 + trung tâm ngữ."}, {"type": "fill", "q": "你是学生___？", "py": "Nǐ shì xuésheng ____?", "bank": ["是", "的", "吗", "有", "呢", "不"], "bankPy": ["Shì", "De", "Ma", "Yǒu", "Ne", "Bù"], "a": ["吗"], "g": "Câu hỏi với 吗", "ex": "Câu hỏi có/không: thêm 吗."}, {"type": "fill", "q": "他家___五口人。", "py": "Tā jiā ____ wǔ kǒu rén.", "bank": ["是", "的", "吗", "有", "呢", "不"], "bankPy": ["Shì", "De", "Ma", "Yǒu", "Ne", "Bù"], "a": ["有"], "g": "Câu chữ 有 (1)", "ex": "Nơi / người + 有 + số lượng."}, {"type": "order", "tiles": ["我", "叫", "陈天中"], "tilesPy": ["Wǒ", "Jiào", "Chén Tiānzhōng"], "a": ["我叫陈天中"], "g": "Trật tự từ cơ bản (S + V + O)"}, {"type": "order", "tiles": ["我", "想", "去", "超市", "买东西"], "tilesPy": ["Wǒ", "Xiǎng", "Qù", "Chāoshì", "Mǎi dōngxi"], "a": ["我想去超市买东西"], "g": "Câu liên động (1)"}, {"type": "order", "tiles": ["这儿的", "苹果", "真", "便宜"], "tilesPy": ["Zhèr de", "Píngguǒ", "Zhēn", "Piányi"], "a": ["这儿的苹果真便宜"], "g": "Câu vị ngữ tính từ"}, {"type": "order", "tiles": ["我们", "都", "是", "大学生"], "tilesPy": ["Wǒmen", "Dōu", "Shì", "Dà xuésheng"], "a": ["我们都是大学生"], "g": "Phó từ 都"}, {"type": "correct", "opts": ["我叫李文。", "我李文叫。", "叫我李文。", "李文我叫。"], "optsPy": ["Wǒ jiào Lǐ Wén.", "Wǒ Lǐ Wén jiào.", "Jiào wǒ Lǐ Wén.", "Lǐ Wén wǒ jiào."], "a": "我叫李文。", "g": "Trật tự từ cơ bản (S + V + O)", "ex": "Trật tự cơ bản: chủ ngữ + vị ngữ + tân ngữ."}, {"type": "correct", "opts": ["我早上八点上班。", "我上班早上八点。", "早上我上班八点。", "我八点上班早上。"], "optsPy": ["Wǒ zǎoshang bā diǎn shàngbān.", "Wǒ shàngbān zǎoshang bā diǎn.", "Zǎoshang wǒ shàngbān bā diǎn.", "Wǒ bā diǎn shàngbān zǎoshang."], "a": "我早上八点上班。", "g": "Vị trí trạng ngữ (thời gian, phó từ)", "ex": "Từ chỉ thời gian đứng trước động từ."}, {"type": "correct", "opts": ["请给我一杯茶。", "请给一杯茶我。", "请我给一杯茶。", "请一杯茶给我。"], "optsPy": ["Qǐng gěi wǒ yì bēi chá.", "Qǐng gěi yì bēi chá wǒ.", "Qǐng wǒ gěi yì bēi chá.", "Qǐng yì bēi chá gěi wǒ."], "a": "请给我一杯茶。", "g": "Câu có hai tân ngữ (1)", "ex": "给 + tân ngữ chỉ người + tân ngữ chỉ vật."}, {"type": "trans", "vn": "Tôi tên là Lý Văn.", "a": ["我叫李文。"], "aPy": ["Wǒ jiào Lǐ Wén."], "g": "Trật tự từ cơ bản (S + V + O)"}, {"type": "trans", "vn": "Bạn biết làm món ăn Trung Quốc không?", "a": ["你会做中国菜吗？"], "aPy": ["Nǐ huì zuò Zhōngguó cài ma?"], "g": "Động từ năng nguyện 会"}, {"type": "trans", "vn": "Táo ở đây thật rẻ!", "a": ["这儿的苹果真便宜！", "这里的苹果真便宜！"], "aPy": ["Zhèr de píngguǒ zhēn piányi!", "Zhèli de píngguǒ zhēn piányi!"], "g": "Câu vị ngữ tính từ"}], "topics": 15}, {"id": "G2", "kind": "grammar", "short": "Đề 2", "title": "Đề ngữ pháp 2", "badge": "", "questions": [{"type": "mcq", "q": "你叫___名字？", "py": "Nǐ jiào ____ míngzì?", "opts": ["什么", "谁", "哪", "几"], "optsPy": ["Shénme", "Shéi", "Nǎ", "Jǐ"], "a": "什么", "g": "Trật tự từ cơ bản (S + V + O)", "ex": "Câu hỏi tên: 你叫什么名字？ – từ để hỏi đứng ở vị trí của thành phần được hỏi."}, {"type": "mcq", "q": "我___有哥哥。", "py": "Wǒ ____ yǒu gēge.", "opts": ["没", "不", "别", "也"], "optsPy": ["Méi", "Bù", "Bié", "Yě"], "a": "没", "g": "Câu chữ 有 (1)", "ex": "Phủ định của 有 là 没有, không dùng 不有."}, {"type": "mcq", "q": "我___做中国菜。", "py": "Wǒ ____ zuò Zhōngguó cài.", "opts": ["会", "是", "在", "有"], "optsPy": ["Huì", "Shì", "Zài", "Yǒu"], "a": "会", "g": "Động từ năng nguyện 会", "ex": "会 + động từ: biết làm gì (kỹ năng học được)."}, {"type": "mcq", "q": "我___八点去医院上班。", "py": "Wǒ ____ bā diǎn qù yīyuàn shàngbān.", "opts": ["早上", "在", "了", "吗"], "optsPy": ["Zǎoshang", "Zài", "Le", "Ma"], "a": "早上", "g": "Vị trí trạng ngữ (thời gian, phó từ)", "ex": "Từ chỉ thời gian làm trạng ngữ đứng trước động từ: 我早上八点去……"}, {"type": "mcq", "q": "我明天上午___学校学习。", "py": "Wǒ míngtiān shàngwǔ ____ xuéxiào xuéxí.", "opts": ["在", "是", "有", "去了"], "optsPy": ["Zài", "Shì", "Yǒu", "Qù le"], "a": "在", "g": "Thứ tự trạng ngữ thời gian và nơi chốn", "ex": "Thời gian đứng trước nơi chốn: 明天上午 + 在学校 + 学习."}, {"type": "mcq", "q": "他___睡觉呢。", "py": "Tā ____ shuìjiào ne.", "opts": ["正在", "在了", "要", "会"], "optsPy": ["Zhèngzài", "Zài le", "Yào", "Huì"], "a": "正在", "g": "Phó từ 在 / 正在", "ex": "正在 / 在 + động từ (+ 呢): hành động đang diễn ra."}, {"type": "fill", "q": "今天___五。", "py": "Jīntiān ____ wǔ.", "bank": ["会", "想", "怎么", "星期", "个", "岁"], "bankPy": ["Huì", "Xiǎng", "Zěnme", "Xīngqī", "Ge", "Suì"], "a": ["星期"], "g": "Câu vị ngữ danh từ", "ex": "今天星期五: thứ làm vị ngữ."}, {"type": "fill", "q": "你___说汉语吗？", "py": "Nǐ ____ shuō Hànyǔ ma?", "bank": ["会", "想", "怎么", "星期", "个", "岁"], "bankPy": ["Huì", "Xiǎng", "Zěnme", "Xīngqī", "Ge", "Suì"], "a": ["会"], "g": "Động từ năng nguyện 会", "ex": "会 + động từ: biết làm gì."}, {"type": "fill", "q": "我___喝牛奶。", "py": "Wǒ ____ hēniúnǎi.", "bank": ["会", "想", "怎么", "星期", "个", "岁"], "bankPy": ["Huì", "Xiǎng", "Zěnme", "Xīngqī", "Ge", "Suì"], "a": ["想"], "g": "Động từ năng nguyện 想", "ex": "想 + động từ: muốn."}, {"type": "fill", "q": "这个字___读？", "py": "Zhège zì ____ dú?", "bank": ["会", "想", "怎么", "星期", "个", "岁"], "bankPy": ["Huì", "Xiǎng", "Zěnme", "Xīngqī", "Ge", "Suì"], "a": ["怎么"], "g": "Đại từ nghi vấn 怎么", "ex": "怎么 + động từ: hỏi cách làm."}, {"type": "order", "tiles": ["她", "是", "中文", "老师"], "tilesPy": ["Tā", "Shì", "Zhōngwén", "Lǎoshī"], "a": ["她是中文老师"], "g": "Câu chữ 是"}, {"type": "order", "tiles": ["你", "怎么", "去", "学校"], "tilesPy": ["Nǐ", "Zěnme", "Qù", "Xuéxiào"], "a": ["你怎么去学校"], "g": "Đại từ nghi vấn 怎么"}, {"type": "order", "tiles": ["你", "喜欢", "不", "喜欢", "喝茶"], "tilesPy": ["Nǐ", "Xǐhuan", "Bù", "Xǐhuan", "Hēchá"], "a": ["你喜欢不喜欢喝茶"], "g": "Câu hỏi chính phản"}, {"type": "order", "tiles": ["我", "去过西安", "也", "去过北京"], "tilesPy": ["Wǒ", "Qù guo Xī'ān", "Yě", "Qù guo Běijīng"], "a": ["我去过西安也去过北京"], "g": "Câu ghép đẳng lập ……，还/也……"}, {"type": "correct", "opts": ["我不是法国人。", "我没是法国人。", "我是不法国人。", "我不法国人。"], "optsPy": ["Wǒ bú shì fǎguórén.", "Wǒ méi shì fǎguórén.", "Wǒ shì bù fǎguórén.", "Wǒ bù fǎguórén."], "a": "我不是法国人。", "g": "Câu chữ 是", "ex": "Phủ định câu chữ 是: 不是."}, {"type": "correct", "opts": ["他在医院工作。", "他工作在医院。", "他医院在工作。", "在医院他工作在。"], "optsPy": ["Tā zài yīyuàn gōngzuò.", "Tā gōngzuò zài yīyuàn.", "Tā yīyuàn zài gōngzuò.", "Zài yīyuàn tā gōngzuò zài."], "a": "他在医院工作。", "g": "Giới từ 在", "ex": "在 + nơi chốn đặt TRƯỚC động từ."}, {"type": "correct", "opts": ["我们都是学生。", "我们是都学生。", "都我们是学生。", "我们是学生都。"], "optsPy": ["Wǒmen dōu shì xuésheng.", "Wǒmen shì dōu xuésheng.", "Dōu wǒmen shì xuésheng.", "Wǒmen shì xuésheng dōu."], "a": "我们都是学生。", "g": "Phó từ 都", "ex": "都 đứng sau chủ ngữ, trước động từ."}, {"type": "trans", "vn": "Cô ấy là giáo viên tiếng Trung.", "a": ["她是中文老师。", "她是汉语老师。"], "aPy": ["Tā shì Zhōngwén lǎoshī.", "Tā shì Hànyǔ lǎoshī."], "g": "Câu chữ 是"}, {"type": "trans", "vn": "Tôi muốn đi siêu thị mua đồ.", "a": ["我想去超市买东西。"], "aPy": ["Wǒ xiǎng qù chāoshì mǎi dōngxi."], "g": "Câu liên động (1)"}, {"type": "trans", "vn": "Bạn có đi không?", "a": ["你去不去？", "你去吗？"], "aPy": ["Nǐ qùbùqù?", "Nǐ qù ma?"], "g": "Câu hỏi chính phản"}], "topics": 15}, {"id": "G3", "kind": "grammar", "short": "Đề 3", "title": "Đề ngữ pháp 3", "badge": "", "questions": [{"type": "mcq", "q": "我___中国人。", "py": "Wǒ ____ Zhōngguó rén.", "opts": ["是", "有", "在", "叫"], "optsPy": ["Shì", "Yǒu", "Zài", "Jiào"], "a": "是", "g": "Câu chữ 是", "ex": "A 是 B: dùng để định danh người hoặc sự vật."}, {"type": "mcq", "q": "我有___个孩子。", "py": "Wǒ yǒu ____ ge háizi.", "opts": ["两", "二", "第二", "双"], "optsPy": ["Liǎng", "Èr", "Dì-èr", "Shuāng"], "a": "两", "g": "Cách diễn đạt các con số", "ex": "Trước lượng từ dùng 两, không dùng 二: 两个孩子."}, {"type": "mcq", "q": "我___去超市买东西。", "py": "Wǒ ____ qù chāoshì mǎi dōngxi.", "opts": ["想", "是", "有", "在"], "optsPy": ["Xiǎng", "Shì", "Yǒu", "Zài"], "a": "想", "g": "Động từ năng nguyện 想", "ex": "想 + động từ: muốn làm gì."}, {"type": "mcq", "q": "我明天下午两点还上课___。", "py": "Wǒ míngtiān xiàwǔ liǎng diǎn hái shàngkè ____.", "opts": ["呢", "吗", "吧", "的"], "optsPy": ["Ne", "Ma", "Ba", "De"], "a": "呢", "g": "Trợ từ ngữ khí 呢 (2)", "ex": "……呢 cuối câu xác nhận một sự thực."}, {"type": "mcq", "q": "这是我___一次来中国。", "py": "Zhè shì wǒ ____ yí cì lái Zhōngguó.", "opts": ["第", "有", "是", "的"], "optsPy": ["Dì", "Yǒu", "Shì", "De"], "a": "第", "g": "第 chỉ số thứ tự", "ex": "第 + số từ: thứ…"}, {"type": "mcq", "q": "我___去超市，你去吗？", "py": "Wǒ ____ qù chāoshì, nǐ qù ma?", "opts": ["要", "是", "在", "会"], "optsPy": ["Yào", "Shì", "Zài", "Huì"], "a": "要", "g": "Động từ năng nguyện 要", "ex": "要 + động từ: muốn / sẽ làm gì."}, {"type": "fill", "q": "我们十点___去超市。", "py": "Wǒmen shí diǎn ____ qù chāoshì.", "bank": ["吧", "半", "在", "能", "上", "了"], "bankPy": ["Ba", "Bàn", "Zài", "Néng", "Shàng", "Le"], "a": ["半"], "g": "Cách diễn đạt thời gian (2)", "ex": "十点半 = mười giờ rưỡi."}, {"type": "fill", "q": "我们去看电影___。", "py": "Wǒmen qù kàn diànyǐng ____.", "bank": ["吧", "半", "在", "能", "上", "了"], "bankPy": ["Ba", "Bàn", "Zài", "Néng", "Shàng", "Le"], "a": ["吧"], "g": "Trợ từ ngữ khí 吧 (1)", "ex": "吧: đề nghị."}, {"type": "fill", "q": "我的手机在椅子___。", "py": "Wǒ de shǒujī zài yǐzi ____.", "bank": ["吧", "半", "在", "能", "上", "了"], "bankPy": ["Ba", "Bàn", "Zài", "Néng", "Shàng", "Le"], "a": ["上"], "g": "Phương vị từ", "ex": "椅子上: trên ghế."}, {"type": "fill", "q": "你___来我家吗？", "py": "Nǐ ____ lái wǒ jiā ma?", "bank": ["吧", "半", "在", "能", "上", "了"], "bankPy": ["Ba", "Bàn", "Zài", "Néng", "Shàng", "Le"], "a": ["能"], "g": "Động từ năng nguyện 能", "ex": "能: có thể."}, {"type": "order", "tiles": ["你", "是", "中国人", "吗"], "tilesPy": ["Nǐ", "Shì", "Zhōngguó rén", "Ma"], "a": ["你是中国人吗"], "g": "Câu hỏi với 吗"}, {"type": "order", "tiles": ["我", "晚上", "六点半", "下班"], "tilesPy": ["Wǒ", "Wǎnshang", "Liù diǎnbàn", "Xià bān"], "a": ["我晚上六点半下班", "晚上六点半我下班"], "g": "Vị trí trạng ngữ (thời gian, phó từ)"}, {"type": "order", "tiles": ["他", "正在", "睡觉", "呢"], "tilesPy": ["Tā", "Zhèngzài", "Shuìjiào", "Ne"], "a": ["他正在睡觉呢"], "g": "Phó từ 在 / 正在"}, {"type": "order", "tiles": ["你", "可以", "坐", "这儿"], "tilesPy": ["Nǐ", "Kěyǐ", "Zuò", "Zhèr"], "a": ["你可以坐这儿"], "g": "Động từ năng nguyện 可以"}, {"type": "correct", "opts": ["我没有哥哥。", "我不有哥哥。", "我有没哥哥。", "我没哥哥有。"], "optsPy": ["Wǒ méiyǒu gēge.", "Wǒ bù yǒu gēge.", "Wǒ yǒu méi gēge.", "Wǒ méi gēge yǒu."], "a": "我没有哥哥。", "g": "Câu chữ 有 (1)", "ex": "Phủ định 有 là 没有 / 没."}, {"type": "correct", "opts": ["我明天上午在学校学习。", "我在学校明天上午学习。", "我学习明天上午在学校。", "我在学校学习明天上午。"], "optsPy": ["Wǒ míngtiān shàngwǔ zài xuéxiào xuéxí.", "Wǒ zài xuéxiào míngtiān shàngwǔ xuéxí.", "Wǒ xuéxí míngtiān shàngwǔ zài xuéxiào.", "Wǒ zài xuéxiào xuéxí míngtiān shàngwǔ."], "a": "我明天上午在学校学习。", "g": "Thứ tự trạng ngữ thời gian và nơi chốn", "ex": "Thời gian trước, nơi chốn sau, rồi đến động từ."}, {"type": "correct", "opts": ["我昨天看了一个电影。", "我昨天了看一个电影。", "我昨天看一个了电影。", "我了昨天看一个电影。"], "optsPy": ["Wǒ zuótiān kàn le yí ge diànyǐng.", "Wǒ zuótiān le kàn yí ge diànyǐng.", "Wǒ zuótiān kàn yí ge le diànyǐng.", "Wǒ le zuótiān kàn yí ge diànyǐng."], "a": "我昨天看了一个电影。", "g": "Trợ từ động thái 了 (2)", "ex": "了 đứng ngay sau động từ."}, {"type": "trans", "vn": "Bạn là người Trung Quốc phải không?", "a": ["你是中国人吗？"], "aPy": ["Nǐ shì Zhōngguó rén ma?"], "g": "Câu hỏi với 吗"}, {"type": "trans", "vn": "Bây giờ là 7 giờ rưỡi.", "a": ["现在七点半。", "现在是七点半。"], "aPy": ["Xiànzài qī diǎn bàn.", "Xiànzài shì qī diǎn bàn."], "g": "Cách diễn đạt thời gian (2)"}, {"type": "trans", "vn": "Mẹ đang nấu cơm.", "a": ["妈妈正在做饭。", "妈妈正在做饭呢。", "妈妈在做饭。", "妈妈在做饭呢。"], "aPy": ["Māma zhèngzài zuòfàn.", "Māma zhèngzài zuòfàn ne.", "Māma zài zuòfàn.", "Māma zài zuòfàn ne."], "g": "Phó từ 在 / 正在"}], "topics": 17}, {"id": "G4", "kind": "grammar", "short": "Đề 4", "title": "Đề ngữ pháp 4", "badge": "", "questions": [{"type": "mcq", "q": "她___是法国人，她是中国人。", "py": "Tā ____ shì fǎguórén, tā shì Zhōngguó rén.", "opts": ["不", "没", "别", "也"], "optsPy": ["Bù", "Méi", "Bié", "Yě"], "a": "不", "g": "Câu chữ 是", "ex": "Phủ định câu chữ 是 là 不是."}, {"type": "mcq", "q": "我很好，你___？", "py": "Wǒ hěn hǎo, nǐ ____?", "opts": ["呢", "吗", "的", "吧"], "optsPy": ["Ne", "Ma", "De", "Ba"], "a": "呢", "g": "Trợ từ ngữ khí 呢 (1)", "ex": "Danh từ / đại từ + 呢？: hỏi lại câu hỏi tương tự (còn bạn thì sao?)."}, {"type": "mcq", "q": "我们去饭店___饭。", "py": "Wǒmen qù fàndiàn ____ fàn.", "opts": ["吃", "喝", "买", "看"], "optsPy": ["Chī", "Hē", "Mǎi", "Kàn"], "a": "吃", "g": "Câu liên động (1)", "ex": "Câu liên động: V1 (去饭店) + V2 (吃饭) – V2 là mục đích của V1."}, {"type": "mcq", "q": "书在桌子___。", "py": "Shū zài zhuōzi ____.", "opts": ["上", "前", "里边儿", "中"], "optsPy": ["Shàng", "Qián", "Lǐbiānér", "Zhōng"], "a": "上", "g": "Phương vị từ", "ex": "Danh từ + phương vị từ: 桌子上 (trên bàn)."}, {"type": "mcq", "q": "这个苹果三___钱。", "py": "Zhège píngguǒ sān ____ qián.", "opts": ["块", "个", "本", "元钱"], "optsPy": ["Kuài", "Ge", "Běn", "Yuán qián"], "a": "块", "g": "Cách diễn đạt số tiền", "ex": "Văn nói dùng 块 (= 元): 三块钱."}, {"type": "mcq", "q": "下雨___。", "py": "Xiàyǔ ____.", "opts": ["了", "的", "吗", "吧"], "optsPy": ["Le", "De", "Ma", "Ba"], "a": "了", "g": "Trợ từ ngữ khí 了 (1)", "ex": "了 cuối câu biểu thị sự thay đổi, tình huống mới xuất hiện."}, {"type": "fill", "q": "今天是我上学的___一天。", "py": "Jīntiān shì wǒ shàngxué de ____ yì tiān.", "bank": ["第", "块", "很", "怎么样", "不", "正在"], "bankPy": ["Dì", "Kuài", "Hěn", "Zěnmeyàng", "Bù", "Zhèngzài"], "a": ["第"], "g": "第 chỉ số thứ tự", "ex": "第一天: ngày đầu tiên."}, {"type": "fill", "q": "这些苹果十___钱。", "py": "Zhè xiē píngguǒ shí ____ qián.", "bank": ["第", "块", "很", "怎么样", "不", "正在"], "bankPy": ["Dì", "Kuài", "Hěn", "Zěnmeyàng", "Bù", "Zhèngzài"], "a": ["块"], "g": "Cách diễn đạt số tiền", "ex": "十块钱: mười đồng."}, {"type": "fill", "q": "你的房间___大。", "py": "Nǐ de fángjiān ____ dà.", "bank": ["第", "块", "很", "怎么样", "不", "正在"], "bankPy": ["Dì", "Kuài", "Hěn", "Zěnmeyàng", "Bù", "Zhèngzài"], "a": ["很"], "g": "Câu vị ngữ tính từ", "ex": "Tính từ làm vị ngữ, thường có 很."}, {"type": "fill", "q": "妈妈___做饭呢。", "py": "Māma ____ zuòfàn ne.", "bank": ["第", "块", "很", "怎么样", "不", "正在"], "bankPy": ["Dì", "Kuài", "Hěn", "Zěnmeyàng", "Bù", "Zhèngzài"], "a": ["正在"], "g": "Phó từ 在 / 正在", "ex": "正在……呢: đang…"}, {"type": "order", "tiles": ["我", "有", "两个", "孩子"], "tilesPy": ["Wǒ", "Yǒu", "Liǎng ge", "Háizi"], "a": ["我有两个孩子"], "g": "Câu chữ 有 (1)"}, {"type": "order", "tiles": ["我爸爸", "在", "医院", "工作"], "tilesPy": ["Wǒ bàba", "Zài", "Yīyuàn", "Gōngzuò"], "a": ["我爸爸在医院工作"], "g": "Giới từ 在"}, {"type": "order", "tiles": ["今天", "太", "冷", "了"], "tilesPy": ["Jīntiān", "Tài", "Lěng", "Le"], "a": ["今天太冷了"], "g": "Cấu trúc 太……了"}, {"type": "order", "tiles": ["我的", "手机", "在", "桌子上"], "tilesPy": ["Wǒ de", "Shǒujī", "Zài", "Zhuōzi shang"], "a": ["我的手机在桌子上"], "g": "Phương vị từ"}, {"type": "correct", "opts": ["我有两个姐姐。", "我有二个姐姐。", "我有两姐姐个。", "我两个有姐姐。"], "optsPy": ["Wǒ yǒu liǎng ge jiějie.", "Wǒ yǒu èr ge jiějie.", "Wǒ yǒu liǎng jiějie ge.", "Wǒ liǎng ge yǒu jiějie."], "a": "我有两个姐姐。", "g": "Cách diễn đạt các con số", "ex": "Trước lượng từ dùng 两."}, {"type": "correct", "opts": ["这件衣服很漂亮。", "这件衣服是漂亮。", "这件衣服漂亮是。", "这件衣服有漂亮。"], "optsPy": ["Zhè jiàn yīfu hěn piàoliang.", "Zhè jiàn yīfu shì piàoliang.", "Zhè jiàn yīfu piàoliang shì.", "Zhè jiàn yīfu yǒu piàoliang."], "a": "这件衣服很漂亮。", "g": "Câu vị ngữ tính từ", "ex": "Tính từ làm vị ngữ trực tiếp, không dùng 是."}, {"type": "correct", "opts": ["他会说汉语。", "他说会汉语。", "他会汉语说。", "会他说汉语。"], "optsPy": ["Tā huì shuō Hànyǔ.", "Tā shuō huì Hànyǔ.", "Tā huì Hànyǔ shuō.", "Huì tā shuō Hànyǔ."], "a": "他会说汉语。", "g": "Động từ năng nguyện 会", "ex": "会 đứng trước động từ."}, {"type": "trans", "vn": "Tôi có hai chị gái.", "a": ["我有两个姐姐。"], "aPy": ["Wǒ yǒu liǎng ge jiějie."], "g": "Cách diễn đạt các con số"}, {"type": "trans", "vn": "Chúng ta cùng đi ăn cơm nhé.", "a": ["我们一起去吃饭吧。"], "aPy": ["Wǒmen yìqǐ qù chīfàn ba."], "g": "Trợ từ ngữ khí 吧 (1)"}, {"type": "trans", "vn": "Hôm nay lạnh quá!", "a": ["今天太冷了！"], "aPy": ["Jīntiān tài lěng le!"], "g": "Cấu trúc 太……了"}], "topics": 15}, {"id": "G5", "kind": "grammar", "short": "Đề 5", "title": "Đề ngữ pháp 5", "badge": "", "questions": [{"type": "mcq", "q": "这是我___书。", "py": "Zhè shì wǒ ____ shū.", "opts": ["的", "吗", "呢", "了"], "optsPy": ["De", "Ma", "Ne", "Le"], "a": "的", "g": "Trợ từ kết cấu 的", "ex": "的 nối định ngữ với trung tâm ngữ, biểu thị sở hữu: 我的书."}, {"type": "mcq", "q": "他有三___书。", "py": "Tā yǒu sān ____ shū.", "opts": ["本", "个", "口", "岁"], "optsPy": ["Běn", "Ge", "Kǒu", "Suì"], "a": "本", "g": "Danh lượng từ", "ex": "Số từ + lượng từ + danh từ: 三本书 (sách dùng lượng từ 本)."}, {"type": "mcq", "q": "你___去西安饭店？", "py": "Nǐ ____ qù Xī'ān fàndiàn?", "opts": ["怎么", "什么", "哪", "谁"], "optsPy": ["Zěnme", "Shénme", "Nǎ", "Shéi"], "a": "怎么", "g": "Đại từ nghi vấn 怎么", "ex": "怎么 + động từ: hỏi cách thức (làm thế nào / bằng cách nào)."}, {"type": "mcq", "q": "我爸爸___医院工作。", "py": "Wǒ bàba ____ yīyuàn gōngzuò.", "opts": ["在", "是", "有", "到"], "optsPy": ["Zài", "Shì", "Yǒu", "Dào"], "a": "在", "g": "Giới từ 在", "ex": "在 + nơi chốn + động từ: làm gì ở đâu."}, {"type": "mcq", "q": "这件衣服___漂亮。", "py": "Zhè jiàn yīfu ____ piàoliang.", "opts": ["很", "是", "有", "在"], "optsPy": ["Hěn", "Shì", "Yǒu", "Zài"], "a": "很", "g": "Câu vị ngữ tính từ", "ex": "Câu vị ngữ tính từ thường thêm 很, không dùng 是: 衣服很漂亮."}, {"type": "mcq", "q": "今天___冷了！", "py": "Jīntiān ____ lěng le!", "opts": ["太", "很", "真的", "非常的"], "optsPy": ["Tài", "Hěn", "Zhēnde", "Fēicháng de"], "a": "太", "g": "Cấu trúc 太……了", "ex": "太 + tính từ + 了: … quá!"}, {"type": "fill", "q": "今天天气___好了！", "py": "Jīntiān tiānqì ____ hǎo le!", "bank": ["了", "太", "一下", "给", "都", "也"], "bankPy": ["Le", "Tài", "Yíxià", "Gěi", "Dōu", "Yě"], "a": ["太"], "g": "Cấu trúc 太……了", "ex": "太……了: … quá."}, {"type": "fill", "q": "我能看___你的书吗？", "py": "Wǒ néng kàn ____ nǐ de shū ma?", "bank": ["了", "太", "一下", "给", "都", "也"], "bankPy": ["Le", "Tài", "Yíxià", "Gěi", "Dōu", "Yě"], "a": ["一下"], "g": "Cấu trúc động từ + 一下", "ex": "看一下: xem một chút."}, {"type": "fill", "q": "服务员，请___我一个面包。", "py": "Fúwùyuán, qǐng ____ wǒ yí ge miànbāo.", "bank": ["了", "太", "一下", "给", "都", "也"], "bankPy": ["Le", "Tài", "Yíxià", "Gěi", "Dōu", "Yě"], "a": ["给"], "g": "Câu có hai tân ngữ (1)", "ex": "给 + người + vật."}, {"type": "fill", "q": "我们___喜欢吃饺子。", "py": "Wǒmen ____ xǐhuan chījiǎozi.", "bank": ["了", "太", "一下", "给", "都", "也"], "bankPy": ["Le", "Tài", "Yíxià", "Gěi", "Dōu", "Yě"], "a": ["都"], "g": "Phó từ 都", "ex": "都: đều."}, {"type": "order", "tiles": ["今天", "星期", "五"], "tilesPy": ["Jīntiān", "Xīngqī", "Wǔ"], "a": ["今天星期五"], "g": "Câu vị ngữ danh từ"}, {"type": "order", "tiles": ["我", "明天上午", "在学校", "学习"], "tilesPy": ["Wǒ", "Míngtiān shàngwǔ", "Zài xuéxiào", "Xuéxí"], "a": ["我明天上午在学校学习", "明天上午我在学校学习"], "g": "Thứ tự trạng ngữ thời gian và nơi chốn"}, {"type": "order", "tiles": ["请", "给", "我", "一杯茶"], "tilesPy": ["Qǐng", "Gěi", "Wǒ", "Yì bēi chá"], "a": ["请给我一杯茶"], "g": "Câu có hai tân ngữ (1)"}, {"type": "order", "tiles": ["下雨", "了"], "tilesPy": ["Xiàyǔ", "Le"], "a": ["下雨了"], "g": "Trợ từ ngữ khí 了 (1)"}, {"type": "correct", "opts": ["今天不是星期六。", "今天不星期六。", "今天没星期六。", "今天星期不六。"], "optsPy": ["Jīntiān bú shì xīngqīliù.", "Jīntiān bù xīngqīliù.", "Jīntiān méi xīngqīliù.", "Jīntiān xīngqī bú liù."], "a": "今天不是星期六。", "g": "Câu vị ngữ danh từ", "ex": "Câu vị ngữ danh từ phủ định phải có 不是."}, {"type": "correct", "opts": ["你去不去超市？", "你去不去超市吗？", "你不去去超市？", "你去超市不去吗？"], "optsPy": ["Nǐ qùbùqù chāoshì?", "Nǐ qùbùqù chāoshì ma?", "Nǐ bú qù qù chāoshì?", "Nǐ qù chāoshì bú qù ma?"], "a": "你去不去超市？", "g": "Câu hỏi chính phản", "ex": "Câu hỏi chính phản không thêm 吗."}, {"type": "correct", "opts": ["你怎么去学校？", "你去学校怎么？", "怎么你去学校？", "你去怎么学校？"], "optsPy": ["Nǐ zěnme qù xuéxiào?", "Nǐ qù xuéxiào zěnme?", "Zěnme nǐ qù xuéxiào?", "Nǐ qù zěnme xuéxiào?"], "a": "你怎么去学校？", "g": "Đại từ nghi vấn 怎么", "ex": "怎么 đứng trước động từ."}, {"type": "trans", "vn": "Tôi rất khỏe, còn bạn?", "a": ["我很好，你呢？"], "aPy": ["Wǒ hěn hǎo, nǐ ne?"], "g": "Trợ từ ngữ khí 呢 (1)"}, {"type": "trans", "vn": "Bố tôi làm việc ở bệnh viện.", "a": ["我爸爸在医院工作。"], "aPy": ["Wǒ bàba zài yīyuàn gōngzuò."], "g": "Giới từ 在"}, {"type": "trans", "vn": "Cho tôi một cốc trà.", "a": ["请给我一杯茶。", "给我一杯茶。"], "aPy": ["Qǐng gěi wǒ yì bēi chá.", "Gěi wǒ yì bēi chá."], "g": "Câu có hai tân ngữ (1)"}], "topics": 14}, {"id": "G6", "kind": "grammar", "short": "Đề 6", "title": "Đề ngữ pháp 6", "badge": "", "questions": [{"type": "mcq", "q": "你是老师___？", "py": "Nǐ shì lǎoshī ____?", "opts": ["吗", "的", "吧", "了"], "optsPy": ["Ma", "De", "Ba", "Le"], "a": "吗", "g": "Câu hỏi với 吗", "ex": "Thêm 吗 cuối câu trần thuật để tạo câu hỏi có / không."}, {"type": "mcq", "q": "今天___五号。", "py": "Jīntiān ____ wǔ hào.", "opts": ["是", "在", "有", "了"], "optsPy": ["Shì", "Zài", "Yǒu", "Le"], "a": "是", "g": "Câu vị ngữ danh từ", "ex": "Ngày tháng có thể làm vị ngữ trực tiếp; cũng có thể thêm 是. Phủ định phải dùng 不是."}, {"type": "mcq", "q": "现在七点___。", "py": "Xiànzài qī diǎn ____.", "opts": ["半", "点", "分钟", "号"], "optsPy": ["Bàn", "Diǎn", "Fēnzhōng", "Hào"], "a": "半", "g": "Cách diễn đạt thời gian (2)", "ex": "七点半 = 7 giờ rưỡi."}, {"type": "mcq", "q": "你明天___来吗？", "py": "Nǐ míngtiān ____ lái ma?", "opts": ["能", "是", "有", "很"], "optsPy": ["Néng", "Shì", "Yǒu", "Hěn"], "a": "能", "g": "Động từ năng nguyện 能", "ex": "能 + động từ: có thể (có khả năng / điều kiện)."}, {"type": "mcq", "q": "你觉得这个苹果___？", "py": "Nǐ juéde zhège píngguǒ ____?", "opts": ["怎么样", "怎么", "什么", "哪个"], "optsPy": ["Zěnmeyàng", "Zěnme", "Shénme", "Nǎge"], "a": "怎么样", "g": "Đại từ nghi vấn 怎么样", "ex": "怎么样 hỏi ý kiến, tình trạng: thế nào."}, {"type": "mcq", "q": "我可以看___吗？", "py": "Wǒ kěyǐ kàn ____ ma?", "opts": ["一下", "一个", "一点", "下一"], "optsPy": ["Yíxià", "Yí ge", "Yì diǎn", "Xià yī"], "a": "一下", "g": "Cấu trúc động từ + 一下", "ex": "Động từ + 一下: làm gì một chút, nhẹ nhàng."}, {"type": "fill", "q": "你喝___喝茶？", "py": "Nǐ hē ____ hēchá?", "bank": ["要", "不", "没", "呢", "在", "的"], "bankPy": ["Yào", "Bù", "Méi", "Ne", "Zài", "De"], "a": ["不"], "g": "Câu hỏi chính phản", "ex": "V + 不 + V: câu hỏi chính phản."}, {"type": "fill", "q": "我明天___去北京。", "py": "Wǒ míngtiān ____ qù Běijīng.", "bank": ["要", "不", "没", "呢", "在", "的"], "bankPy": ["Yào", "Bù", "Méi", "Ne", "Zài", "De"], "a": ["要"], "g": "Động từ năng nguyện 要", "ex": "要: sắp / muốn làm gì."}, {"type": "fill", "q": "我___有妹妹。", "py": "Wǒ ____ yǒu mèimei.", "bank": ["要", "不", "没", "呢", "在", "的"], "bankPy": ["Yào", "Bù", "Méi", "Ne", "Zài", "De"], "a": ["没"], "g": "Câu chữ 有 (1)", "ex": "Phủ định 有 là 没有."}, {"type": "fill", "q": "我爸爸___商店工作。", "py": "Wǒ bàba ____ shāngdiàn gōngzuò.", "bank": ["要", "不", "没", "呢", "在", "的"], "bankPy": ["Yào", "Bù", "Méi", "Ne", "Zài", "De"], "a": ["在"], "g": "Giới từ 在", "ex": "在 + nơi chốn + động từ."}, {"type": "order", "tiles": ["我", "会", "做", "中国菜"], "tilesPy": ["Wǒ", "Huì", "Zuò", "Zhōngguó cài"], "a": ["我会做中国菜"], "g": "Động từ năng nguyện 会"}, {"type": "order", "tiles": ["桌子上", "有", "一本", "书"], "tilesPy": ["Zhuōzi shang", "Yǒu", "Yì běn", "Shū"], "a": ["桌子上有一本书"], "g": "Câu tồn hiện (1)"}, {"type": "order", "tiles": ["我", "看了", "一个", "电影"], "tilesPy": ["Wǒ", "Kàn le", "Yí ge", "Diànyǐng"], "a": ["我看了一个电影"], "g": "Trợ từ động thái 了 (2)"}, {"type": "order", "tiles": ["我", "去", "商店", "买", "水果"], "tilesPy": ["Wǒ", "Qù", "Shāngdiàn", "Mǎi", "Shuǐguǒ"], "a": ["我去商店买水果"], "g": "Câu liên động (1)"}, {"type": "correct", "opts": ["我们去饭店吃饭。", "我们吃饭去饭店了。", "我们饭店去吃饭。", "我们去吃饭店饭。"], "optsPy": ["Wǒmen qù fàndiàn chīfàn.", "Wǒmen chīfàn qù fàndiàn le.", "Wǒmen fàndiàn qù chīfàn.", "Wǒmen qù chī fàndiàn fàn."], "a": "我们去饭店吃饭。", "g": "Câu liên động (1)", "ex": "Câu liên động: V1 (đi đâu) trước, V2 (làm gì) sau."}, {"type": "correct", "opts": ["今天太热了！", "今天太热！了", "今天热太了！", "今天很太热了！"], "optsPy": ["Jīntiān tài rè le!", "Jīntiān tài rè! Le", "Jīntiān rè tài le!", "Jīntiān hěn tài rè le!"], "a": "今天太热了！", "g": "Cấu trúc 太……了", "ex": "太 + tính từ + 了."}, {"type": "correct", "opts": ["我可以看一下吗？", "我可以一下看吗？", "我看可以一下吗？", "我一下可以看吗？"], "optsPy": ["Wǒ kěyǐ kàn yíxià ma?", "Wǒ kěyǐ yíxià kàn ma?", "Wǒ kàn kěyǐ yíxià ma?", "Wǒ yíxià kěyǐ kàn ma?"], "a": "我可以看一下吗？", "g": "Cấu trúc động từ + 一下", "ex": "Động từ + 一下."}, {"type": "trans", "vn": "Hôm nay thứ Sáu.", "a": ["今天星期五。", "今天是星期五。"], "aPy": ["Jīntiān xīngqīwǔ.", "Jīntiān shì xīngqīwǔ."], "g": "Câu vị ngữ danh từ"}, {"type": "trans", "vn": "Sáng mai tôi học ở trường.", "a": ["我明天上午在学校学习。", "明天上午我在学校学习。"], "aPy": ["Wǒ míngtiān shàngwǔ zài xuéxiào xuéxí.", "Míngtiān shàngwǔ wǒ zài xuéxiào xuéxí."], "g": "Thứ tự trạng ngữ thời gian và nơi chốn"}, {"type": "trans", "vn": "Chúng tôi đều là học sinh.", "a": ["我们都是学生。"], "aPy": ["Wǒmen dōu shì xuésheng."], "g": "Phó từ 都"}], "topics": 17}, {"id": "V1", "kind": "vocab", "short": "Từ vựng 1", "title": "Từ vựng B1–5", "badge": "词语", "pool": [{"zh": "八", "py": "bā", "l": 4, "vn": "số tám", "pos": ""}, {"zh": "爸爸", "py": "bàba", "l": 4, "vn": "bố", "pos": ""}, {"zh": "百", "py": "bǎi", "l": 4, "vn": "trăm", "pos": ""}, {"zh": "不客气", "py": "bú kèqi", "l": 1, "vn": "đừng khách sáo", "pos": ""}, {"zh": "不", "py": "bù", "l": 2, "vn": "không", "pos": ""}, {"zh": "菜", "py": "cài", "l": 5, "vn": "món ăn, rau", "pos": ""}, {"zh": "大", "py": "dà", "l": 4, "vn": "to, lớn", "pos": ""}, {"zh": "大家", "py": "dàjiā", "l": 1, "vn": "mọi người", "pos": ""}, {"zh": "的", "py": "de", "l": 3, "vn": "của (trợ từ kết cấu)", "pos": ""}, {"zh": "电脑", "py": "diànnǎo", "l": 5, "vn": "máy tính", "pos": ""}, {"zh": "对", "py": "duì", "l": 3, "vn": "đúng", "pos": ""}, {"zh": "对不起", "py": "duìbuqǐ", "l": 2, "vn": "xin lỗi", "pos": ""}, {"zh": "多", "py": "duō", "l": 4, "vn": "nhiều", "pos": ""}, {"zh": "多少", "py": "duōshao", "l": 4, "vn": "bao nhiêu", "pos": ""}, {"zh": "儿子", "py": "érzi", "l": 4, "vn": "con trai", "pos": ""}, {"zh": "二", "py": "èr", "l": 4, "vn": "số hai", "pos": ""}, {"zh": "高兴", "py": "gāoxìng", "l": 2, "vn": "vui, vui vẻ", "pos": ""}, {"zh": "哥哥", "py": "gēge", "l": 4, "vn": "anh trai", "pos": ""}, {"zh": "个", "py": "gè", "l": 4, "vn": "cái, chiếc (lượng từ)", "pos": ""}, {"zh": "工作", "py": "gōngzuò", "l": 3, "vn": "công việc, làm việc", "pos": ""}, {"zh": "国", "py": "guó", "l": 3, "vn": "nước, quốc gia", "pos": ""}, {"zh": "还", "py": "hái", "l": 3, "vn": "còn, vẫn", "pos": ""}, {"zh": "孩子", "py": "háizi", "l": 4, "vn": "đứa trẻ, con", "pos": ""}, {"zh": "好", "py": "hǎo", "l": 1, "vn": "tốt, khỏe", "pos": ""}, {"zh": "好看", "py": "hǎokàn", "l": 5, "vn": "đẹp, hay (xem)", "pos": ""}, {"zh": "号", "py": "hào", "l": 5, "vn": "ngày (trong tháng), số", "pos": ""}, {"zh": "和", "py": "hé", "l": 4, "vn": "và, với", "pos": ""}, {"zh": "很", "py": "hěn", "l": 2, "vn": "rất", "pos": ""}, {"zh": "会", "py": "huì", "l": 5, "vn": "biết, có thể", "pos": ""}, {"zh": "几", "py": "jǐ", "l": 4, "vn": "mấy", "pos": ""}, {"zh": "家", "py": "jiā", "l": 4, "vn": "nhà, gia đình", "pos": ""}, {"zh": "饺子", "py": "jiǎozi", "l": 5, "vn": "sủi cảo", "pos": ""}, {"zh": "叫", "py": "jiào", "l": 2, "vn": "gọi, tên là", "pos": ""}, {"zh": "姐姐", "py": "jiějie", "l": 3, "vn": "chị gái", "pos": ""}, {"zh": "今年", "py": "jīnnián", "l": 4, "vn": "năm nay", "pos": ""}, {"zh": "今天", "py": "jīntiān", "l": 5, "vn": "hôm nay", "pos": ""}, {"zh": "九", "py": "jiǔ", "l": 4, "vn": "số chín", "pos": ""}, {"zh": "口", "py": "kǒu", "l": 4, "vn": "miệng; người (lượng từ cho số người trong nhà)", "pos": ""}, {"zh": "老师", "py": "lǎoshī", "l": 1, "vn": "thầy giáo, cô giáo", "pos": ""}, {"zh": "两", "py": "liǎng", "l": 4, "vn": "hai (trước lượng từ)", "pos": ""}, {"zh": "零", "py": "líng", "l": 4, "vn": "số không", "pos": ""}, {"zh": "六", "py": "liù", "l": 4, "vn": "số sáu", "pos": ""}, {"zh": "妈妈", "py": "māma", "l": 4, "vn": "mẹ", "pos": ""}, {"zh": "吗", "py": "ma", "l": 3, "vn": "không? (trợ từ nghi vấn)", "pos": ""}, {"zh": "忙", "py": "máng", "l": 3, "vn": "bận", "pos": ""}, {"zh": "没关系", "py": "méi guānxi", "l": 2, "vn": "không sao", "pos": ""}, {"zh": "没事", "py": "méishì", "l": 2, "vn": "không có việc gì, không sao", "pos": ""}, {"zh": "没有", "py": "méiyǒu", "l": 4, "vn": "không có", "pos": ""}, {"zh": "妹妹", "py": "mèimei", "l": 4, "vn": "em gái", "pos": ""}, {"zh": "们", "py": "men", "l": 1, "vn": "các, những (số nhiều)", "pos": ""}, {"zh": "面条儿", "py": "miàntiáor", "l": 5, "vn": "mì sợi", "pos": ""}, {"zh": "名字", "py": "míngzi", "l": 2, "vn": "tên", "pos": ""}, {"zh": "哪", "py": "nǎ", "l": 3, "vn": "nào", "pos": ""}, {"zh": "呢", "py": "ne", "l": 4, "vn": "thế, còn… thì sao (trợ từ)", "pos": ""}, {"zh": "你", "py": "nǐ", "l": 2, "vn": "bạn, anh, chị", "pos": ""}, {"zh": "你好", "py": "nǐ hǎo", "l": 1, "vn": "xin chào", "pos": ""}, {"zh": "你们", "py": "nǐmen", "l": 1, "vn": "các bạn", "pos": ""}, {"zh": "您", "py": "nín", "l": 1, "vn": "ngài, ông, bà (kính trọng)", "pos": ""}, {"zh": "女儿", "py": "nǚ'ér", "l": 4, "vn": "con gái", "pos": ""}, {"zh": "女朋友", "py": "nǚpéngyou", "l": 3, "vn": "bạn gái", "pos": ""}, {"zh": "七", "py": "qī", "l": 4, "vn": "số bảy", "pos": ""}, {"zh": "千", "py": "qiān", "l": 4, "vn": "nghìn", "pos": ""}, {"zh": "请问", "py": "qǐngwèn", "l": 2, "vn": "xin hỏi", "pos": ""}, {"zh": "人", "py": "rén", "l": 3, "vn": "người", "pos": ""}, {"zh": "认识", "py": "rènshi", "l": 2, "vn": "quen, làm quen", "pos": ""}, {"zh": "日", "py": "rì", "l": 5, "vn": "ngày", "pos": ""}, {"zh": "三", "py": "sān", "l": 4, "vn": "số ba", "pos": ""}, {"zh": "谁", "py": "shéi", "l": 3, "vn": "ai", "pos": ""}, {"zh": "什么", "py": "shénme", "l": 2, "vn": "cái gì", "pos": ""}, {"zh": "十", "py": "shí", "l": 4, "vn": "số mười", "pos": ""}, {"zh": "是", "py": "shì", "l": 2, "vn": "là", "pos": ""}, {"zh": "四", "py": "sì", "l": 4, "vn": "số bốn", "pos": ""}, {"zh": "岁", "py": "suì", "l": 4, "vn": "tuổi", "pos": ""}, {"zh": "他", "py": "tā", "l": 4, "vn": "anh ấy, ông ấy", "pos": ""}, {"zh": "它", "py": "tā", "l": 5, "vn": "nó (con vật, đồ vật)", "pos": ""}, {"zh": "她", "py": "tā", "l": 3, "vn": "cô ấy, bà ấy", "pos": ""}, {"zh": "太", "py": "tài", "l": 3, "vn": "quá", "pos": ""}, {"zh": "同学", "py": "tóngxué", "l": 1, "vn": "bạn học", "pos": ""}, {"zh": "喂", "py": "wèi", "l": 3, "vn": "a lô", "pos": ""}, {"zh": "我", "py": "wǒ", "l": 2, "vn": "tôi", "pos": ""}, {"zh": "我们", "py": "wǒmen", "l": 3, "vn": "chúng tôi", "pos": ""}, {"zh": "五", "py": "wǔ", "l": 4, "vn": "số năm", "pos": ""}, {"zh": "喜欢", "py": "xǐhuan", "l": 5, "vn": "thích", "pos": ""}, {"zh": "下班", "py": "xiàbān", "l": 5, "vn": "tan làm", "pos": ""}, {"zh": "想", "py": "xiǎng", "l": 3, "vn": "muốn; nhớ, nghĩ", "pos": ""}, {"zh": "谢谢", "py": "xièxie", "l": 1, "vn": "cảm ơn", "pos": ""}, {"zh": "新", "py": "xīn", "l": 5, "vn": "mới", "pos": ""}, {"zh": "星期", "py": "xīngqī", "l": 5, "vn": "tuần, thứ", "pos": ""}, {"zh": "星期日", "py": "Xīngqīrì", "l": 5, "vn": "chủ nhật", "pos": ""}, {"zh": "星期天", "py": "Xīngqītiān", "l": 5, "vn": "chủ nhật (khẩu ngữ)", "pos": ""}, {"zh": "休息", "py": "xiūxi", "l": 5, "vn": "nghỉ ngơi", "pos": ""}, {"zh": "学生", "py": "xuésheng", "l": 1, "vn": "học sinh, sinh viên", "pos": ""}, {"zh": "也", "py": "yě", "l": 2, "vn": "cũng", "pos": ""}, {"zh": "一", "py": "yī", "l": 4, "vn": "số một", "pos": ""}, {"zh": "一些", "py": "yìxiē", "l": 5, "vn": "một số, một vài", "pos": ""}, {"zh": "有", "py": "yǒu", "l": 4, "vn": "có", "pos": ""}, {"zh": "月", "py": "yuè", "l": 5, "vn": "tháng", "pos": ""}, {"zh": "再见", "py": "zàijiàn", "l": 1, "vn": "tạm biệt", "pos": ""}, {"zh": "这", "py": "zhè", "l": 3, "vn": "đây, này", "pos": ""}, {"zh": "真", "py": "zhēn", "l": 5, "vn": "thật, thật là", "pos": ""}, {"zh": "做", "py": "zuò", "l": 5, "vn": "làm", "pos": ""}, {"zh": "做饭", "py": "zuò fàn", "l": 5, "vn": "nấu cơm", "pos": ""}, {"zh": "中国", "py": "Zhōngguó", "l": 3, "vn": "Trung Quốc", "pos": ""}, {"zh": "中文", "py": "Zhōngwén", "l": 3, "vn": "tiếng Trung", "pos": ""}, {"zh": "法国", "py": "Fǎguó", "l": 3, "vn": "nước Pháp", "pos": ""}]}, {"id": "V2", "kind": "vocab", "short": "Từ vựng 2", "title": "Từ vựng B6–10", "badge": "词语", "pool": [{"zh": "吧", "py": "ba", "l": 7, "vn": "nhé, đi (trợ từ đề nghị)", "pos": ""}, {"zh": "白天", "py": "báitiān", "l": 9, "vn": "ban ngày", "pos": ""}, {"zh": "半", "py": "bàn", "l": 7, "vn": "rưỡi, một nửa", "pos": ""}, {"zh": "包子", "py": "bāozi", "l": 6, "vn": "bánh bao", "pos": ""}, {"zh": "杯子", "py": "bēizi", "l": 10, "vn": "cái cốc, cái ly", "pos": ""}, {"zh": "本", "py": "běn", "l": 9, "vn": "quyển, cuốn (lượng từ)", "pos": ""}, {"zh": "边", "py": "biān", "l": 9, "vn": "bên, phía", "pos": ""}, {"zh": "病人", "py": "bìngrén", "l": 8, "vn": "người bệnh", "pos": ""}, {"zh": "唱", "py": "chàng", "l": 9, "vn": "hát", "pos": ""}, {"zh": "超市", "py": "chāoshì", "l": 6, "vn": "siêu thị", "pos": ""}, {"zh": "吃", "py": "chī", "l": 6, "vn": "ăn", "pos": ""}, {"zh": "出租车", "py": "chūzūchē", "l": 6, "vn": "xe taxi", "pos": ""}, {"zh": "穿", "py": "chuān", "l": 10, "vn": "mặc, mang", "pos": ""}, {"zh": "到", "py": "dào", "l": 8, "vn": "đến", "pos": ""}, {"zh": "第", "py": "dì", "l": 9, "vn": "thứ (chỉ thứ tự)", "pos": ""}, {"zh": "点", "py": "diǎn", "l": 7, "vn": "giờ", "pos": ""}, {"zh": "电话", "py": "diànhuà", "l": 6, "vn": "điện thoại", "pos": ""}, {"zh": "电视", "py": "diànshì", "l": 9, "vn": "ti vi", "pos": ""}, {"zh": "电影", "py": "diànyǐng", "l": 7, "vn": "phim", "pos": ""}, {"zh": "电影院", "py": "diànyǐngyuàn", "l": 7, "vn": "rạp chiếu phim", "pos": ""}, {"zh": "店", "py": "diàn", "l": 7, "vn": "cửa hàng, quán", "pos": ""}, {"zh": "东西", "py": "dōngxi", "l": 6, "vn": "đồ vật, đồ", "pos": ""}, {"zh": "读书", "py": "dúshū", "l": 9, "vn": "đọc sách, đi học", "pos": ""}, {"zh": "饭", "py": "fàn", "l": 8, "vn": "cơm, bữa ăn", "pos": ""}, {"zh": "房间", "py": "fángjiān", "l": 8, "vn": "phòng", "pos": ""}, {"zh": "非常", "py": "fēicháng", "l": 6, "vn": "vô cùng, rất", "pos": ""}, {"zh": "分", "py": "fēn", "l": 7, "vn": "phút", "pos": ""}, {"zh": "分钟", "py": "fēnzhōng", "l": 7, "vn": "phút (khoảng thời gian)", "pos": ""}, {"zh": "歌", "py": "gē", "l": 9, "vn": "bài hát", "pos": ""}, {"zh": "狗", "py": "gǒu", "l": 9, "vn": "con chó", "pos": ""}, {"zh": "贵", "py": "guì", "l": 10, "vn": "đắt", "pos": ""}, {"zh": "好吃", "py": "hǎochī", "l": 6, "vn": "ngon", "pos": ""}, {"zh": "好听", "py": "hǎotīng", "l": 9, "vn": "hay (nghe), êm tai", "pos": ""}, {"zh": "后", "py": "hòu", "l": 7, "vn": "sau", "pos": ""}, {"zh": "见", "py": "jiàn", "l": 7, "vn": "gặp", "pos": ""}, {"zh": "件", "py": "jiàn", "l": 10, "vn": "chiếc, cái (áo, việc)", "pos": ""}, {"zh": "斤", "py": "jīn", "l": 10, "vn": "cân (0,5 kg)", "pos": ""}, {"zh": "看", "py": "kàn", "l": 7, "vn": "xem, nhìn", "pos": ""}, {"zh": "看见", "py": "kànjiàn", "l": 8, "vn": "nhìn thấy", "pos": ""}, {"zh": "课", "py": "kè", "l": 7, "vn": "bài học, tiết học", "pos": ""}, {"zh": "块", "py": "kuài", "l": 10, "vn": "đồng (tiền)", "pos": ""}, {"zh": "里", "py": "lǐ", "l": 7, "vn": "trong, bên trong", "pos": ""}, {"zh": "买", "py": "mǎi", "l": 6, "vn": "mua", "pos": ""}, {"zh": "猫", "py": "māo", "l": 8, "vn": "con mèo", "pos": ""}, {"zh": "没", "py": "méi", "l": 8, "vn": "không, chưa", "pos": ""}, {"zh": "米饭", "py": "mǐfàn", "l": 6, "vn": "cơm", "pos": ""}, {"zh": "明天", "py": "míngtiān", "l": 6, "vn": "ngày mai", "pos": ""}, {"zh": "哪儿", "py": "nǎr", "l": 6, "vn": "ở đâu", "pos": ""}, {"zh": "那", "py": "nà", "l": 9, "vn": "kia, đó", "pos": ""}, {"zh": "那边", "py": "nàbiān", "l": 6, "vn": "bên kia", "pos": ""}, {"zh": "那个", "py": "nàge", "l": 9, "vn": "cái kia, cái đó", "pos": ""}, {"zh": "那儿", "py": "nàr", "l": 10, "vn": "chỗ đó, ở đó", "pos": ""}, {"zh": "那些", "py": "nàxiē", "l": 10, "vn": "những… kia", "pos": ""}, {"zh": "男", "py": "nán", "l": 10, "vn": "nam", "pos": ""}, {"zh": "能", "py": "néng", "l": 8, "vn": "có thể", "pos": ""}, {"zh": "牛奶", "py": "niúnǎi", "l": 6, "vn": "sữa bò", "pos": ""}, {"zh": "女", "py": "nǚ", "l": 10, "vn": "nữ", "pos": ""}, {"zh": "朋友", "py": "péngyou", "l": 9, "vn": "bạn bè", "pos": ""}, {"zh": "便宜", "py": "piányi", "l": 10, "vn": "rẻ", "pos": ""}, {"zh": "漂亮", "py": "piàoliang", "l": 8, "vn": "đẹp, xinh", "pos": ""}, {"zh": "苹果", "py": "píngguǒ", "l": 10, "vn": "quả táo", "pos": ""}, {"zh": "前", "py": "qián", "l": 8, "vn": "trước", "pos": ""}, {"zh": "前边", "py": "qiánbian", "l": 9, "vn": "phía trước", "pos": ""}, {"zh": "钱", "py": "qián", "l": 10, "vn": "tiền", "pos": ""}, {"zh": "去", "py": "qù", "l": 6, "vn": "đi", "pos": ""}, {"zh": "商店", "py": "shāngdiàn", "l": 10, "vn": "cửa hàng", "pos": ""}, {"zh": "上", "py": "shàng", "l": 9, "vn": "trên", "pos": ""}, {"zh": "上班", "py": "shàngbān", "l": 7, "vn": "đi làm", "pos": ""}, {"zh": "上课", "py": "shàngkè", "l": 7, "vn": "lên lớp, vào học", "pos": ""}, {"zh": "上午", "py": "shàngwǔ", "l": 7, "vn": "buổi sáng", "pos": ""}, {"zh": "少", "py": "shǎo", "l": 10, "vn": "ít", "pos": ""}, {"zh": "事", "py": "shì", "l": 7, "vn": "việc, chuyện", "pos": ""}, {"zh": "手机", "py": "shǒujī", "l": 6, "vn": "điện thoại di động", "pos": ""}, {"zh": "售货员", "py": "shòuhuòyuán", "l": 10, "vn": "nhân viên bán hàng", "pos": ""}, {"zh": "书", "py": "shū", "l": 9, "vn": "sách", "pos": ""}, {"zh": "书店", "py": "shūdiàn", "l": 8, "vn": "hiệu sách", "pos": ""}, {"zh": "水果", "py": "shuǐguǒ", "l": 10, "vn": "hoa quả", "pos": ""}, {"zh": "外", "py": "wài", "l": 8, "vn": "ngoài", "pos": ""}, {"zh": "外边", "py": "wàibian", "l": 9, "vn": "bên ngoài", "pos": ""}, {"zh": "玩", "py": "wán", "l": 9, "vn": "chơi", "pos": ""}, {"zh": "晚饭", "py": "wǎnfàn", "l": 6, "vn": "bữa tối", "pos": ""}, {"zh": "晚上", "py": "wǎnshang", "l": 7, "vn": "buổi tối", "pos": ""}, {"zh": "午饭", "py": "wǔfàn", "l": 8, "vn": "bữa trưa", "pos": ""}, {"zh": "下", "py": "xià", "l": 8, "vn": "dưới; xuống", "pos": ""}, {"zh": "下课", "py": "xiàkè", "l": 7, "vn": "tan học", "pos": ""}, {"zh": "下午", "py": "xiàwǔ", "l": 7, "vn": "buổi chiều", "pos": ""}, {"zh": "现在", "py": "xiànzài", "l": 7, "vn": "bây giờ", "pos": ""}, {"zh": "小", "py": "xiǎo", "l": 8, "vn": "nhỏ", "pos": ""}, {"zh": "些", "py": "xiē", "l": 6, "vn": "một vài, một số", "pos": ""}, {"zh": "学习", "py": "xuéxí", "l": 9, "vn": "học tập", "pos": ""}, {"zh": "学校", "py": "xuéxiào", "l": 8, "vn": "trường học", "pos": ""}, {"zh": "衣服", "py": "yīfu", "l": 10, "vn": "quần áo", "pos": ""}, {"zh": "医生", "py": "yīshēng", "l": 8, "vn": "bác sĩ", "pos": ""}, {"zh": "医院", "py": "yīyuàn", "l": 7, "vn": "bệnh viện", "pos": ""}, {"zh": "椅子", "py": "yǐzi", "l": 9, "vn": "cái ghế", "pos": ""}, {"zh": "元", "py": "yuán", "l": 10, "vn": "đồng (đơn vị tiền)", "pos": ""}, {"zh": "在", "py": "zài", "l": 7, "vn": "ở, tại; đang", "pos": ""}, {"zh": "早上", "py": "zǎoshang", "l": 7, "vn": "buổi sáng sớm", "pos": ""}, {"zh": "怎么", "py": "zěnme", "l": 6, "vn": "thế nào, làm sao", "pos": ""}, {"zh": "怎么样", "py": "zěnmeyàng", "l": 10, "vn": "như thế nào", "pos": ""}, {"zh": "这边", "py": "zhèbiān", "l": 10, "vn": "bên này", "pos": ""}, {"zh": "这儿", "py": "zhèr", "l": 10, "vn": "ở đây", "pos": ""}, {"zh": "这些", "py": "zhèxiē", "l": 10, "vn": "những… này", "pos": ""}, {"zh": "只", "py": "zhǐ", "l": 8, "vn": "chỉ", "pos": ""}, {"zh": "桌子", "py": "zhuōzi", "l": 8, "vn": "cái bàn", "pos": ""}, {"zh": "坐", "py": "zuò", "l": 6, "vn": "ngồi; đi (xe…)", "pos": ""}]}, {"id": "V3", "kind": "vocab", "short": "Từ vựng 3", "title": "Từ vựng B11–15", "badge": "词语", "pool": [{"zh": "爱", "py": "ài", "l": 15, "vn": "yêu, thích", "pos": ""}, {"zh": "杯", "py": "bēi", "l": 13, "vn": "cốc, ly (lượng từ)", "pos": ""}, {"zh": "病", "py": "bìng", "l": 12, "vn": "bệnh", "pos": ""}, {"zh": "不要", "py": "búyào", "l": 14, "vn": "đừng, không được", "pos": ""}, {"zh": "茶", "py": "chá", "l": 13, "vn": "trà", "pos": ""}, {"zh": "车", "py": "chē", "l": 11, "vn": "xe", "pos": ""}, {"zh": "打电话", "py": "dǎ diànhuà", "l": 13, "vn": "gọi điện thoại", "pos": ""}, {"zh": "大学", "py": "dàxué", "l": 11, "vn": "đại học", "pos": ""}, {"zh": "大学生", "py": "dàxuéshēng", "l": 11, "vn": "sinh viên", "pos": ""}, {"zh": "弟弟", "py": "dìdi", "l": 11, "vn": "em trai", "pos": ""}, {"zh": "都", "py": "dōu", "l": 14, "vn": "đều", "pos": ""}, {"zh": "读", "py": "dú", "l": 11, "vn": "đọc, học", "pos": ""}, {"zh": "饭店", "py": "fàndiàn", "l": 11, "vn": "nhà hàng, khách sạn", "pos": ""}, {"zh": "飞机", "py": "fēijī", "l": 15, "vn": "máy bay", "pos": ""}, {"zh": "服务员", "py": "fúwùyuán", "l": 13, "vn": "nhân viên phục vụ", "pos": ""}, {"zh": "给", "py": "gěi", "l": 13, "vn": "cho, đưa", "pos": ""}, {"zh": "公司", "py": "gōngsī", "l": 12, "vn": "công ty", "pos": ""}, {"zh": "好玩儿", "py": "hǎowánr", "l": 15, "vn": "vui, thú vị", "pos": ""}, {"zh": "喝", "py": "hē", "l": 12, "vn": "uống", "pos": ""}, {"zh": "回", "py": "huí", "l": 12, "vn": "về, trở về", "pos": ""}, {"zh": "火车", "py": "huǒchē", "l": 14, "vn": "tàu hỏa", "pos": ""}, {"zh": "机场", "py": "jīchǎng", "l": 15, "vn": "sân bay", "pos": ""}, {"zh": "鸡蛋", "py": "jīdàn", "l": 13, "vn": "trứng gà", "pos": ""}, {"zh": "家人", "py": "jiārén", "l": 15, "vn": "người nhà", "pos": ""}, {"zh": "接", "py": "jiē", "l": 15, "vn": "đón", "pos": ""}, {"zh": "觉得", "py": "juéde", "l": 12, "vn": "cảm thấy", "pos": ""}, {"zh": "开", "py": "kāi", "l": 14, "vn": "mở, lái", "pos": ""}, {"zh": "开车", "py": "kāichē", "l": 11, "vn": "lái xe", "pos": ""}, {"zh": "看病", "py": "kànbìng", "l": 12, "vn": "khám bệnh", "pos": ""}, {"zh": "可以", "py": "kěyǐ", "l": 13, "vn": "có thể, được", "pos": ""}, {"zh": "来", "py": "lái", "l": 12, "vn": "đến", "pos": ""}, {"zh": "了", "py": "le", "l": 12, "vn": "rồi (trợ từ)", "pos": ""}, {"zh": "冷", "py": "lěng", "l": 12, "vn": "lạnh", "pos": ""}, {"zh": "卖", "py": "mài", "l": 13, "vn": "bán", "pos": ""}, {"zh": "面包", "py": "miànbāo", "l": 13, "vn": "bánh mì", "pos": ""}, {"zh": "明年", "py": "míngnián", "l": 14, "vn": "năm sau", "pos": ""}, {"zh": "哪个", "py": "nǎge", "l": 15, "vn": "cái nào", "pos": ""}, {"zh": "哪里", "py": "nǎlǐ", "l": 11, "vn": "ở đâu", "pos": ""}, {"zh": "哪些", "py": "nǎxiē", "l": 14, "vn": "những… nào", "pos": ""}, {"zh": "那里", "py": "nàlǐ", "l": 11, "vn": "chỗ kia, ở đó", "pos": ""}, {"zh": "男朋友", "py": "nánpéngyou", "l": 15, "vn": "bạn trai", "pos": ""}, {"zh": "年", "py": "nián", "l": 15, "vn": "năm", "pos": ""}, {"zh": "女士", "py": "nǚshì", "l": 13, "vn": "quý bà, cô (lịch sự)", "pos": ""}, {"zh": "起床", "py": "qǐchuáng", "l": 11, "vn": "thức dậy", "pos": ""}, {"zh": "请", "py": "qǐng", "l": 13, "vn": "mời, xin", "pos": ""}, {"zh": "去年", "py": "qùnián", "l": 15, "vn": "năm ngoái", "pos": ""}, {"zh": "热", "py": "rè", "l": 12, "vn": "nóng", "pos": ""}, {"zh": "上学", "py": "shàngxué", "l": 14, "vn": "đi học", "pos": ""}, {"zh": "生病", "py": "shēngbìng", "l": 12, "vn": "bị ốm", "pos": ""}, {"zh": "时候", "py": "shíhou", "l": 11, "vn": "lúc, khi", "pos": ""}, {"zh": "时间", "py": "shíjiān", "l": 15, "vn": "thời gian", "pos": ""}, {"zh": "水", "py": "shuǐ", "l": 12, "vn": "nước", "pos": ""}, {"zh": "睡", "py": "shuì", "l": 11, "vn": "ngủ", "pos": ""}, {"zh": "睡觉", "py": "shuìjiào", "l": 11, "vn": "đi ngủ", "pos": ""}, {"zh": "说", "py": "shuō", "l": 11, "vn": "nói", "pos": ""}, {"zh": "说话", "py": "shuōhuà", "l": 14, "vn": "nói chuyện", "pos": ""}, {"zh": "他们", "py": "tāmen", "l": 14, "vn": "họ, bọn họ", "pos": ""}, {"zh": "它们", "py": "tāmen", "l": 14, "vn": "chúng nó", "pos": ""}, {"zh": "她们", "py": "tāmen", "l": 14, "vn": "các cô ấy", "pos": ""}, {"zh": "天", "py": "tiān", "l": 12, "vn": "ngày; trời", "pos": ""}, {"zh": "天气", "py": "tiānqì", "l": 12, "vn": "thời tiết", "pos": ""}, {"zh": "听", "py": "tīng", "l": 14, "vn": "nghe", "pos": ""}, {"zh": "听见", "py": "tīngjiàn", "l": 14, "vn": "nghe thấy", "pos": ""}, {"zh": "晚", "py": "wǎn", "l": 14, "vn": "muộn", "pos": ""}, {"zh": "问", "py": "wèn", "l": 11, "vn": "hỏi", "pos": ""}, {"zh": "问题", "py": "wèntí", "l": 13, "vn": "câu hỏi, vấn đề", "pos": ""}, {"zh": "下雨", "py": "xià yǔ", "l": 12, "vn": "mưa", "pos": ""}, {"zh": "先生", "py": "xiānsheng", "l": 13, "vn": "ông, ngài (lịch sự)", "pos": ""}, {"zh": "小朋友", "py": "xiǎopéngyǒu", "l": 11, "vn": "bạn nhỏ, các em nhỏ", "pos": ""}, {"zh": "小时", "py": "xiǎoshí", "l": 15, "vn": "giờ, tiếng (khoảng thời gian)", "pos": ""}, {"zh": "小学", "py": "xiǎoxué", "l": 14, "vn": "tiểu học", "pos": ""}, {"zh": "小学生", "py": "xiǎoxuéshēng", "l": 14, "vn": "học sinh tiểu học", "pos": ""}, {"zh": "写", "py": "xiě", "l": 14, "vn": "viết", "pos": ""}, {"zh": "学", "py": "xué", "l": 11, "vn": "học", "pos": ""}, {"zh": "雪", "py": "xuě", "l": 12, "vn": "tuyết", "pos": ""}, {"zh": "药", "py": "yào", "l": 12, "vn": "thuốc", "pos": ""}, {"zh": "要", "py": "yào", "l": 11, "vn": "muốn, cần, sắp", "pos": ""}, {"zh": "一半", "py": "yíbàn", "l": 13, "vn": "một nửa", "pos": ""}, {"zh": "一下", "py": "yíxià", "l": 13, "vn": "một chút, một lát", "pos": ""}, {"zh": "一点儿", "py": "yìdiǎnr", "l": 12, "vn": "một chút, một ít", "pos": ""}, {"zh": "医", "py": "yī", "l": 11, "vn": "y, y học", "pos": ""}, {"zh": "有的", "py": "yǒude", "l": 14, "vn": "có cái, có người", "pos": ""}, {"zh": "有点儿", "py": "yǒudiǎnr", "l": 12, "vn": "hơi, có chút", "pos": ""}, {"zh": "有些", "py": "yǒuxiē", "l": 14, "vn": "có một số, hơi", "pos": ""}, {"zh": "雨", "py": "yǔ", "l": 12, "vn": "mưa", "pos": ""}, {"zh": "再", "py": "zài", "l": 12, "vn": "lại, nữa", "pos": ""}, {"zh": "早", "py": "zǎo", "l": 15, "vn": "sớm", "pos": ""}, {"zh": "早饭", "py": "zǎofàn", "l": 13, "vn": "bữa sáng", "pos": ""}, {"zh": "找", "py": "zhǎo", "l": 11, "vn": "tìm", "pos": ""}, {"zh": "这个", "py": "zhège", "l": 13, "vn": "cái này", "pos": ""}, {"zh": "这里", "py": "zhèlǐ", "l": 12, "vn": "ở đây", "pos": ""}, {"zh": "正在", "py": "zhèngzài", "l": 11, "vn": "đang", "pos": ""}, {"zh": "知道", "py": "zhīdào", "l": 11, "vn": "biết", "pos": ""}, {"zh": "中午", "py": "zhōngwǔ", "l": 14, "vn": "buổi trưa", "pos": ""}, {"zh": "中学", "py": "zhōngxué", "l": 14, "vn": "trung học", "pos": ""}, {"zh": "中学生", "py": "zhōngxuéshēng", "l": 14, "vn": "học sinh trung học", "pos": ""}, {"zh": "住", "py": "zhù", "l": 15, "vn": "ở, sống", "pos": ""}, {"zh": "字", "py": "zì", "l": 14, "vn": "chữ", "pos": ""}, {"zh": "昨天", "py": "zuótiān", "l": 11, "vn": "hôm qua", "pos": ""}, {"zh": "汉语", "py": "Hànyǔ", "l": 14, "vn": "tiếng Hán", "pos": ""}, {"zh": "汉字", "py": "Hànzì", "l": 14, "vn": "chữ Hán", "pos": ""}, {"zh": "北京", "py": "Běijīng", "l": 15, "vn": "Bắc Kinh", "pos": ""}]}];
+const KEY = 'hsk1_ontap_tonghop_v1';
+const limitOf = t => (t.kind === 'vocab' ? 15 : 20) * 60;
+const findT = id => TESTS.find(x => x.id === id);
+const lessonTag = (t, l) => t.kind === 'vocab' ? `Bài ${l}` : 'Ngữ pháp';
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const stemHTML = s => esc(s).replace(/___/g, '<span class="blank">&nbsp;</span>');
+const LET = 'ABCD';
+const comma = n => String(n).replace('.', ',');
+const pad = n => String(n).padStart(2, '0');
+const hms = s => `${Math.floor(s / 3600)}:${pad(Math.floor(s % 3600 / 60))}:${pad(s % 60)}`;
+const fmtDate = iso => { const d = new Date(iso); return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`; };
+const fmtTime = iso => { const d = new Date(iso); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+
+/* ---------- lưu trữ ---------- */
+let mem = { name: '', attempts: [] };
+function load() { try { const v = JSON.parse(localStorage.getItem(KEY)); if (v && Array.isArray(v.attempts)) mem = v; } catch (e) {} return mem; }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(mem)); } catch (e) {} }
+load();
+
+/* ---------- chấm điểm ---------- */
+const norm = s => String(s || '').replace(/[，。？！、,.?!；;：:“”"'\s]/g, '');
+const NUMZH = n => { n = +n; const d = '零一二三四五六七八九'; if (n < 10) return d[n]; if (n < 20) return '十' + (n % 10 ? d[n % 10] : ''); return d[Math.floor(n / 10)] + '十' + (n % 10 ? d[n % 10] : ''); };
+const normT = s => norm(s).replace(/\d{1,2}/g, m => NUMZH(m)).replace(/有点儿/g, '有点').replace(/没有/g, '没').replace(/一点儿/g, '一点');
+function isRight(q, r) {
+  if (r == null || r === '' || (Array.isArray(r) && !r.length)) return false;
+  switch (q.type) {
+    case 'mcq': case 'correct': case 'vm': case 'vh': case 'vp': return r === q.a;
+    case 'fill': return q.a.includes(r);
+    case 'order': return q.a.map(norm).includes(norm(r.join('')));
+    case 'trans': return q.a.map(normT).includes(normT(r));
+  }
+}
+const answered = (q, r) => q.type === 'order' ? Array.isArray(r) && r.length === q.tiles.length : (r != null && String(r).trim() !== '');
+const PART = {
+  mcq: ['一', 'Chọn đáp án đúng', 'Chọn từ thích hợp điền vào chỗ trống.'],
+  fill: ['二', 'Chọn từ trong khung điền vào chỗ trống', 'Mỗi từ dùng tối đa một lần; khung có 2 từ thừa.'],
+  order: ['三', 'Sắp xếp thành câu hoàn chỉnh', 'Bấm lần lượt vào các thẻ để xếp câu. Bấm vào thẻ đã xếp để bỏ ra.'],
+  correct: ['四', 'Chọn câu đúng', 'Trong bốn câu, chỉ có một câu đúng ngữ pháp.'],
+  vm: ['一', 'Chọn nghĩa đúng của từ', 'Mỗi câu có một từ tiếng Trung, chọn nghĩa tiếng Việt đúng.'],
+  vh: ['二', 'Chọn chữ Hán đúng', 'Chọn từ tiếng Trung có nghĩa như đề bài.'],
+  vp: ['三', 'Chọn phiên âm đúng', 'Chọn pinyin đúng của từ.'],
+  trans: ['五', 'Dịch sang tiếng Trung', 'Gõ câu bằng chữ Hán (dùng bộ gõ tiếng Trung). Máy chấm theo đáp án mẫu; nếu câu của em đúng nghĩa mà bị chấm sai, có thể tự chấm lại khi xem chi tiết.'],
+};
+const TYPE_LABEL = { mcq: 'Trắc nghiệm', fill: 'Điền từ', order: 'Sắp xếp câu', correct: 'Chọn câu đúng', trans: 'Dịch câu', vm: 'Từ vựng – nghĩa', vh: 'Từ vựng – chữ Hán', vp: 'Từ vựng – pinyin' };
+
+/* ---------- sinh đề từ vựng ---------- */
+function genVocab(t) {
+  const pool = t.pool; const pick = shuffle(pool).slice(0, 20);
+  const others = (w, key) => shuffle(pool.filter(x => x[key] !== w[key] && x.zh !== w.zh)).filter((x, i, arr) => arr.findIndex(y => y[key] === x[key]) === i).slice(0, 3).map(x => x[key]);
+  return pick.map((w, i) => {
+    const mode = i < 10 ? 'vm' : i < 15 ? 'vh' : 'vp';
+    const key = mode === 'vm' ? 'vn' : mode === 'vh' ? 'zh' : 'py';
+    return { type: mode, w, a: w[key], opts: shuffle([w[key], ...others(w, key)]), l: w.l, g: `${w.zh} – ${w.vn}`, ex: `${w.zh} (${w.py}) ${w.pos ? '· ' + w.pos + ' ' : ''}: ${w.vn}` };
+  });
+}
+
+/* ---------- modal ---------- */
+function ask(title, text, buttons) {
+  $('#mTitle').textContent = title; $('#mText').textContent = text;
+  const box = $('#mActions'); box.innerHTML = '';
+  buttons.forEach(b => { const x = document.createElement('button'); x.className = 'btn ' + (b.cls || 'line'); x.textContent = b.label; x.onclick = () => { $('#modal').classList.add('hidden'); b.fn && b.fn(); }; box.appendChild(x); });
+  $('#modal').classList.remove('hidden');
+}
+
+/* ---------- views ---------- */
+let view = 'home', curReview = null;
+function show(v) {
+  view = v;
+  ['home', 'quiz', 'review'].forEach(id => $('#' + id).classList.toggle('hidden', id !== v));
+  renderSide(); renderRight();
+  window.scrollTo(0, 0);
+}
+const GROUPS = [
+  { key: 'G', title: 'Ngữ pháp tổng hợp', pill: '语法' },
+  { key: 'V', title: 'Từ vựng', pill: '词语' },
+];
+function renderSide() {
+  const active = view === 'quiz' && cur ? cur.test.id : view === 'review' && curReview ? curReview.test : null;
+  $('#sideList').innerHTML = GROUPS.map(G => `<div class="tgroup"><div class="tgroup-h"><span class="pill ${G.key === 'V' ? 'voc' : ''}">${G.pill}</span>${G.title}</div>${
+    TESTS.filter(t => t.id[0] === G.key).map(t => {
+      const att = mem.attempts.filter(a => a.test === t.id);
+      const best = att.length ? Math.max(...att.map(a => a.score)) : null;
+      const no = t.id.slice(1);
+      return `<button class="titem ${t.id === active ? 'active' : ''}" type="button" data-t="${t.id}"><span class="tno">${no}</span><span class="tt"><b>${esc(t.kind === 'vocab' ? t.title : 'Đề ngữ pháp ' + no)}</b><span>20 câu · ${limitOf(t) / 60} phút</span></span><span class="score ${best == null ? 'none' : ''}">${best == null ? 'Mới' : comma(best) + '/10'}</span></button>`;
+    }).join('')}</div>`).join('');
+  $('#sideList').querySelectorAll('.titem').forEach(b => b.onclick = () => chooseTest(b.dataset.t));
+}
+function chooseTest(id) {
+  if (cur && !cur.done) {
+    if (cur.test.id === id) return;
+    ask('Chuyển sang đề khác?', 'Bài đang làm sẽ không được lưu.', [{ label: 'Ở lại' }, { label: 'Chuyển đề', cls: 'primary', fn: () => { clearInterval(cur.tick); cur = null; startTest(id); } }]);
+  } else startTest(id);
+}
+function jumpTo(id) { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+function renderRight() {
+  const R = $('#sideRight');
+  if (view === 'quiz' && cur) {
+    const n = cur.qs.length;
+    R.innerHTML = `<div class="rp-title">${esc(cur.test.short)}</div>
+      <div class="timer-box" id="timerBox"><div class="lbl">Thời gian còn lại</div><div class="tv" id="timer">--:--</div></div>
+      <div class="stats"><div class="stat done"><div class="n" id="nDone">0</div><div class="l">Đã làm</div></div><div class="stat"><div class="n" id="nLeft">${n}</div><div class="l">Chưa làm</div></div></div>
+      <div class="pbar"><i id="pbar" style="width:0"></i></div>
+      <div class="grid">${cur.qs.map((q, i) => `<button class="cellq" type="button" data-i="${i}" title="Câu ${i + 1}">${i + 1}</button>`).join('')}</div>
+      <div class="legend"><span><span class="mini-dot done"></span>Đã làm</span><span><span class="mini-dot"></span>Chưa làm</span></div>
+      <div class="rp-actions"><button class="btn orange" id="btnSubmit" type="button">Nộp bài</button><button class="btn line" id="btnQuit" type="button">Thoát</button></div>`;
+    R.querySelectorAll('.cellq').forEach(c => c.onclick = () => jumpTo('q' + c.dataset.i));
+    $('#btnSubmit').onclick = submitClick;
+    $('#btnQuit').onclick = () => ask('Thoát khỏi đề?', 'Bài đang làm sẽ không được lưu.', [{ label: 'Ở lại' }, { label: 'Thoát', cls: 'primary', fn: () => { clearInterval(cur.tick); cur = null; renderHome(); } }]);
+    updateCount(); if (cur.tickFn) cur.tickFn();
+  } else if (view === 'review' && curReview) {
+    const a = curReview, ok = a.results.map((r, i) => r || !!a.overrides[i]);
+    R.innerHTML = `<div class="rp-title">Kết quả · ${esc((findT(a.test) || {}).short || '')}</div>
+      <div class="rp-score"><div class="big">${comma(a.score)}<small>/10</small></div></div>
+      <div class="stats"><div class="stat"><div class="n" style="color:#2E8A5E">${a.correct}</div><div class="l">Câu đúng</div></div><div class="stat"><div class="n" style="color:#C2456B">${a.total - a.correct}</div><div class="l">Câu sai</div></div></div>
+      <div class="timer-box"><div class="lbl">Thời gian làm bài</div><div class="tv" style="font-size:26px">${hms(a.duration)}</div></div>
+      <div class="grid">${ok.map((g, i) => `<button class="cellq ${g ? 'ok' : 'bad'}" type="button" data-i="${i}">${i + 1}</button>`).join('')}</div>
+      <div class="legend"><span><span class="mini-dot" style="background:#2E8A5E;border-color:#2E8A5E"></span>Đúng</span><span><span class="mini-dot" style="border-color:#C2456B"></span>Sai</span></div>
+      <div class="rp-actions"><button class="btn orange" id="rpRetry" type="button">Làm lại đề này</button><button class="btn line" id="rpHome" type="button">Về trang chính</button></div>`;
+    R.querySelectorAll('.cellq').forEach(c => c.onclick = () => { rvFilter = 'all'; document.querySelectorAll('#rvList .q').forEach(q => q.classList.remove('hidden')); document.querySelectorAll('.filters button').forEach(b => b.classList.toggle('on', b.dataset.f === 'all')); jumpTo('rv' + c.dataset.i); });
+    $('#rpRetry').onclick = () => startTest(a.test); $('#rpHome').onclick = renderHome;
+  } else {
+    const n = mem.attempts.length, best = n ? Math.max(...mem.attempts.map(a => a.score)) : null;
+    R.innerHTML = `<div class="rp-title">Tiến độ</div>
+      <div class="timer-box"><div class="lbl">Chưa chọn đề</div><div class="tv" style="font-size:26px">--:--</div></div>
+      <div class="stats"><div class="stat"><div class="n">${n}</div><div class="l">Lần đã làm</div></div><div class="stat"><div class="n">${best == null ? '–' : comma(best)}</div><div class="l">Điểm cao nhất</div></div></div>
+      <p class="rp-note">Chọn một đề ở cột bên trái. Khi làm bài, bảng số câu ở đây sẽ chuyển sang <b style="color:var(--orange)">màu cam</b> với những câu em đã làm.</p>`;
+  }
+}
+
+function historyTable(list) {
+  if (!list.length) return '<div class="empty">Chưa có lần làm bài nào.</div>';
+  return `<div class="tbl-wrap"><table class="res"><thead><tr><th>Ngày làm</th><th>Kết quả</th><th>Thời gian làm bài</th><th></th></tr></thead><tbody>${
+    list.map(a => { const t = findT(a.test) || {}; return `<tr><td>${fmtDate(a.date)} <span style="color:var(--muted);font-size:13px">${fmtTime(a.date)}</span><div class="tags"><span class="tagc">${esc(t.short || a.test)}</span><span class="tagc alt">${t.kind === 'vocab' ? 'Từ vựng' : 'Ngữ pháp'}</span>${a.auto ? '<span class="tagc alt">Hết giờ</span>' : ''}</div></td><td>${comma(a.score)}/10</td><td>${hms(a.duration)}</td><td><a class="detail" data-id="${a.id}">Xem chi tiết</a></td></tr>`; }).join('')
+  }</tbody></table></div>`;
+}
+function bindDetails(root) { root.querySelectorAll('a.detail').forEach(a => a.onclick = () => openReview(+a.dataset.id)); }
+
+function renderHome() {
+  $('#sname').value = mem.name || '';
+  curReview = null;
+  const all = mem.attempts.slice().sort((a, b) => b.id - a.id);
+  $('#historyAll').innerHTML = historyTable(all);
+  bindDetails($('#historyAll'));
+  $('#clearAll').classList.toggle('hidden', !all.length);
+  show('home');
+}
+
+/* ---------- làm bài ---------- */
+let cur = null; // {test, resp, start, tick}
+
+function startTest(id) {
+  const t = findT(id);
+  const qs = t.kind === 'vocab' ? genVocab(t) : t.questions;
+  cur = { test: t, qs, resp: new Array(qs.length).fill(null), start: Date.now(), tick: null, done: false };
+  const body = $('#quizBody'); body.innerHTML = '';
+  $('#qTitle').textContent = t.kind === 'vocab' ? t.title : 'Đề ngữ pháp ' + t.id.slice(1);
+  $('#qSub').textContent = `20 câu · ${limitOf(t) / 60} phút · bấm Nộp bài ở bảng tiến độ khi làm xong`;
+  let lastType = null, n = 0;
+  qs.forEach((q, i) => {
+    if (q.type !== lastType) {
+      const p = PART[q.type]; const sec = document.createElement('section'); sec.className = 'part';
+      sec.innerHTML = `<div class="part-head"><span class="part-no">${p[0]}</span><h2>${p[1]}</h2></div><p class="part-desc">${p[2]}</p>`;
+      if (q.type === 'fill') sec.innerHTML += `<div class="bank"><span class="lbl">Khung từ:</span>${q.bank.map((b, k) => `<span class="chip">${esc(b)}<span class="py">${esc(q.bankPy[k])}</span></span>`).join('')}</div>`;
+      body.appendChild(sec); lastType = q.type;
+    }
+    const sec = body.lastElementChild; const box = document.createElement('div'); box.className = 'q'; box.id = 'q' + i; n++;
+    const num = `<div class="qn">${n}</div>`;
+    const set = v => { cur.resp[i] = v; updateCount(); };
+    if (q.type === 'mcq' || q.type === 'correct') {
+      const opts = shuffle(q.opts.map((o, k) => ({ o, py: q.optsPy[k] })));
+      const head = q.type === 'mcq' ? `<div><div class="stem zh">${stemHTML(q.q)}</div><div class="py">${esc(q.py)}</div></div>` : `<div class="stem small">Câu nào đúng?</div>`;
+      box.innerHTML = `<div class="q-top">${num}${head}</div><div class="opts indent ${q.type === 'correct' ? 'col' : ''}">${opts.map((o, k) =>
+        `<label class="opt"><input type="radio" name="q${i}" value="${esc(o.o)}"><span class="face"><b>${LET[k]}</b><span><span class="zh">${esc(o.o)}</span>${q.type === 'correct' ? `<span class="py">${esc(o.py)}</span>` : ''}</span></span></label>`).join('')}</div>`;
+      box.querySelectorAll('input').forEach(inp => inp.onchange = () => set(inp.value));
+    } else if (q.type === 'fill') {
+      const sel = `<select class="fill" aria-label="Chọn từ"><option value="">—</option>${q.bank.map(b => `<option>${esc(b)}</option>`).join('')}</select>`;
+      box.innerHTML = `<div class="q-top">${num}<div><div class="stem zh">${esc(q.q).replace('___', sel)}</div><div class="py">${esc(q.py)}</div></div></div>`;
+      const s = box.querySelector('select'); s.onchange = () => set(s.value || null);
+    } else if (q.type === 'order') {
+      box.innerHTML = `<div class="q-top">${num}<div class="stem small">Sắp xếp các từ sau thành câu:</div></div><div class="indent"><div class="answer-line"></div><div class="pool"></div><button class="mini" type="button">Xếp lại từ đầu</button></div>`;
+      const line = box.querySelector('.answer-line'), pool = box.querySelector('.pool');
+      const sync = () => set([...line.children].map(c => c.dataset.t));
+      shuffle(q.tiles.map((t, k) => ({ t, py: q.tilesPy[k] }))).forEach(({ t, py }) => {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'tile'; b.dataset.t = t;
+        b.innerHTML = `${esc(t)}<span class="py">${esc(py)}</span>`;
+        b.onclick = () => { (b.parentNode === pool ? line : pool).appendChild(b); sync(); };
+        pool.appendChild(b);
+      });
+      box.querySelector('.mini').onclick = () => { [...line.children].forEach(c => pool.appendChild(c)); sync(); };
+    } else if (q.type === 'vm' || q.type === 'vh' || q.type === 'vp') {
+      const w = q.w;
+      const head = q.type === 'vm' ? `<div><div class="vprompt">Từ này có nghĩa là gì?</div><div class="vword">${esc(w.zh)}</div><div class="py">${esc(w.py)}</div></div>`
+        : q.type === 'vh' ? `<div><div class="vprompt">Từ nào có nghĩa là:</div><div class="vmean">“${esc(w.vn)}”${w.pos ? ` <span style="color:var(--muted);font-weight:400;font-size:14px">(${esc(w.pos)})</span>` : ''}</div></div>`
+        : `<div><div class="vprompt">Phiên âm đúng của từ này là:</div><div class="vword">${esc(w.zh)}</div></div>`;
+      box.innerHTML = `<div class="q-top">${num}${head}</div><div class="opts indent ${q.type === 'vm' ? 'col' : ''}">${q.opts.map((o, k) =>
+        `<label class="opt"><input type="radio" name="q${i}" value="${esc(o)}"><span class="face ${q.type === 'vh' ? 'zh' : 'vn'}"><b>${LET[k]}</b><span>${esc(o)}</span></span></label>`).join('')}</div>`;
+      box.querySelectorAll('input').forEach(inp => inp.onchange = () => set(inp.value));
+    } else if (q.type === 'trans') {
+      box.innerHTML = `<div class="q-top">${num}<div class="stem vn">${esc(q.vn)}</div></div><div class="indent"><textarea class="tr" rows="2" placeholder="Viết câu tiếng Trung…" aria-label="Câu dịch"></textarea></div>`;
+      const ta = box.querySelector('textarea'); ta.oninput = () => set(ta.value.trim() || null);
+    }
+    sec.appendChild(box);
+  });
+  const tick = () => {
+    if (!cur) return;
+    const left = Math.max(0, limitOf(cur.test) - Math.floor((Date.now() - cur.start) / 1000));
+    const el = $('#timer'); if (el) el.textContent = `${pad(Math.floor(left / 60))}:${pad(left % 60)}`;
+    const tb = $('#timerBox'); if (tb) tb.classList.toggle('warn', left <= 120);
+    if (left <= 0) finish(true);
+  };
+  cur.tickFn = tick;
+  show('quiz');
+  cur.tick = setInterval(tick, 1000);
+}
+
+function updateCount() {
+  if (!cur) return;
+  let done = 0;
+  cur.qs.forEach((q, i) => { const a = answered(q, cur.resp[i]); if (a) done++; const c = document.querySelector(`#sideRight .cellq[data-i="${i}"]`); if (c) c.classList.toggle('done', a); });
+  const n = cur.qs.length;
+  if ($('#nDone')) { $('#nDone').textContent = done; $('#nLeft').textContent = n - done; $('#pbar').style.width = (done / n * 100) + '%'; }
+}
+
+function finish(auto) {
+  if (!cur || cur.done) return;
+  cur.done = true; clearInterval(cur.tick);
+  const qs = cur.qs;
+  const results = qs.map((q, i) => isRight(q, cur.resp[i]));
+  const correct = results.filter(Boolean).length;
+  const attempt = {
+    id: Date.now(), test: cur.test.id, date: new Date().toISOString(), name: ($('#sname').value || '').trim(),
+    duration: Math.min(limitOf(cur.test), Math.round((Date.now() - cur.start) / 1000)), auto: !!auto,
+    qs: cur.test.kind === 'vocab' ? qs : undefined,
+    answers: cur.resp, results, overrides: {}, correct, total: qs.length,
+    score: Math.round(correct / qs.length * 100) / 10,
+  };
+  mem.attempts.push(attempt); save();
+  cur = null;
+  openReview(attempt.id, auto);
+}
+
+/* ---------- xem chi tiết ---------- */
+function recompute(a) {
+  const ok = a.results.map((r, i) => r || !!a.overrides[i]);
+  a.correct = ok.filter(Boolean).length; a.score = Math.round(a.correct / a.total * 100) / 10;
+  return ok;
+}
+let rvFilter = 'all';
+function openReview(id, auto) {
+  const a = mem.attempts.find(x => x.id === id); if (!a) return;
+  const t = findT(a.test); if (!t) return;
+  const QS = a.qs || t.questions;
+  const ok = recompute(a);
+  const verdict = a.score >= 9 ? 'Xuất sắc! 太棒了！' : a.score >= 7.5 ? 'Tốt lắm! 很好！' : a.score >= 5 ? 'Khá, cần ôn thêm một chút. 加油！' : 'Cần cố gắng hơn. 加油！';
+  const weak = {};
+  QS.forEach((q, i) => { if (!ok[i]) { const k = t.kind === 'vocab' ? 'Bài ' + q.l : q.g; (weak[k] = weak[k] || new Set()).add(t.kind === 'vocab' ? q.w.zh : q.g); } });
+  const wk = Object.keys(weak);
+  const hist = mem.attempts.filter(x => x.test === a.test).sort((x, y) => y.id - x.id);
+  curReview = a;
+  const root = $('#review');
+  root.innerHTML = `
+    <div class="summary">
+      ${auto ? '<div style="color:var(--red);font-weight:600;margin-bottom:8px">Hết giờ — bài đã được nộp tự động.</div>' : ''}
+      <div class="score-row"><div class="big">${comma(a.score)}<small>/10</small></div>
+        <div><div class="verdict">${esc(t.short)} · ${verdict}</div>
+        <div class="facts"><span>Đúng <b>${a.correct}/${a.total}</b> câu</span><span>Thời gian: <b>${hms(a.duration)}</b></span><span>Ngày làm: <b>${fmtDate(a.date)} ${fmtTime(a.date)}</b></span>${a.name ? `<span>Học sinh: <b>${esc(a.name)}</b></span>` : ''}</div></div></div>
+      ${wk.length ? `<div class="weak"><b>Cần ôn lại:</b><ul>${t.kind === 'vocab' ? wk.map(k => `<li>${esc(k)}: ${[...weak[k]].map(esc).join('、')}</li>`).join('') : wk.map(k => `<li>${esc(k)}</li>`).join('')}</ul></div>` : '<div class="weak good"><b>Không sai câu nào. Tuyệt vời!</b></div>'}
+      <div class="actions"><button class="btn primary" id="rvRetry" type="button">Làm lại ${esc(t.short)}</button><button class="btn line" id="rvHome" type="button">Về danh sách đề</button></div>
+    </div>
+    <h2 class="sec">Kết quả làm bài của bạn:</h2>
+    ${historyTable(hist)}
+    <h2 class="sec" style="margin-bottom:0">Đáp án và giải thích</h2>
+    <div class="filters"><button data-f="all">Tất cả (${a.total})</button><button data-f="bad">Câu sai (${a.total - a.correct})</button><button data-f="ok">Câu đúng (${a.correct})</button>
+      <label class="switch" style="margin-left:auto"><input type="checkbox" id="pyRv" ${document.body.classList.contains('show-py') ? 'checked' : ''}> Pinyin</label></div>
+    <div id="rvList"></div>`;
+  const list = root.querySelector('#rvList');
+  QS.forEach((q, i) => {
+    const r = a.answers[i]; const good = ok[i];
+    const box = document.createElement('div'); box.className = 'q ' + (good ? 'ok' : 'bad'); box.id = 'rv' + i; box.dataset.ok = good ? 1 : 0;
+    let head = '', mine = '', right = '';
+    const mineHTML = txt => txt == null || txt === '' ? '<span class="mine none">(Không trả lời)</span>' : `<span class="mine ${good ? 'right' : 'wrong'}">${esc(txt)}</span>`;
+    if (q.type === 'mcq') { head = `<div><div class="stem zh">${stemHTML(q.q)}</div><div class="py">${esc(q.py)}</div></div>`; mine = mineHTML(r); right = esc(q.a); }
+    if (q.type === 'fill') { head = `<div><div class="stem zh">${stemHTML(q.q)}</div><div class="py">${esc(q.py)}</div></div>`; mine = mineHTML(r); right = q.a.map(esc).join(' / '); }
+    if (q.type === 'correct') { head = `<div class="stem small">Câu nào đúng?</div>`; mine = mineHTML(r); right = esc(q.a) + `<div class="py">${esc(q.optsPy[0])}</div>`; }
+    if (q.type === 'order') { head = `<div class="stem small">Sắp xếp: <span class="zh" style="color:var(--ink);font-size:18px">${q.tiles.map(esc).join(' / ')}</span></div>`; mine = mineHTML(Array.isArray(r) && r.length ? r.join(' ') : null); right = q.a.map(x => esc(x) + '。').join(' / '); }
+    if (q.type === 'vm') { head = `<div><div class="vprompt">Nghĩa của từ:</div><div class="vword">${esc(q.w.zh)}</div><div class="py">${esc(q.w.py)}</div></div>`; mine = mineHTML(r); right = esc(q.a); }
+    if (q.type === 'vh') { head = `<div><div class="vprompt">Từ có nghĩa:</div><div class="vmean">“${esc(q.w.vn)}”</div></div>`; mine = mineHTML(r); right = esc(q.a) + `<div class="py">${esc(q.w.py)}</div>`; }
+    if (q.type === 'vp') { head = `<div><div class="vprompt">Phiên âm của từ:</div><div class="vword">${esc(q.w.zh)}</div></div>`; mine = mineHTML(r); right = esc(q.a); }
+    if (q.type === 'trans') { head = `<div class="stem vn">${esc(q.vn)}</div>`; mine = mineHTML(r); right = q.a.map((x, k) => `<div>${esc(x)}</div><div class="py" style="font-weight:400">${esc(q.aPy[k])}</div>`).join(''); }
+    box.innerHTML = `<div class="q-top"><div class="qn">${i + 1}</div>${head}</div>
+      <div class="rv indent">
+        <div class="row"><span class="k">Em trả lời</span><span class="v zh">${mine}${a.overrides[i] ? ' <span style="font-size:12px;color:var(--ok)">(tự chấm đúng)</span>' : ''}</span></div>
+        <div class="row"><span class="k">Đáp án đúng</span><span class="v zh ans">${right}</span></div>
+        <div class="expl"><span class="tag">${t.kind === 'vocab' ? 'Bài ' + q.l : 'Ngữ pháp'}</span><b>${esc(q.g)}</b> · <span style="color:var(--muted)">${TYPE_LABEL[q.type]}</span>${q.ex ? `<br>${esc(q.ex)}` : ''}</div>
+        ${q.type === 'trans' && !a.results[i] && r ? `<div><button class="override" type="button" data-i="${i}">${a.overrides[i] ? 'Bỏ tự chấm' : 'Câu của em đúng nghĩa → tính là đúng'}</button></div>` : ''}
+      </div>`;
+    list.appendChild(box);
+  });
+  list.querySelectorAll('.override').forEach(b => b.onclick = () => { const i = +b.dataset.i; if (a.overrides[i]) delete a.overrides[i]; else a.overrides[i] = true; recompute(a); save(); const y = window.scrollY; openReview(a.id); window.scrollTo(0, y); });
+  const applyF = () => { root.querySelectorAll('.filters button').forEach(b => b.classList.toggle('on', b.dataset.f === rvFilter)); list.querySelectorAll('.q').forEach(q => q.classList.toggle('hidden', rvFilter === 'ok' ? q.dataset.ok !== '1' : rvFilter === 'bad' ? q.dataset.ok !== '0' : false)); };
+  root.querySelectorAll('.filters button').forEach(b => b.onclick = () => { rvFilter = b.dataset.f; applyF(); });
+  applyF();
+  root.querySelector('#pyRv').onchange = e => { document.body.classList.toggle('show-py', e.target.checked); $('#pyToggle').checked = e.target.checked; };
+  root.querySelector('#rvRetry').onclick = () => startTest(a.test);
+  root.querySelector('#rvHome').onclick = renderHome;
+  bindDetails(root);
+  show('review');
+}
+
+/* ---------- events ---------- */
+function submitClick() {
+  const left = cur.qs.filter((q, i) => !answered(q, cur.resp[i])).length;
+  if (left) ask('Nộp bài?', `Em còn ${left} câu chưa làm. Vẫn nộp bài?`, [{ label: 'Làm tiếp' }, { label: 'Nộp bài', cls: 'primary', fn: () => finish(false) }]);
+  else finish(false);
+}
+$('#pyToggle').onchange = e => document.body.classList.toggle('show-py', e.target.checked);
+$('#sname').oninput = e => { mem.name = e.target.value; save(); };
+$('#clearAll').onclick = () => ask('Xoá lịch sử?', 'Toàn bộ kết quả các lần làm bài sẽ bị xoá.', [{ label: 'Huỷ' }, { label: 'Xoá', cls: 'primary', fn: () => { mem.attempts = []; save(); renderHome(); } }]);
+window.addEventListener('beforeunload', e => { if (cur && !cur.done) { e.preventDefault(); e.returnValue = ''; } });
+renderHome();
+</script>
+</body>
+</html>
