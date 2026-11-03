@@ -21,7 +21,10 @@ body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:15p
 button{font:inherit;color:inherit}
 button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--rose-dk);outline-offset:2px}
 .top{max-width:1240px;margin:0 auto 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.logo{width:42px;height:42px;border-radius:12px;background:var(--rose);color:#fff;display:grid;place-items:center;font-family:var(--f-han);font-size:1.3rem;font-weight:700}
+.brand{display:flex;align-items:center;gap:10px;padding-right:16px;margin-right:4px;border-right:1px solid var(--line)}
+.brandlogo{width:56px;height:56px;border-radius:12px;object-fit:cover;border:1px solid var(--line);background:#faf6ef}
+.brandname{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:1.25rem;color:#8e3a48;letter-spacing:.02em;white-space:nowrap}
+@media (max-width:520px){.brand{border-right:0;padding-right:0;width:100%}}
 .top h1{margin:0;font-size:1.2rem;line-height:1.2}
 .top h1 small{display:block;font-size:.82rem;font-weight:500;color:var(--muted)}
 .app{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:220px minmax(0,1fr) 250px;gap:16px;align-items:start}
@@ -73,11 +76,20 @@ input[type=checkbox]{accent-color:var(--rose);width:16px;height:16px;vertical-al
 .btn.ghost{background:var(--surface);color:var(--rose-dk)}
 .btn.ghost:hover{background:var(--rose-soft)}
 .btn[hidden]{display:none}
+.stu{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;background:var(--rose-soft);border:1px solid var(--rose-mid);border-radius:12px;padding:10px 12px}
+.stu label{font-weight:700;color:var(--rose-dk);font-size:.9rem}
+.stu input{flex:1 1 220px;min-width:0;font:inherit;font-size:1rem;padding:8px 12px;border:1.5px solid var(--rose-mid);border-radius:9px;background:#fff;color:var(--ink)}
+.stu input:focus{outline:none;border-color:var(--rose-dk);box-shadow:0 0 0 3px rgba(228,111,125,.25)}
+.stu.err input{border-color:#d0233a;background:#fff5f6}
+.stu .msg{flex-basis:100%;font-size:.82rem;color:#d0233a;font-weight:600}
+.who{font-weight:700;color:var(--ink)}
 .note{font-size:.85rem;background:#fff7e8;border:1px solid #f3d6a2;color:#7a5418;border-radius:10px;padding:8px 12px}
 
 .res h3{margin:0 0 10px;font-size:1.05rem}
 .tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
-table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:.95rem}
+th{white-space:nowrap}
+td .link{white-space:nowrap}
 th,td{padding:11px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);text-align:left;vertical-align:top}
 th:last-child,td:last-child{border-right:0}
 tr:last-child td{border-bottom:0}
@@ -159,7 +171,7 @@ td small{display:block;color:var(--muted);font-size:.8rem}
 </style></head><body>
 
 <header class="top">
-  <div class="logo">听</div>
+  <div class="brand"><img class="brandlogo" src="data:image/jpeg;base64,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" alt="Logo KH Chinese" width="56" height="56"><span class="brandname">Tiếng Trung KH</span></div>
   <h1>HSKK Trung cấp · Nghe và nhắc lại<small>听后重复 · 10 đề × 10 câu · giọng phổ thông Trung Quốc đại lục</small></h1>
 </header>
 
@@ -175,6 +187,12 @@ td small{display:block;color:var(--muted);font-size:.8rem}
         <h2 id="title">Đề 1<span>听后重复</span></h2>
         <p class="guide">Nghe câu → có tiếng <b>bíp</b> → em nhắc lại câu vừa nghe trong <b id="gTxt">8</b> giây. Máy ghi âm và chấm xem em nhắc lại đúng bao nhiêu chữ, hết giờ tự chuyển sang câu tiếp theo.</p>
       </div>
+    </div>
+
+    <div class="stu" id="stuBox">
+      <label for="stuName">👤 Họ và tên học sinh</label>
+      <input id="stuName" type="text" maxlength="60" autocomplete="name" placeholder="Nhập họ và tên của em">
+      <div class="msg" id="stuMsg" hidden>Em hãy nhập họ và tên trước khi bắt đầu làm bài.</div>
     </div>
 
     <div class="settings">
@@ -203,7 +221,7 @@ td small{display:block;color:var(--muted);font-size:.8rem}
     <section class="res">
       <h3>Kết quả làm bài của bạn:</h3>
       <div class="tw"><table>
-        <thead><tr><th>Ngày làm</th><th>Kết quả</th><th>Thời gian làm bài</th><th></th></tr></thead>
+        <thead><tr><th>Học sinh</th><th>Ngày làm</th><th>Kết quả</th><th>Thời gian làm bài</th><th></th></tr></thead>
         <tbody id="hist"></tbody>
       </table></div>
     </section>
@@ -273,14 +291,14 @@ function renderGrid(){
 /* ---------- Lịch sử ---------- */
 function renderHist(){
   const h=hist[cur]||[];
-  if(!h.length){$("hist").innerHTML=`<tr><td colspan="4" class="empty">Em chưa làm đề này. Bấm “Bắt đầu làm bài” để làm.</td></tr>`;return;}
-  $("hist").innerHTML=h.slice().reverse().map((r,j)=>`<tr><td>${today(r.at)}<br><span class="tag">Luyện tập</span><span class="tag">Speaking</span></td><td class="num">${r.score}/10${r.scored?`<small>Điểm TB ${r.avg}%</small>`:`<small>Không chấm điểm</small>`}</td><td class="num">${fmt(r.sec)}</td><td><button class="link" data-r="${h.length-1-j}">Xem chi tiết</button></td></tr>`).join("");
+  if(!h.length){$("hist").innerHTML=`<tr><td colspan="5" class="empty">Em chưa làm đề này. Bấm “Bắt đầu làm bài” để làm.</td></tr>`;return;}
+  $("hist").innerHTML=h.slice().reverse().map((r,j)=>`<tr><td class="who">${esc(r.name||"—")}</td><td>${today(r.at)}<br><span class="tag">Luyện tập</span><span class="tag">Speaking</span></td><td class="num">${r.score}/10${r.scored?`<small>Điểm TB ${r.avg}%</small>`:`<small>Không chấm điểm</small>`}</td><td class="num">${fmt(r.sec)}</td><td><button class="link" data-r="${h.length-1-j}">Xem chi tiết</button></td></tr>`).join("");
   $("hist").querySelectorAll(".link").forEach(b=>b.onclick=()=>detail(+b.dataset.r));
 }
 function detail(r){
   const rec=hist[cur][r];
   $("mT").textContent=`Đề ${cur+1} · Chi tiết bài làm`;
-  $("mSub").innerHTML=`Ngày ${today(rec.at)} · Kết quả <b>${rec.score}/10</b>${rec.scored?` câu đúng (từ 80% trở lên) · Điểm TB <b>${rec.avg}%</b>`:" câu đã làm"} · Thời gian ${fmt(rec.sec)}`;
+  $("mSub").innerHTML=`Học sinh: <b>${esc(rec.name||"—")}</b> · Ngày ${today(rec.at)} · Kết quả <b>${rec.score}/10</b>${rec.scored?` câu đúng (từ 80% trở lên) · Điểm TB <b>${rec.avg}%</b>`:" câu đã làm"} · Thời gian ${fmt(rec.sec)}`;
   const aud=audioStore[cur+"_"+rec.at]||{};
   $("mList").innerHTML=T[cur].map((s,i)=>{
     const y=rec.done.includes(i),it=(rec.items||{})[i];
@@ -391,6 +409,13 @@ function micStatus(){
 if(!SR){$("micNote").hidden=false;$("micNote").innerHTML="Trình duyệt này chưa chấm điểm được (vẫn ghi âm nếu cho phép micro). Để được chấm điểm, hãy mở file bằng <b>Chrome</b> (máy tính, Android) hoặc <b>Safari</b> (iPhone/iPad).";}
 micStatus();$("useMic").onchange=micStatus;
 
+/* ---------- Tên học sinh ---------- */
+const NKEY=KEY+"_name";
+try{$("stuName").value=localStorage.getItem(NKEY)||""}catch(e){}
+$("stuName").oninput=()=>{try{localStorage.setItem(NKEY,$("stuName").value.trim())}catch(e){}
+  if($("stuName").value.trim()){$("stuBox").classList.remove("err");$("stuMsg").hidden=true}};
+const stuName=()=>$("stuName").value.trim().replace(/\s+/g," ");
+
 /* ---------- Làm bài ---------- */
 function setRing(frac){$("arc").style.strokeDashoffset=C*(1-frac)}
 function resetStage(){
@@ -406,6 +431,8 @@ function showText(i){
   $("py").textContent=s[1];$("py").hidden=!$("showHan").checked;
 }
 async function startTest(){
+  if(!stuName()){$("stuBox").classList.add("err");$("stuMsg").hidden=false;$("stuName").focus();$("stuBox").scrollIntoView({block:"center"});return;}
+  $("stuName").disabled=true;
   try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();ac.resume()}catch(e){}
   let scoring=false,recording=false;
   if($("useMic").checked){
@@ -454,7 +481,7 @@ function finish(tk){
   token++;running=false;clearInterval(clk);if(synth)synth.cancel();
   if(curStop){curStop(true);curStop=null}
   const sec=Math.max(1,Math.round((Date.now()-t0)/1000)),at=Date.now();
-  const rec={at,score:done.size,sec,done:[...done]};
+  const rec={at,name:stuName(),score:done.size,sec,done:[...done]};$("stuName").disabled=false;
   if(runScored){const ps=[...done].map(i=>items[i]?items[i].pct:0);rec.scored=true;rec.items=items;
     rec.avg=Math.round(ps.reduce((a,b)=>a+b,0)/10);rec.score=ps.filter(p=>p>=80).length;}
   (hist[cur]=hist[cur]||[]).push(rec);save();
